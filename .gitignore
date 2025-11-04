@@ -1,0 +1,46 @@
+# ===================================================================
+# Node.js / TypeScript
+# ===================================================================
+# Dependencies folder
+node_modules/
+
+# Compiled TypeScript/JavaScript output
+dist/
+build/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ===================================================================
+# Secrets & Environment Variables
+# ===================================================================
+# AVOID COMMITTING YOUR PASSWORDS!
+.env
+.env.*
+!.env.example # Allow .env.example (a template for others)
+
+# ===================================================================
+# Docker & Local Data
+# ===================================================================
+# This is our persistent database volume from docker-compose
+postgres_data/
+
+# ===================================================================
+# IDE & Editor Config
+# ===================================================================
+# Visual Studio Code
+.vscode/
+
+# JetBrains (WebStorm, etc.)
+.idea/
+
+# ===================================================================
+# Operating System Files
+# ===================================================================
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
