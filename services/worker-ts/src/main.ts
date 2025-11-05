@@ -38,10 +38,15 @@ async function fetchGarminActivities() {
   }
 
   //garmin login
-  const GC = new GarminConnect();
+  const GC = new GarminConnect({
+    username: username,
+    password: password,
+  });
+
   try {
     console.log(`WORKER: Logging in to Garmin as ${username}...`);
-    await GC.login(username, password);
+    // Call login() without arguments, since we already passed the credentials
+    await GC.login();
     console.log("WORKER: Garmin login successful!");
 
     //Fetch activities from activity list
