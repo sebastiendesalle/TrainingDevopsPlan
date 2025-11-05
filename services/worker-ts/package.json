@@ -9,7 +9,12 @@
   },
   "devDependencies": {
     "@types/node": "^20.12.12",
+    "@types/pg": "^8.15.6",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "garmin-connect": "^1.6.2",
+    "pg": "^8.16.3"
   }
 }
