@@ -92,11 +92,16 @@ async function startWorker() {
   //start database
   await setupDatabase();
 
-  //run fetch logic on start
-  await fetchGarminActivities();
+  const runLoop = async () => {
+    console.log("--- WORKER: Starting Garmin fetch cycle ---");
+    await fetchGarminActivities();
 
-  //run activity every 10 minutes
-  setInterval(fetchGarminActivities, 600000);
+    console.log(
+      "--- WORKER: Fetch cycle complete. Sleeping for 30 minutes. ---"
+    );
+    setTimeout(runLoop, 1800000);
+  };
+  runLoop();
 
   console.log("--- WORKER PROCESS FINISHED (will exit and restart) ---");
 }
