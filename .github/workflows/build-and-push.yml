@@ -1,0 +1,61 @@
+name: CI - Build and Push Docker Images
+
+# Run this workflow every time you push to the 'main' branch
+on:
+  push:
+    branches: ["main"]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_OWNER: sebastiendesalle
+  REPO_NAME: TrainingDevopsPlan
+# --- ----------------- ---
+
+jobs:
+  build-and-push-images:
+    runs-on: ubuntu-latest # Run this job on a fresh Linux server provided by GitHub
+
+    # This gives the workflow permission to write to your GitHub packages (GHCR)
+    permissions:
+      contents: read
+      packages: write
+    # --- ----------------- ---
+
+    steps:
+      # 1. Get your code from the repo
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      # 2. Log in to the GitHub Container Registry
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          # The GITHUB_TOKEN is a temporary, secure password
+          # created automatically for this job.
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # 3. Build and push the Frontend Web image
+      - name: Build and push Web
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend # Build the Dockerfile from this folder
+          push: true # Yes, push it after building
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/${{ env.REPO_NAME }}-web:latest
+
+      # 4. Build and push the Backend API image
+      - name: Build and push API
+        uses: docker/build-push-action@v5
+        with:
+          context: ./services/api-ts
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/${{ env.REPO_NAME }}-api:latest
+
+      # 5. Build and push the Worker image
+      - name: Build and push Worker
+        uses: docker/build-push-action@v5
+        with:
+          context: ./services/worker-ts
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/${{ env.REPO_NAME }}-worker:latest
