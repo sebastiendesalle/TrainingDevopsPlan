@@ -51,9 +51,11 @@ services:
     depends_on:
       - db
     environment:
-      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
+      DATABASE_URL: "postgresql://${POSTGROM_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
       GARMIN_USER: ${GARMIN_USER}
       GARMIN_PASS: ${GARMIN_PASS}
+    labels:
+      - "traefik.enable=false"
 
   # 5. The Front-End (Vite/React + TS)
   web:
