@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   # 1. The Gatekeeper (Reverse Proxy)
   traefik:
@@ -36,11 +34,11 @@ services:
     depends_on:
       - db
     environment:
-      # THIS IS THE CORRECTED LINE
       DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.api.rule=PathPrefix(`/api`)"
+      - "traefik.http.services.api.loadbalancer.server.port=3000"
 
   # 4. The Data Worker (Node + TS)
   worker:
@@ -51,7 +49,7 @@ services:
     depends_on:
       - db
     environment:
-      DATABASE_URL: "postgresql://${POSTGROM_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
+      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
       GARMIN_USER: ${GARMIN_USER}
       GARMIN_PASS: ${GARMIN_PASS}
     labels:
