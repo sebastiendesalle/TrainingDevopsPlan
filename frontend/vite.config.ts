@@ -6,11 +6,14 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        // This is your homepage
+        // homepage
         main: resolve(__dirname, "index.html"),
 
-        // This is your training log page
+        // training log page
         log: resolve(__dirname, "log.html"),
+
+        // calendar
+        calendar: resolve(__dirname, "calendar.html"),
       },
     },
   },
