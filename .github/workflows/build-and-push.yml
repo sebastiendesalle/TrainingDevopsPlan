@@ -8,7 +8,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_OWNER: sebastiendesalle
-  REPO_NAME: TrainingDevopsPlan
+  REPO_NAME: trainingdevopsplan
 # --- ----------------- ---
 
 jobs:
