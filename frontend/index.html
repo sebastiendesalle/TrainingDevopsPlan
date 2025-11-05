@@ -1,13 +1,28 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>frontend</title>
+    <title>My Garmin Training Log</title>
+    <link rel="stylesheet" href="src/style.css" />
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <main class="app-container">
+      <h1 class="app-header">My Garmin Training Log</h1>
+      <div id="status-container">
+        <p class="loading">Loading activities...</p>
+      </div>
+      <table class="activities-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Distance (km)</th>
+          </tr>
+        </thead>
+        <tbody id="activities-tbody"></tbody>
+      </table>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
