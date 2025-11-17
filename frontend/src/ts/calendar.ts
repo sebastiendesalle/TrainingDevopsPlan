@@ -1,1 +1,1 @@
-// calendar script
+import "../css/style.css";

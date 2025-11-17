@@ -1,4 +1,5 @@
-import "./style.css";
+import "../css/style.css";
+import "../css/log.css";
 
 interface Activity {
   id: number;
