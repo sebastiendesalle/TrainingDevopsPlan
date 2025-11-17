@@ -4,12 +4,36 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Full Plan</title>
-    <link rel="stylesheet" href="src/log.css" />
+    <link rel="stylesheet" href="src/css/style.css" />
+    <link rel="stylesheet" href="src/css/log.css" />
   </head>
   <body>
     <main class="app-container">
       <h1 class="app-header">Full 2-Year Training plan</h1>
-      <a href="/" class="link-button"></a>
+      <a href="/" class="link-button link-back">Go Back Home</a>
+
+      <div id="plan-status-container">
+        <p class="loading">Loading full plan...</p>
+      </div>
+      <table class="activities-table plan-table">
+        <thead>
+          <tr>
+            <th>Week Start</th>
+            <th>Phase</th>
+            <th>Type</th>
+            <th>Mon</th>
+            <th>Tue</th>
+            <th>Wed</th>
+            <th>Thu</th>
+            <th>Fri</th>
+            <th>Sat</th>
+            <th>Sun</th>
+            <th>Total km</th>
+          </tr>
+        </thead>
+        <tbody id="plan-tbody"></tbody>
+      </table>
     </main>
+    <script type="module" src="/src/ts/plan.ts"></script>
   </body>
 </html>
