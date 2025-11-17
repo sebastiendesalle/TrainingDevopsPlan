@@ -16,21 +16,18 @@ services:
   # 2. The Database
   db:
     image: postgres:15
-    container_name: fitness_db
-    restart: always
+    restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
-      - ./postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
 
   # 3. The Back-End API (Express + TS)
   api:
-    build:
-      context: ./services/api-ts
-    container_name: fitness_api
-    restart: always
+    build: ./services/api-ts
+    restart: unless-stopped
     depends_on:
       - db
     environment:
@@ -42,10 +39,8 @@ services:
 
   # 4. The Data Worker (Node + TS)
   worker:
-    build:
-      context: ./services/worker-ts
-    container_name: fitness_worker
-    restart: always
+    build: ./services/worker-ts
+    restart: unless-stopped
     depends_on:
       - db
     environment:
@@ -57,10 +52,8 @@ services:
 
   # 5. The Front-End (Vite/React + TS)
   web:
-    build:
-      context: ./frontend
-    container_name: fitness_web
-    restart: always
+    build: ./frontend
+    restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.web.rule=PathPrefix(`/`)"
