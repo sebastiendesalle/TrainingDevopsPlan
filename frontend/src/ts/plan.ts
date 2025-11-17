@@ -22,11 +22,14 @@ function renderPlan(planItems: PlanItem[]) {
   tableBody.innerHTML = "";
 
   planItems.forEach((item) => {
+    if (!item || !item["Week Start"]) {
+      return;
+    }
     const row = document.createElement("tr");
 
     const createCell = (text: string) => {
       const cell = document.createElement("td");
-      cell.textContent = text;
+      cell.textContent = String(text);
       return cell;
     };
     row.appendChild(createCell(item["Week Start"]));
