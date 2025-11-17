@@ -16,12 +16,32 @@ body {
   display: flex;
   justify-content: center;
 }
+.app-container {
+  width: 100%;
+  max-width: 900px;
+  padding: 2rem;
+  text-align: center;
+}
+
+.app-header {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.loading, .error {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.error {
+  color: #ff6b6b;
+}
 
 /* index styling */
 
-.log-button {
+.link-button {
   display: inline-block;
-  margin-top: 2rem;
+  margin: 2rem 0.5rem 0 0.5rem;
   padding: 0.75rem 1.5rem;
   font-size: 1.1rem;
   font-weight: 500;
@@ -31,6 +51,10 @@ body {
   text-decoration: none;
   transition: background-color 0.2s;
 }
-.log-button:hover {
+.link-button:hover {
   background-color: #535bf2;
+}
+
+.link-back {
+  margin-bottom: 2rem;
 }

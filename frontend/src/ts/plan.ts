@@ -1,4 +1,4 @@
-import ".style.css";
+import "../css/style.css";
 import "../css/plan.css";
 
 interface PlanItem {

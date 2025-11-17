@@ -12,8 +12,8 @@ export default defineConfig({
         // training log page
         log: resolve(__dirname, "log.html"),
 
-        // calendar
-        calendar: resolve(__dirname, "calendar.html"),
+        // plan
+        plan: resolve(__dirname, "plan.html"),
       },
     },
   },
