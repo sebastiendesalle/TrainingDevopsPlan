@@ -99,7 +99,7 @@ async function startWorker() {
     console.log(
       "--- WORKER: Fetch cycle complete. Sleeping for 30 minutes. ---"
     );
-    setTimeout(runLoop, 1800000);
+    setTimeout(runLoop, 1800);
   };
   runLoop();
 
