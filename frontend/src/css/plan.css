@@ -1,7 +1,103 @@
+/* --- Original Plan Styles --- */
 .link-back {
-    margin-bottom: 2rem;
+  margin-bottom: 2rem;
 }
 
 .plan-table {
-    font-size: 0.8rem;
+  /* Original font-size from your file */
+  font-size: 0.8rem;
+}
+
+/* --- New Styles for Phase Layout --- */
+
+.hidden {
+  display: none;
+}
+
+.phase-section {
+  margin-bottom: 3rem;
+  text-align: left; /* Aligns content to the left */
+}
+
+.phase-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.phase-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #818cf8; /* Indigo Accent from previous theme */
+}
+
+.expand-toggle {
+  background-color: #3730a3;
+  color: #e0e7ff;
+  border: none;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.expand-toggle:hover {
+  background-color: #312e81;
+}
+
+/* --- New Table Styling --- */
+.table-wrapper {
+  overflow-x: auto;
+  background-color: #1f2937; /* Lighter Gray/Navy */
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.activities-table {
+  width: 100%;
+  min-width: 1000px; /* Allow for horizontal scroll on small screens */
+  border-collapse: collapse;
+}
+
+.activities-table th,
+.activities-table td {
+  padding: 0.75rem;
+  vertical-align: top;
+  white-space: pre-wrap;
+  text-align: left;
+  border-bottom: 1px solid #374151; /* Gray border */
+}
+
+.activities-table thead {
+  background-color: #374151; /* Medium Gray */
+  font-size: 0.75rem;
+  color: #d1d5db;
+  text-transform: uppercase;
+}
+
+.activities-table th {
+  font-weight: 600;
+}
+
+.activities-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.activities-table tbody .week-row:hover {
+  background-color: #374151;
+}
+
+/* Custom highlight class for the current week */
+.current-week-highlight {
+  background-color: #a3e635; /* Bright Lime Green */
+  color: #1f2937; /* Dark text for contrast */
+  font-weight: 700;
+}
+
+/* Ensure hover doesn't override highlight */
+.current-week-highlight:hover {
+  background-color: #a3e635;
 }

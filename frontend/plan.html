@@ -15,24 +15,114 @@
       <div id="plan-status-container">
         <p class="loading">Loading full plan...</p>
       </div>
-      <table class="activities-table plan-table">
-        <thead>
-          <tr>
-            <th>Week Start</th>
-            <th>Phase</th>
-            <th>Type</th>
-            <th>Mon</th>
-            <th>Tue</th>
-            <th>Wed</th>
-            <th>Thu</th>
-            <th>Fri</th>
-            <th>Sat</th>
-            <th>Sun</th>
-            <th>Total km</th>
-          </tr>
-        </thead>
-        <tbody id="plan-tbody"></tbody>
-      </table>
+
+      <!-- Phase 1 -->
+      <section id="phase-section-1" class="phase-section hidden">
+        <div class="phase-header">
+          <h2 class="phase-title">Phase 1: Antwerp 10 Miler</h2>
+          <button class="expand-toggle" data-phase-id="1">Expand</button>
+        </div>
+        <div class="table-wrapper">
+          <table class="activities-table plan-table">
+            <thead>
+              <tr>
+                <th>Week Start</th>
+                <th>Type</th>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thu</th>
+                <th>Fri</th>
+                <th>Sat</th>
+                <th>Sun</th>
+                <th>Total km</th>
+              </tr>
+            </thead>
+            <tbody id="plan-tbody-1"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Phase 2 -->
+      <section id="phase-section-2" class="phase-section hidden">
+        <div class="phase-header">
+          <h2 class="phase-title">Phase 2: Antwerp Marathon</h2>
+          <button class="expand-toggle" data-phase-id="2">Expand</button>
+        </div>
+        <div class="table-wrapper">
+          <table class="activities-table plan-table">
+            <thead>
+              <tr>
+                <th>Week Start</th>
+                <th>Type</th>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thu</th>
+                <th>Fri</th>
+                <th>Sat</th>
+                <th>Sun</th>
+                <th>Total km</th>
+              </tr>
+            </thead>
+            <tbody id="plan-tbody-2"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Phase 3 -->
+      <section id="phase-section-3" class="phase-section hidden">
+        <div class="phase-header">
+          <h2 class="phase-title">Phase 3: Tri Base / Bike Intro</h2>
+          <button class="expand-toggle" data-phase-id="3">Expand</button>
+        </div>
+        <div class="table-wrapper">
+          <table class="activities-table plan-table">
+            <thead>
+              <tr>
+                <th>Week Start</th>
+                <th>Type</th>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thu</th>
+                <th>Fri</th>
+                <th>Sat</th>
+                <th>Sun</th>
+                <th>Total km</th>
+              </tr>
+            </thead>
+            <tbody id="plan-tbody-3"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Phase 4 -->
+      <section id="phase-section-4" class="phase-section hidden">
+        <div class="phase-header">
+          <h2 class="phase-title">Phase 4: Ironman Build</h2>
+          <button class="expand-toggle" data-phase-id="4">Expand</button>
+        </div>
+        <div class="table-wrapper">
+          <table class="activities-table plan-table">
+            <thead>
+              <tr>
+                <th>Week Start</th>
+                <th>Type</th>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thu</th>
+                <th>Fri</th>
+                <th>Sat</th>
+                <th>Sun</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody id="plan-tbody-4"></tbody>
+          </table>
+        </div>
+      </section>
     </main>
     <script type="module" src="/src/ts/plan.ts"></script>
   </body>
