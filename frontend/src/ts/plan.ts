@@ -1,11 +1,6 @@
-// --- Imports ---
-// Keep your CSS imports so your bundler processes them
 import "../css/style.css";
 import "../css/plan.css";
-
-// Import the JSON file directly.
-// Note: Ensure "resolveJsonModule": true is set in your tsconfig.json
-import planData from "../../../services/api-ts/src/plan.json";
+import { planData } from "./planData";
 
 // --- Type Definitions ---
 
@@ -31,13 +26,12 @@ interface PhaseState {
   currentRowIndex: number;
 }
 
-// Type definition for the raw JSON structure
 interface RawJson {
   MainPlan: (TrainingWeek | null | { [key: string]: string })[];
 }
 
 // Cast the imported data to our interface
-const rawJson = planData as RawJson;
+const rawJson = planData;
 
 // --- State Management ---
 
