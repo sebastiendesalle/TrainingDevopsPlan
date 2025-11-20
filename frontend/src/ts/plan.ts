@@ -2,8 +2,6 @@ import "../css/style.css";
 import "../css/plan.css";
 import { planData } from "./planData";
 
-// --- Type Definitions ---
-
 interface TrainingWeek {
   "Week Start": string;
   Phase: string;
@@ -26,16 +24,8 @@ interface PhaseState {
   currentRowIndex: number;
 }
 
-interface RawJson {
-  MainPlan: (TrainingWeek | null | { [key: string]: string })[];
-}
+const rawJson = planData as { MainPlan: any[] };
 
-// Cast the imported data to our interface
-const rawJson = planData;
-
-// --- State Management ---
-
-// This maps specific phases to their HTML elements in the new layout
 const phaseState: Record<string, PhaseState> = {
   "Phase 1: Antwerp 10 Miler": {
     tbody: document.getElementById("plan-tbody-1") as HTMLElement,
@@ -67,18 +57,11 @@ const phaseState: Record<string, PhaseState> = {
   },
 };
 
-// --- Helper Functions ---
-
-/**
- * Fetches and cleans the training plan data from the imported JSON.
- */
 function fetchPlanData(): Promise<TrainingWeek[]> {
   return new Promise((resolve) => {
-    // Simulating a tiny delay for UI feel (optional)
     setTimeout(() => {
       const allData = rawJson.MainPlan;
 
-      // Filter out nulls and header rows
       const cleanData = allData.filter(
         (week): week is TrainingWeek =>
           week !== null &&
@@ -91,15 +74,9 @@ function fetchPlanData(): Promise<TrainingWeek[]> {
   });
 }
 
-/**
- * Checks if a given week's start date is in the current week.
- */
 function isCurrentWeek(weekStartDateString: string): boolean {
   try {
-    // --- SETTING CURRENT DATE ---
-    // HARDCODED for demo purposes: Monday, November 17, 2025
-    // CHANGE THIS to `const today = new Date();` for production use.
-    const today = new Date("2025-11-17T09:00:00");
+    const today = new Date();
 
     today.setHours(0, 0, 0, 0);
 
@@ -121,9 +98,6 @@ function isCurrentWeek(weekStartDateString: string): boolean {
   }
 }
 
-/**
- * Creates a table row (TR) element for a given week.
- */
 function createWeekRow(week: TrainingWeek): HTMLTableRowElement {
   const tr = document.createElement("tr");
   tr.className = "week-row";
@@ -147,9 +121,6 @@ function createWeekRow(week: TrainingWeek): HTMLTableRowElement {
   return tr;
 }
 
-/**
- * Renders the rows for a specific phase based on the expand/collapse state.
- */
 function renderPhase(
   phaseInfo: PhaseState,
   state: "expand" | "collapse"
@@ -157,31 +128,25 @@ function renderPhase(
   const { allRows, currentRowIndex, button } = phaseInfo;
 
   if (state === "expand") {
-    // Show all rows
     allRows.forEach((row) => row.classList.remove("hidden"));
     button.textContent = "Collapse";
   } else {
-    // Collapse state: Show 5 rows (2 before current, current, 2 after)
     button.textContent = "Expand";
     let startIndex = 0;
-    let endIndex = 4; // Default to first 5 weeks
+    let endIndex = 4;
 
     if (currentRowIndex !== -1) {
-      // Logic to center the view around the current week
       startIndex = Math.max(0, currentRowIndex - 2);
       endIndex = Math.min(allRows.length - 1, currentRowIndex + 2);
 
-      // Adjust window if near the end
       while (endIndex - startIndex < 4 && endIndex < allRows.length - 1) {
         endIndex++;
       }
-      // Adjust window if near the start
       while (endIndex - startIndex < 4 && startIndex > 0) {
         startIndex--;
       }
     }
 
-    // Apply hidden class to rows outside the window
     allRows.forEach((row, index) => {
       if (index >= startIndex && index <= endIndex) {
         row.classList.remove("hidden");
@@ -192,8 +157,6 @@ function renderPhase(
   }
 }
 
-// --- Main Logic ---
-
 async function loadPlan(): Promise<void> {
   const statusContainer = document.getElementById("plan-status-container");
   const statusText = statusContainer?.querySelector(".loading");
@@ -203,7 +166,6 @@ async function loadPlan(): Promise<void> {
   try {
     const planData = await fetchPlanData();
 
-    // 1. Process data and create all TR elements (in memory)
     planData.forEach((week) => {
       const phaseInfo = phaseState[week.Phase];
       if (phaseInfo) {
@@ -214,25 +176,19 @@ async function loadPlan(): Promise<void> {
         }
 
         phaseInfo.allRows.push(row);
-        // Append to DOM immediately, visibility is controlled via CSS classes later
         phaseInfo.tbody.appendChild(row);
       } else {
-        // Handle unknown phases or phases not in our state map
         console.warn("Unknown phase:", week.Phase);
       }
     });
 
     statusContainer.classList.add("hidden");
 
-    // 2. Render each phase and attach Event Listeners
     Object.values(phaseState).forEach((phaseInfo) => {
       if (phaseInfo.allRows.length > 0) {
         phaseInfo.section.classList.remove("hidden");
-
-        // Initial Render: Collapsed state
         renderPhase(phaseInfo, "collapse");
 
-        // Button Click Listener
         phaseInfo.button.addEventListener("click", () => {
           const isExpanded = phaseInfo.button.textContent === "Collapse";
           renderPhase(phaseInfo, isExpanded ? "collapse" : "expand");
@@ -240,7 +196,6 @@ async function loadPlan(): Promise<void> {
       }
     });
 
-    // 3. Auto-scroll to the current week
     const highlightedRow = document.querySelector(".current-week-highlight");
     if (highlightedRow) {
       highlightedRow.scrollIntoView({
@@ -255,5 +210,4 @@ async function loadPlan(): Promise<void> {
   }
 }
 
-// Initialize on load
 document.addEventListener("DOMContentLoaded", loadPlan);
