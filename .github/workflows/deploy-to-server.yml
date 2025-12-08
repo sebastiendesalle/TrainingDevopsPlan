@@ -37,6 +37,8 @@ jobs:
           echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> .env
           echo "GARMIN_USER=${{ secrets.GARMIN_USER }}" >> .env
           echo "GARMIN_PASS=${{ secrets.GARMIN_PASS }}" >> .env
+          echo "IMAGE_OWNER=${{ env.IMAGE_OWNER }}" >> .env
+          echo "REPO_NAME=${{ env.REPO_NAME }}" >> .env
 
       - name: Pull new images from GHCR
         run: |

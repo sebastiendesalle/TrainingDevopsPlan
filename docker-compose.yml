@@ -28,6 +28,7 @@ services:
 
   # 3. The Back-End API (Express + TS)
   api:
+    image: ghcr.io/${IMAGE_OWNER:-sebastiendesalle}/${REPO_NAME:-trainingdevopsplan}-api:latest
     build: ./services/api-ts
     restart: unless-stopped
     depends_on:
@@ -41,6 +42,7 @@ services:
 
   # 4. The Data Worker (Node + TS)
   worker:
+    image: ghcr.io/${IMAGE_OWNER:-sebastiendesalle}/${REPO_NAME:-trainingdevopsplan}-worker:latest
     build: ./services/worker-ts
     restart: unless-stopped
     depends_on:
@@ -54,6 +56,7 @@ services:
 
   # 5. The Front-End (Vite/React + TS)
   web:
+    image: ghcr.io/${IMAGE_OWNER:-sebastiendesalle}/${REPO_NAME:-trainingdevopsplan}-web:latest
     build: ./frontend
     restart: unless-stopped
     labels:
