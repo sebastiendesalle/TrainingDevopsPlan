@@ -38,6 +38,7 @@ async function main() {
     if (!response.ok)
       throw new Error(`Error: ${response.status} ${response.statusText}`);
     const data: Activity[] = await response.json();
+
     renderStatus("");
     renderActivities(data);
   } catch (err) {
