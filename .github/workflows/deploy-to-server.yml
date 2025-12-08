@@ -20,10 +20,16 @@ jobs:
       REPO_NAME: ${{ vars.REPO_NAME || 'trainingdevopsplan' }}
 
     steps:
+      - name: Fix permissions on root-owned volumes
+        run: |
+          # $(id -u):$(id -g) automatically gets the user ID of your runner account
+          # This ensures the runner can overwrite/manage the folder safely
+          docker run --rm -v ${{ github.workspace }}:/work -w /work alpine chown -R $(id -u):$(id -g) postgres_data || true
+
       - name: Check out repository
         uses: actions/checkout@v4
         with:
-          clean: false
+          clean: false 
 
       - name: Log in to GHCR
         uses: docker/login-action@v3
@@ -44,12 +50,10 @@ jobs:
 
       - name: Pull new images from GHCR
         run: |
-          # Use 'docker compose' (V2) instead of 'docker-compose' (V1)
           docker compose pull
 
       - name: Stop and restart services with new images
         run: |
-          # Use 'docker compose' (V2) instead of 'docker-compose' (V1)
           docker compose down --remove-orphans || true
           docker compose up -d --force-recreate
           docker image prune -f

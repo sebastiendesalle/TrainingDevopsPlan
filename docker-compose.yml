@@ -25,8 +25,8 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
-      # Relative path for CasaOS compatibility
-      - ./postgres_data:/var/lib/postgresql/data
+      # permanent database storage through casaOS
+      - /DATA/AppData/training-plan/postgres_data:/var/lib/postgresql/data
 
   # 3. The Back-End API (Express + TS)
   api:
@@ -64,3 +64,6 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.web.rule=PathPrefix(`/`)"
+
+volumes:
+  production_db_data:
