@@ -22,6 +22,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          clean: false
 
       - name: Log in to GHCR
         uses: docker/login-action@v3
@@ -48,5 +50,6 @@ jobs:
       - name: Stop and restart services with new images
         run: |
           # Use 'docker compose' (V2) instead of 'docker-compose' (V1)
+          docker compose down --remove-orphans || true
           docker compose up -d --force-recreate
           docker image prune -f
