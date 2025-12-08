@@ -1,67 +1,4 @@
-services:
-  # 1. The Gatekeeper (Reverse Proxy)
-  traefik:
-    image: traefik:v3.0
-    container_name: traefik
-    command:
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--api.insecure=true"
-    ports:
-      - "8080:80"
-      - "443:443"
-      - "8081:8080"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-
-  # 2. The Database
-  db:
-    image: postgres:15
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-    volumes:
-      - ./postgres_data:/var/lib/postgresql/data
-
-  # 3. The Back-End API (Express + TS)
-  api:
-    image: ghcr.io/${IMAGE_OWNER:-sebastiendesalle}/${REPO_NAME:-trainingdevopsplan}-api:latest
-    build: ./services/api-ts
-    restart: unless-stopped
-    depends_on:
-      - db
-    environment:
-      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.api.rule=PathPrefix(`/api`)"
-      - "traefik.http.services.api.loadbalancer.server.port=3000"
-
-  # 4. The Data Worker (Node + TS)
-  worker:
-    image: ghcr.io/${IMAGE_OWNER:-sebastiendesalle}/${REPO_NAME:-trainingdevopsplan}-worker:latest
-    build: ./services/worker-ts
-    restart: unless-stopped
-    depends_on:
-      - db
-    environment:
-      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
-      GARMIN_USER: ${GARMIN_USER}
-      GARMIN_PASS: ${GARMIN_PASS}
-    labels:
-      - "traefik.enable=false"
-
-  # 5. The Front-End (Vite/React + TS)
-  web:
-    image: ghcr.io/${IMAGE_OWNER:-sebastiendesalle}/${REPO_NAME:-trainingdevopsplan}-web:latest
-    build: ./frontend
-    restart: unless-stopped
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.web.rule=PathPrefix(`/`)"
-
+name: production-training-app
 services:
     api:
         build:
@@ -113,7 +50,6 @@ services:
         command:
             - --providers.docker=true
             - --api.insecure=true
-            - "--providers.docker.exposedbydefault=false"
         container_name: traefik
         deploy:
             resources:
@@ -198,4 +134,4 @@ x-casaos:
     port_map: "8080"
     scheme: http
     title:
-        custom: Training App
+        custom: Training APP
