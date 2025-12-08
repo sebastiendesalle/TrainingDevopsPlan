@@ -1,29 +1,19 @@
 name: CD - Deploy to Self-Hosted Runner
 
-# This workflow will be triggered in two ways:
 on:
-  # 1. Manually, with a "Run workflow" button in the Actions tab
   workflow_dispatch:
-
-  # 2. Automatically, when the "CI - Build and Push" workflow finishes
   workflow_run:
-    workflows: ["CI - Build and Push Docker Images"] # Name of your other file
+    workflows: ["CI - Build and Push Docker Images"]
     types:
-      - completed # Run only when it's 'completed'
+      - completed
     branches:
       - main
 
 jobs:
   deploy:
-    # --- THIS IS THE MAGIC ---
-    # This job will ONLY run if the CI workflow was successful
     if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
-
-    # --- THIS IS THE KEY ---
-    # This job will *wait* for a runner with the 'self-hosted' label
     runs-on: self-hosted
 
-    # Set the same env variables as our CI build
     env:
       REGISTRY: ghcr.io
       IMAGE_OWNER: ${{ vars.IMAGE_OWNER || 'sebastiendesalle' }}
@@ -48,11 +38,13 @@ jobs:
           echo "GARMIN_USER=${{ secrets.GARMIN_USER }}" >> .env
           echo "GARMIN_PASS=${{ secrets.GARMIN_PASS }}" >> .env
 
-      - name: Pull new images
+      - name: Pull new images from GHCR
         run: |
-          docker-compose pull
+          # Use 'docker compose' (V2) instead of 'docker-compose' (V1)
+          docker compose pull
 
-      - name: Start services
+      - name: Stop and restart services with new images
         run: |
-          docker-compose up -d --force-recreate
+          # Use 'docker compose' (V2) instead of 'docker-compose' (V1)
+          docker compose up -d --force-recreate
           docker image prune -f
