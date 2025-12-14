@@ -1,5 +1,5 @@
 services:
-  # 1. The Gatekeeper (Reverse Proxy)
+  # reverse proxy
   traefik:
     image: traefik:v3.0
     container_name: traefik
@@ -15,6 +15,12 @@ services:
       - "8081:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --url http://traefik:80
+    networks:
+      - default
 
   # 2. The Database
   db:
@@ -28,7 +34,7 @@ services:
       # permanent database storage through casaOS
       - /DATA/AppData/training-plan/postgres_data:/var/lib/postgresql/data
 
-  # 3. The Back-End API (Express + TS)
+  # 3. back-end api
   api:
     image: ghcr.io/${IMAGE_OWNER:-sebastiendesalle}/${REPO_NAME:-trainingdevopsplan}-api:latest
     build: ./services/api-ts
@@ -42,7 +48,7 @@ services:
       - "traefik.http.routers.api.rule=PathPrefix(`/api`)"
       - "traefik.http.services.api.loadbalancer.server.port=3000"
 
-  # 4. The Data Worker (Node + TS)
+  # 4. data worker
   worker:
     image: ghcr.io/${IMAGE_OWNER:-sebastiendesalle}/${REPO_NAME:-trainingdevopsplan}-worker:latest
     build: ./services/worker-ts
@@ -56,7 +62,7 @@ services:
     labels:
       - "traefik.enable=false"
 
-  # 5. The Front-End (Vite/React + TS)
+  # 5. frontend
   web:
     image: ghcr.io/${IMAGE_OWNER:-sebastiendesalle}/${REPO_NAME:-trainingdevopsplan}-web:latest
     build: ./frontend
