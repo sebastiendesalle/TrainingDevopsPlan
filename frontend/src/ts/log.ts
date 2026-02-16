@@ -7,6 +7,9 @@ interface Activity {
   type: string;
   start_time: string;
   distance_km: number;
+  duration_sec: number;
+  avg_hr: number;
+  avg_speed: number;
 }
 
 const statusContainer = document.getElementById("status-container")!;
@@ -16,10 +19,19 @@ function renderActivities(activities: Activity[]) {
   tableBody.innerHTML = "";
   activities.forEach((activity) => {
     const row = document.createElement("tr");
+
+    // Calculate Pace
+    const pace = formatPace(activity.avg_speed);
+    const duration = formatDuration(activity.duration_sec);
+    const hr = activity.avg_hr ? `${activity.avg_hr} bpm` : "--";
+
     row.innerHTML = `
       <td>${new Date(activity.start_time).toLocaleDateString()}</td>
       <td>${activity.type}</td>
       <td>${activity.distance_km}</td>
+      <td>${duration}</td>
+      <td>${pace}</td>
+      <td>${hr}</td>
     `;
     tableBody.appendChild(row);
   });
@@ -47,6 +59,22 @@ async function main() {
     if (err instanceof Error) renderStatus(err.message, true);
     else renderStatus("An unknown error occurred.", true);
   }
+}
+
+function formatDuration(seconds: number): string {
+  if (!seconds) return "--";
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = Math.floor(seconds % 60);
+  return `${h > 0 ? h + ':' : ''}${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+}
+
+function formatPace(speedMps: number): string {
+  if (!speedMps || speedMps === 0) return "--";
+  const paceSeconds = 1000 / speedMps; // seconds per km
+  const m = Math.floor(paceSeconds / 60);
+  const s = Math.floor(paceSeconds % 60);
+  return `${m}:${s.toString().padStart(2, '0')} /km`;
 }
 
 main();
