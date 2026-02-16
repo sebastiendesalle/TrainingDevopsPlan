@@ -15,7 +15,10 @@ async function setupDatabase() {
         id BIGINT PRIMARY KEY,
         type VARCHAR(100),
         start_time VARCHAR(100),
-        distance_km FLOAT
+        distance_km FLOAT,
+        duration_sec FLOAT,
+        avg_hr INT,
+        avg_speed FLOAT
       );
     `);
     console.log('WORKER: "activities" table is ready.');
@@ -63,14 +66,20 @@ async function fetchGarminActivities() {
       console.log("WORKER: Saving activities to database...");
       for (const activity of activityList) {
         await client.query(
-          `INSERT INTO activities (id, type, start_time, distance_km)
-           VALUES ($1, $2, $3, $4)
-           ON CONFLICT (id) DO NOTHING`,
+          `INSERT INTO activities (id, type, start_time, distance_km, duration_sec, avg_hr, avg_speed)
+           VALUES ($1, $2, $3, $4, $5, $6, $7)
+           ON CONFLICT (id) DO UPDATE SET
+             duration_sec = EXCLUDED.duration_sec,
+             avg_hr = EXCLUDED.avg_hr,
+             avg_speed = EXCLUDED.avg_speed;`,
           [
             activity.activityId,
             activity.activityType.typeKey,
             activity.startTimeLocal,
             (activity.distance / 1000).toFixed(2),
+            activity.duration,
+            activity.averageHR,
+            activity.averageSpeed
           ]
         );
       }
