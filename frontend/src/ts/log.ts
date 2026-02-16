@@ -28,7 +28,7 @@ function renderActivities(activities: Activity[]) {
     row.innerHTML = `
       <td>${new Date(activity.start_time).toLocaleDateString()}</td>
       <td>${activity.type}</td>
-      <td>${activity.distance_km}</td>
+      <td>${activity.distance_km} km</td>
       <td>${duration}</td>
       <td>${pace}</td>
       <td>${hr}</td>
