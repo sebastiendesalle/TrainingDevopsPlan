@@ -102,8 +102,8 @@ services:
                     memory: "12444499968"
         environment:
             DATABASE_URL: postgresql://devuser:Sebastien2106@db:5432/fitness_data
-            GARMIN_USER: ${GARMIN_PASS}
-            GARMIN_PASS: ${GARMIN_USER}
+            GARMIN_USER: ${GARMIN_USER}
+            GARMIN_PASS: ${GARMIN_PASS}
         image: ghcr.io/sebastiendesalle/trainingdevopsplan-worker:latest
         labels:
             traefik.enable: "false"
