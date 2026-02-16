@@ -15,10 +15,6 @@ services:
       - "8081:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-  tunnel:
-    image: cloudflare/cloudflared:latest
-    restart: unless-stopped
-    command: tunnel --url http://traefik:80
     networks:
       - default
 
@@ -70,6 +66,6 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.web.rule=PathPrefix(`/`)"
-
+      - "traefik.http.services.web.loadbalancer.server.port=80"
 volumes:
   production_db_data:
