@@ -1,5 +1,7 @@
+version: "3.8"
+
 services:
-  # reverse proxy
+  # --- Reverse Proxy ---
   traefik:
     image: traefik:v3.0
     container_name: traefik
@@ -8,17 +10,17 @@ services:
       - "--providers.docker.exposedbydefault=false"
       - "--api.insecure=true"
     ports:
-      # host:container
+      # App Access: http://<MINI_PC_IP>:8080
       - "8080:80"
-      - "443:443"
-      # dashboard port
+      # Traefik Dashboard: http://<MINI_PC_IP>:8081
       - "8081:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+    restart: unless-stopped
     networks:
       - default
 
-  # 2. The Database
+  # --- Database ---
   db:
     image: postgres:15
     restart: unless-stopped
@@ -27,45 +29,53 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
-      # permanent database storage through casaOS
+      # Keeps your data in the standard CasaOS location
       - /DATA/AppData/training-plan/postgres_data:/var/lib/postgresql/data
+    networks:
+      - default
 
-  # 3. back-end api
+  # --- Backend API ---
   api:
-    image: ghcr.io/${IMAGE_OWNER:-sebastiendesalle}/${REPO_NAME:-trainingdevopsplan}-api:latest
-    build: ./services/api-ts
+    image: ghcr.io/sebastiendesalle/trainingdevopsplan-api:latest
     restart: unless-stopped
     depends_on:
       - db
     environment:
-      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
+      DATABASE_URL: ${DATABASE_URL}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.api.rule=PathPrefix(`/api`)"
       - "traefik.http.services.api.loadbalancer.server.port=3000"
+    networks:
+      - default
 
-  # 4. data worker
+  # --- Background Worker ---
   worker:
-    image: ghcr.io/${IMAGE_OWNER:-sebastiendesalle}/${REPO_NAME:-trainingdevopsplan}-worker:latest
-    build: ./services/worker-ts
+    image: ghcr.io/sebastiendesalle/trainingdevopsplan-worker:latest
     restart: unless-stopped
     depends_on:
       - db
     environment:
-      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}"
+      DATABASE_URL: ${DATABASE_URL}
       GARMIN_USER: ${GARMIN_USER}
       GARMIN_PASS: ${GARMIN_PASS}
     labels:
       - "traefik.enable=false"
+    networks:
+      - default
 
-  # 5. frontend
+  # --- Frontend ---
   web:
-    image: ghcr.io/${IMAGE_OWNER:-sebastiendesalle}/${REPO_NAME:-trainingdevopsplan}-web:latest
-    build: ./frontend
+    image: ghcr.io/sebastiendesalle/trainingdevopsplan-web:latest
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.web.rule=PathPrefix(`/`)"
+      # TELLS TRAEFIK THAT NGINX IS LISTENING ON PORT 80
       - "traefik.http.services.web.loadbalancer.server.port=80"
-volumes:
-  production_db_data:
+    networks:
+      - default
+
+networks:
+  default:
+    name: trainingdevopsplan_default
