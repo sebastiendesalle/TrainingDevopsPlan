@@ -53,7 +53,7 @@ async function fetchGarminActivities() {
     console.log("WORKER: Garmin login successful!");
 
     //Fetch activities from activity list
-    const activityList = await GC.getActivities(0, 100);
+    const activityList = await GC.getActivities(0, 1000);
     if (!activityList || activityList.length === 0) {
       console.log("WORKER: No new activities found.");
       return;
