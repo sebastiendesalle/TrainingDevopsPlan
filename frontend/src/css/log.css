@@ -84,3 +84,16 @@ th[data-sort].sort-desc::after {
   content: " ↓";
   opacity: 1;
 }
+
+/* PR badge */
+.pr-badge {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #242424;
+  background-color: #f0c040;
+  border-radius: 4px;
+  padding: 0.05rem 0.35rem;
+  vertical-align: middle;
+  letter-spacing: 0.03em;
+}
