@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Training Stats</title>
+    <link rel="stylesheet" href="src/css/style.css" />
+    <link rel="stylesheet" href="src/css/stats.css" />
+  </head>
+  <body>
+    <main class="app-container">
+      <h1 class="app-header">Training Stats</h1>
+      <div>
+        <a href="index.html" class="link-button">Home</a>
+        <a href="log.html" class="link-button">Log</a>
+      </div>
+
+      <div id="status-container"></div>
+
+      <section class="stats-section">
+        <h2 class="section-header">Year to Date</h2>
+        <div id="ytd-cards" class="cards-row"></div>
+      </section>
+
+      <section class="stats-section">
+        <h2 class="section-header">Monthly Summary</h2>
+        <div id="monthly-cards" class="cards-row"></div>
+      </section>
+
+      <section class="stats-section">
+        <h2 class="section-header">Personal Records — Running</h2>
+        <div id="pr-cards" class="cards-row"></div>
+      </section>
+
+      <section class="stats-section">
+        <h2 class="section-header">Weekly Distance (last 16 weeks)</h2>
+        <div class="chart-container">
+          <canvas id="weekly-chart"></canvas>
+        </div>
+      </section>
+
+      <section class="stats-section">
+        <h2 class="section-header">Pace Over Time — Running</h2>
+        <div class="chart-container">
+          <canvas id="pace-chart"></canvas>
+        </div>
+      </section>
+
+      <section class="stats-section">
+        <h2 class="section-header">Heart Rate Trend — Running</h2>
+        <div class="chart-container">
+          <canvas id="hr-chart"></canvas>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="/src/ts/stats.ts"></script>
+  </body>
+</html>
