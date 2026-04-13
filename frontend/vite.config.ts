@@ -14,6 +14,8 @@ export default defineConfig({
 
         // plan
         plan: resolve(__dirname, "plan.html"),
+        // stats
+        stats: resolve(__dirname, 'stats.html')
       },
     },
   },
