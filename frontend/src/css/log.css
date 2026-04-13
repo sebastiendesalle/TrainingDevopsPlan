@@ -57,3 +57,30 @@
   border-color: #646cff;
   color: #fff;
 }
+
+/* Sortable column headers */
+th[data-sort] {
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+th[data-sort]:hover {
+  background-color: #444;
+}
+
+th[data-sort]::after {
+  content: " ⇅";
+  opacity: 0.3;
+  font-size: 0.75rem;
+}
+
+th[data-sort].sort-asc::after {
+  content: " ↑";
+  opacity: 1;
+}
+
+th[data-sort].sort-desc::after {
+  content: " ↓";
+  opacity: 1;
+}

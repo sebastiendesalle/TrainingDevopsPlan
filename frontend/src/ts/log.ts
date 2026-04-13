@@ -19,14 +19,63 @@ const tableBody = document.getElementById("activities-tbody")!;
 
 let allActivities: Activity[] = [];
 let activeFilter = "all";
+let sortColumn: string = "date";
+let sortDirection: "asc" | "desc" = "desc";
 
 function getFilteredActivities(): Activity[] {
-  if (activeFilter === "all") return allActivities;
-  if (activeFilter === "other") {
-    return allActivities.filter((a) => !KNOWN_FILTERS.includes(a.type.toLowerCase()));
+  let filtered: Activity[];
+  if (activeFilter === "all") {
+    filtered = [...allActivities];
+  } else if (activeFilter === "other") {
+    filtered = allActivities.filter((a) => !KNOWN_FILTERS.includes(a.type.toLowerCase()));
+  } else {
+    filtered = allActivities.filter((a) => a.type.toLowerCase() === activeFilter);
   }
-  return allActivities.filter((a) => a.type.toLowerCase() === activeFilter);
+  return sortActivities(filtered);
 }
+
+function sortActivities(activities: Activity[]): Activity[] {
+  return [...activities].sort((a, b) => {
+    let valA: number;
+    let valB: number;
+
+    switch (sortColumn) {
+      case "date":
+        valA = new Date(a.start_time).getTime();
+        valB = new Date(b.start_time).getTime();
+        break;
+      case "type":
+        return sortDirection === "asc"
+          ? a.type.localeCompare(b.type)
+          : b.type.localeCompare(a.type);
+      case "distance":
+        valA = a.distance_km;
+        valB = b.distance_km;
+        break;
+      case "duration":
+        valA = a.duration_sec;
+        valB = b.duration_sec;
+        break;
+      case "pace":
+        // Lower pace (faster) = higher speed; sort "fastest first" when asc
+        valA = a.avg_speed || 0;
+        valB = b.avg_speed || 0;
+        // Flip: higher speed = faster pace, so invert direction
+        return sortDirection === "asc"
+          ? valB - valA
+          : valA - valB;
+      case "hr":
+        valA = a.avg_hr || 0;
+        valB = b.avg_hr || 0;
+        break;
+      default:
+        return 0;
+    }
+
+    return sortDirection === "asc" ? valA - valB : valB - valA;
+  });
+}
+
 function renderActivities(activities: Activity[]) {
   tableBody.innerHTML = "";
   activities.forEach((activity) => {
@@ -46,6 +95,34 @@ function renderActivities(activities: Activity[]) {
       <td>${hr}</td>
     `;
     tableBody.appendChild(row);
+  });
+}
+
+function updateSortIndicators() {
+  const headers = document.querySelectorAll<HTMLTableCellElement>("th[data-sort]");
+  headers.forEach((th) => {
+    th.classList.remove("sort-asc", "sort-desc");
+    if (th.dataset.sort === sortColumn) {
+      th.classList.add(sortDirection === "asc" ? "sort-asc" : "sort-desc");
+    }
+  });
+}
+
+function setupSorting() {
+  const headers = document.querySelectorAll<HTMLTableCellElement>("th[data-sort]");
+  headers.forEach((th) => {
+    th.addEventListener("click", () => {
+      const col = th.dataset.sort!;
+      if (sortColumn === col) {
+        sortDirection = sortDirection === "asc" ? "desc" : "asc";
+      } else {
+        sortColumn = col;
+        // Sensible defaults per column
+        sortDirection = col === "date" ? "desc" : "asc";
+      }
+      updateSortIndicators();
+      renderActivities(getFilteredActivities());
+    });
   });
 }
 
@@ -78,6 +155,7 @@ async function main() {
 
     renderStatus("");
     setupFilters();
+    setupSorting();
     renderActivities(allActivities);
   } catch (err) {
     console.error("Error fetching activities:", err);
