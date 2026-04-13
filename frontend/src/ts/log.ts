@@ -74,10 +74,11 @@ async function main() {
     const response = await fetch("/api/activities");
     if (!response.ok)
       throw new Error(`Error: ${response.status} ${response.statusText}`);
-    const data: Activity[] = await response.json();
+    allActivities = await response.json();
 
     renderStatus("");
-    renderActivities(data);
+    setupFilters();
+    renderActivities(allActivities);
   } catch (err) {
     console.error("Error fetching activities:", err);
     if (err instanceof Error) renderStatus(err.message, true);
