@@ -13,7 +13,16 @@ interface Activity {
 }
 
 const KNOWN_FILTERS = ["running", "lap_swimming", "paddelball", "cycling", "multi_sport", "hiking"];
-const PACE_TYPES = ["running", "cycling", "hiking", "lap_swimming"];
+const PACE_TYPES = ["running", "hiking"];
+const SWIM_TYPES = ["lap_swimming"];
+const SPEED_TYPES = ["cycling"];
+
+const BEST_EFFORT_DISTANCES: { label: string; km: number }[] = [
+  { label: "5k", km: 5 },
+  { label: "10k", km: 10 },
+  { label: "21k", km: 21.0975 },
+  { label: "42k", km: 42.195 },
+];
 
 const statusContainer = document.getElementById("status-container")!;
 const tableBody = document.getElementById("activities-tbody")!;
@@ -27,12 +36,14 @@ interface PRs {
   longestDistance: Map<string, number>;
   fastestPace: Map<string, number>;
   longestDuration: Map<string, number>;
+  bestEfforts: Map<string, number>;
 }
 
 function computePRs(activities: Activity[]): PRs {
   const distanceMax = new Map<string, { id: number; val: number }>();
   const speedMax = new Map<string, { id: number; val: number }>();
   const durationMax = new Map<string, { id: number; val: number }>();
+  const bestEfforts = new Map<string, { id: number; val: number }>();
 
   activities.forEach((a) => {
     const type = a.type.toLowerCase();
@@ -44,7 +55,7 @@ function computePRs(activities: Activity[]): PRs {
       }
     }
 
-    if (a.avg_speed > 0 && PACE_TYPES.includes(type)) {
+    if (a.avg_speed > 0 && (PACE_TYPES.includes(type) || SWIM_TYPES.includes(type) || SPEED_TYPES.includes(type))) {
       const current = speedMax.get(type);
       if (!current || a.avg_speed > current.val) {
         speedMax.set(type, { id: a.id, val: a.avg_speed });
@@ -57,6 +68,17 @@ function computePRs(activities: Activity[]): PRs {
         durationMax.set(type, { id: a.id, val: a.duration_sec });
       }
     }
+
+    if (type === "running" && a.avg_speed > 0) {
+      BEST_EFFORT_DISTANCES.forEach(({ label, km }) => {
+        if (a.distance_km >= km) {
+          const current = bestEfforts.get(label);
+          if (!current || a.avg_speed > current.val) {
+            bestEfforts.set(label, { id: a.id, val: a.avg_speed });
+          }
+        }
+      });
+    }
   });
 
   const toIdMap = (map: Map<string, { id: number; val: number }>) =>
@@ -66,6 +88,7 @@ function computePRs(activities: Activity[]): PRs {
     longestDistance: toIdMap(distanceMax),
     fastestPace: toIdMap(speedMax),
     longestDuration: toIdMap(durationMax),
+    bestEfforts: toIdMap(bestEfforts),
   };
 }
 
@@ -73,10 +96,75 @@ let prs: PRs = {
   longestDistance: new Map(),
   fastestPace: new Map(),
   longestDuration: new Map(),
+  bestEfforts: new Map(),
 };
 
-function prBadge(title: string): string {
-  return `<span class="pr-badge" title="${title}">PR</span>`;
+function prBadge(title: string, label: string = "PR"): string {
+  return `<span class="pr-badge" title="${title}">${label}</span>`;
+}
+
+function formatPaceForType(speedMps: number, type: string): string {
+  if (!speedMps || speedMps === 0) return "--";
+  const t = type.toLowerCase();
+
+  if (SPEED_TYPES.includes(t)) {
+    // Cycling: km/h
+    const kmh = speedMps * 3.6;
+    return `${kmh.toFixed(1)} km/h`;
+  }
+
+  if (SWIM_TYPES.includes(t)) {
+    // Swimming: min/100m
+    const secPer100m = 100 / speedMps;
+    const m = Math.floor(secPer100m / 60);
+    const s = Math.floor(secPer100m % 60);
+    return `${m}:${s.toString().padStart(2, "0")} /100m`;
+  }
+
+  if (PACE_TYPES.includes(t)) {
+    // Running, hiking: min/km
+    const paceSeconds = 1000 / speedMps;
+    const m = Math.floor(paceSeconds / 60);
+    const s = Math.floor(paceSeconds % 60);
+    return `${m}:${s.toString().padStart(2, "0")} /km`;
+  }
+
+  return "--";
+}
+
+function renderActivities(activities: Activity[]) {
+  tableBody.innerHTML = "";
+  activities.forEach((activity) => {
+    const row = document.createElement("tr");
+    const type = activity.type.toLowerCase();
+
+    const paceDisplay = formatPaceForType(activity.avg_speed, activity.type);
+    const duration = formatDuration(activity.duration_sec);
+    const hr = activity.avg_hr ? `${activity.avg_hr} bpm` : "--";
+
+    const isDistancePR = prs.longestDistance.get(type) === activity.id;
+    const isPacePR = prs.fastestPace.get(type) === activity.id;
+    const isDurationPR = prs.longestDuration.get(type) === activity.id;
+
+    const effortBadges = BEST_EFFORT_DISTANCES
+  .filter(({ label }) => prs.bestEfforts.get(label) === activity.id)
+  .map(({ label }) => `<span class="pr-badge effort" title="Fastest ${label} effort">${label}</span>`)
+  .join(" ");
+
+    const distanceCell = `${activity.distance_km} km${isDistancePR ? " " + prBadge("Longest distance for " + activity.type) : ""}${effortBadges ? " " + effortBadges : ""}`;
+    const paceCell = `${paceDisplay}${isPacePR ? " " + prBadge("Best pace/speed for " + activity.type) : ""}`;
+    const durationCell = `${duration}${isDurationPR ? " " + prBadge("Longest duration for " + activity.type) : ""}`;
+
+    row.innerHTML = `
+      <td>${new Date(activity.start_time).toLocaleDateString()}</td>
+      <td>${activity.type}</td>
+      <td>${distanceCell}</td>
+      <td>${durationCell}</td>
+      <td>${paceCell}</td>
+      <td>${hr}</td>
+    `;
+    tableBody.appendChild(row);
+  });
 }
 
 function getFilteredActivities(): Activity[] {
@@ -128,38 +216,7 @@ function sortActivities(activities: Activity[]): Activity[] {
       default:
         return 0;
     }
-
     return sortDirection === "asc" ? valA - valB : valB - valA;
-  });
-}
-
-function renderActivities(activities: Activity[]) {
-  tableBody.innerHTML = "";
-  activities.forEach((activity) => {
-    const row = document.createElement("tr");
-    const type = activity.type.toLowerCase();
-
-    const pace = formatPace(activity.avg_speed);
-    const duration = formatDuration(activity.duration_sec);
-    const hr = activity.avg_hr ? `${activity.avg_hr} bpm` : "--";
-
-    const isDistancePR = prs.longestDistance.get(type) === activity.id;
-    const isPacePR = prs.fastestPace.get(type) === activity.id;
-    const isDurationPR = prs.longestDuration.get(type) === activity.id;
-
-    const distanceCell = `${activity.distance_km} km${isDistancePR ? " " + prBadge("Longest distance for " + activity.type) : ""}`;
-    const paceCell = `${pace}${isPacePR ? " " + prBadge("Fastest pace for " + activity.type) : ""}`;
-    const durationCell = `${duration}${isDurationPR ? " " + prBadge("Longest duration for " + activity.type) : ""}`;
-
-    row.innerHTML = `
-      <td>${new Date(activity.start_time).toLocaleDateString()}</td>
-      <td>${activity.type}</td>
-      <td>${distanceCell}</td>
-      <td>${durationCell}</td>
-      <td>${paceCell}</td>
-      <td>${hr}</td>
-    `;
-    tableBody.appendChild(row);
   });
 }
 
@@ -216,14 +273,6 @@ function formatDuration(seconds: number): string {
   const m = Math.floor((seconds % 3600) / 60);
   const s = Math.floor(seconds % 60);
   return `${h > 0 ? h + ':' : ''}${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-}
-
-function formatPace(speedMps: number): string {
-  if (!speedMps || speedMps === 0) return "--";
-  const paceSeconds = 1000 / speedMps; // seconds per km
-  const m = Math.floor(paceSeconds / 60);
-  const s = Math.floor(paceSeconds % 60);
-  return `${m}:${s.toString().padStart(2, '0')} /km`;
 }
 
 async function main() {
