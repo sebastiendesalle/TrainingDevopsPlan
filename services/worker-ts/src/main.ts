@@ -86,7 +86,10 @@ async function fetchGarminActivities() {
   }
 
   //garmin login
-  const GC = new GarminConnect();
+  const GC = new GarminConnect({
+    username: username,
+    password: password,
+  });
 
   try {
     const savedTokens = await getSavedTokens();
