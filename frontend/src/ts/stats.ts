@@ -220,7 +220,7 @@ function renderWeeklyChart(activities: Activity[]) {
   const now = new Date();
   const weekKeys: string[] = [];
 
-  for (let i = 15; i >= 0; i--) {
+  for (let i = 100; i >= 0; i--) {
     const d = new Date(now);
     d.setDate(d.getDate() - i * 7);
     const key = getMondayKey(d);
