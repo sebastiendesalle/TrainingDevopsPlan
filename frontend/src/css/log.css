@@ -10,7 +10,8 @@
   color: rgba(255, 255, 255, 0.9);
 }
 
-.activities-table th, .activities-table td {
+.activities-table th,
+.activities-table td {
   padding: 0.75rem 1rem;
   border-bottom: 1px solid #444;
 }
@@ -23,4 +24,36 @@
   text-align: right;
   font-weight: 500;
   color: #80cf80;
+}
+
+/* Filter bar */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 1.5rem 0 0.5rem 0;
+}
+
+.filter-btn {
+  padding: 0.4rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.75);
+  background-color: #3a3a3a;
+  border: 1px solid #555;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.filter-btn:hover {
+  background-color: #4a4a4a;
+  color: #fff;
+}
+
+.filter-btn.active {
+  background-color: #646cff;
+  border-color: #646cff;
+  color: #fff;
 }

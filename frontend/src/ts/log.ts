@@ -12,9 +12,21 @@ interface Activity {
   avg_speed: number;
 }
 
+const KNOWN_FILTERS = ["running", "swimming", "paddelball", "cycling", "multi_sport", "hiking"];
+
 const statusContainer = document.getElementById("status-container")!;
 const tableBody = document.getElementById("activities-tbody")!;
 
+let allActivities: Activity[] = [];
+let activeFilter = "all";
+
+function getFilteredActivities(): Activity[] {
+  if (activeFilter === "all") return allActivities;
+  if (activeFilter === "other") {
+    return allActivities.filter((a) => !KNOWN_FILTERS.includes(a.type.toLowerCase()));
+  }
+  return allActivities.filter((a) => a.type.toLowerCase() === activeFilter);
+}
 function renderActivities(activities: Activity[]) {
   tableBody.innerHTML = "";
   activities.forEach((activity) => {
@@ -42,6 +54,18 @@ function renderStatus(message: string, isError: boolean = false) {
     isError ? "error" : "loading"
   }">${message}</p>`;
   if (!isError) tableBody.innerHTML = "";
+}
+
+function setupFilters() {
+  const buttons = document.querySelectorAll<HTMLButtonElement>(".filter-btn");
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      buttons.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      activeFilter = btn.dataset.filter!;
+      renderActivities(getFilteredActivities());
+    });
+  });
 }
 
 async function main() {
