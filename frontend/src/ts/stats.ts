@@ -220,7 +220,7 @@ function renderWeeklyChart(activities: Activity[]) {
   const now = new Date();
   const weekKeys: string[] = [];
 
-  for (let i = 100; i >= 0; i--) {
+  for (let i = 64; i >= 0; i--) {
     const d = new Date(now);
     d.setDate(d.getDate() - i * 7);
     const key = getMondayKey(d);
@@ -229,7 +229,11 @@ function renderWeeklyChart(activities: Activity[]) {
 
   const weekDist = new Map<string, number>();
   weekKeys.forEach(k => weekDist.set(k, 0));
-  activities.forEach(a => {
+  
+  // FIX: Filter for only running activities before adding distances
+  const runs = activities.filter(a => a.type.toLowerCase() === "running");
+
+  runs.forEach(a => {
     const key = getMondayKey(new Date(a.start_time));
     if (weekDist.has(key)) weekDist.set(key, weekDist.get(key)! + a.distance_km);
   });
