@@ -12,7 +12,7 @@ interface Activity {
   avg_speed: number;
 }
 
-const KNOWN_FILTERS = ["running", "swimming", "paddelball", "cycling", "multi_sport", "hiking"];
+const KNOWN_FILTERS = ["running", "lap_swimming", "paddelball", "cycling", "multi_sport", "hiking"];
 
 const statusContainer = document.getElementById("status-container")!;
 const tableBody = document.getElementById("activities-tbody")!;
