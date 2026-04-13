@@ -21,9 +21,54 @@ async function setupDatabase() {
         avg_speed FLOAT
       );
     `);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS garmin_auth (
+      id INT PRIMARY KEY,
+      oauth1 JSONB,
+      oauth2 JSONB
+      )`
+    );
     console.log('WORKER: "activities" table is ready.');
   } catch (err) {
     console.error("WORKER: Error creating database table:", err);
+  } finally {
+    client.release();
+  }
+}
+
+async function getSavedTokens() {
+  const client = await pool.connect();
+  try {
+    const res = await client.query('SELECT oauth1, oauth2 FROM garmin_auth WHERE id = 1');
+    if (res.rows.length > 0) {
+      return {oauth1: res.rows[0].oauth1, oauth2: res.rows[0].oauth2};
+    }
+    return null;
+  } finally {
+    client.release();
+  }
+}
+
+async function saveTokens(oauth1: any, oauth2: any) {
+  const client = await pool.connect();
+  try {
+    await client.query(`
+      INSERT INTO garmin_auth (id, oauth1, oauth2)
+      VALUES (1, $1, $2)
+      ON CONFLICT (id) DO UPDATE SET
+        oauth1 = EXCLUDED.oauth1,
+        oauth2 = EXCLUDED.oauth2;
+        `, [oauth1, oauth2])
+  } finally {
+    client.release();
+  }
+}
+
+async function clearTokens() {
+  const client = await pool.connect();
+  try {
+    await client.query(`DELETE FROM garmin_auth WHERE id = 1`);
   } finally {
     client.release();
   }
@@ -41,40 +86,46 @@ async function fetchGarminActivities() {
   }
 
   //garmin login
-  const GC = new GarminConnect({
-    username: username,
-    password: password,
-  });
+  const GC = new GarminConnect();
 
   try {
-    console.log(`WORKER: Logging in to Garmin as ${username}...`);
-    // Call login() without arguments, since we already passed the credentials
-    await GC.login();
-    console.log("WORKER: Garmin login successful!");
+    const savedTokens = await getSavedTokens();
 
-    //Fetch activities from activity list
-    const activityList = await GC.getActivities(0, 1000);
+    if (savedTokens && savedTokens.oauth1 && savedTokens.oauth2) {
+      console.log("WORKER: Found saved session tokens. Loading them...");
+      GC.client.oauth1Token = savedTokens.oauth1;
+      GC.client.oauth2Token = savedTokens.oauth2;
+    } else {
+      console.log(`WORKER: No tokens found. Logging in to Garmin as ${username}...`);
+      await GC.login(username, password);
+      console.log("WORKER: Garmin login successful!");
+
+      console.log("WORKER: Saving new session tokens...");
+      await saveTokens(GC.client.oauth1Token, GC.client.oauth2Token);
+    }
+
+    console.log("WORKER: Fetching recent activities...");
+    const activityList = await GC.getActivities(0,1000);
+
     if (!activityList || activityList.length === 0) {
       console.log("WORKER: No new activities found.");
       return;
     }
     console.log(`WORKER: Found ${activityList.length} recent activities.`);
 
-    //save to databese
     const client = await pool.connect();
     try {
       console.log("WORKER: Saving activities to database...");
       for (const activity of activityList) {
-        await client.query(
-          `INSERT INTO activities (id, type, start_time, distance_km, duration_sec, avg_hr, avg_speed)
-           VALUES ($1, $2, $3, $4, $5, $6, $7)
-           ON CONFLICT (id) DO UPDATE SET
-             duration_sec = EXCLUDED.duration_sec,
-             avg_hr = EXCLUDED.avg_hr,
-             avg_speed = EXCLUDED.avg_speed;`,
-          [
-            activity.activityId,
-            activity.activityType.typeKey,
+        await client.query(`
+          INSERT INTO activities (id, type, start_time, distance_km, duration_sec, avg_hr, avg_speed)
+          VALUES ($1, $2, $3, $4, $5, $6, $7)
+          ON CONFLICT (id) DO UPDATE SET
+            duration_sec = EXCLUDED.duration_sec,
+            avg_hr = EXCLUDED.avg_hr,
+            avg_speed = EXCLUDED.avg_speed;`,
+          [activity.activityId,
+            activity.activityType?.typeKey || 'unknown',
             activity.startTimeLocal,
             (activity.distance / 1000).toFixed(2),
             activity.duration,
@@ -85,13 +136,19 @@ async function fetchGarminActivities() {
       }
       console.log("WORKER: Successfully saved activities.");
     } catch (err) {
-      console.error("WORKER: Error saving to database:", err);
+      console.log("WORKER: Error saving to database: ", err);
     } finally {
       client.release();
     }
-  } catch (err) {
-    console.error("WORKER: Error during Garmin login or fetch:", err);
+} catch (err: any) {
+  console.error("WORKER: Error during Garmin fetch cycle: ", err.message || err)
+
+  const errorString = String(err);
+  if (errorString.includes('401') || errorString.includes('403') || err.response?.status === 401) {
+    console.warn("WORKER: Unauthorized error! Tokens are likely expired. Clearing tokens from DB.");
+    await clearTokens();
   }
+}
 }
 
 //start for worker
@@ -106,9 +163,9 @@ async function startWorker() {
     await fetchGarminActivities();
 
     console.log(
-      "--- WORKER: Fetch cycle complete. Sleeping for 30 minutes. ---"
+      "--- WORKER: Fetch cycle complete. Sleeping for 4 hours. ---"
     );
-    setTimeout(runLoop, 1800000);
+    setTimeout(runLoop, 14400000);
   };
   runLoop();
 
