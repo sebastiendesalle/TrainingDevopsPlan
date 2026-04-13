@@ -11,6 +11,7 @@ import {
   CategoryScale,
   Tooltip,
   Filler,
+  type TooltipItem,
 } from "chart.js";
 
 Chart.register(
@@ -31,10 +32,10 @@ interface Activity {
 }
 
 const BEST_EFFORTS = [
-  { label: "5k",          km: 5 },
-  { label: "10k",         km: 10 },
+  { label: "5k",            km: 5 },
+  { label: "10k",           km: 10 },
   { label: "Half Marathon", km: 21.0975 },
-  { label: "Marathon",    km: 42.195 },
+  { label: "Marathon",      km: 42.195 },
 ];
 
 // ── Utilities ────────────────────────────────────────────────
@@ -56,12 +57,10 @@ function formatPace(speedMps: number): string {
 }
 
 function speedToPaceMin(speedMps: number): number {
-  // Returns pace as decimal minutes/km (for chart y-axis)
   if (!speedMps) return 0;
   return 1000 / speedMps / 60;
 }
 
-/** Returns the ISO date string of the Monday of the given date's week */
 function getMondayKey(date: Date): string {
   const d = new Date(date);
   const day = d.getDay();
@@ -87,11 +86,11 @@ function getMonthLabel(key: string): string {
 }
 
 const CHART_COLORS = {
-  text:    "rgba(255,255,255,0.65)",
-  grid:    "#444",
-  purple:  "#646cff",
-  green:   "#80cf80",
-  red:     "#ff6b6b",
+  text:   "rgba(255,255,255,0.65)",
+  grid:   "#444",
+  purple: "#646cff",
+  green:  "#80cf80",
+  red:    "#ff6b6b",
 };
 
 // ── YTD Summary ──────────────────────────────────────────────
@@ -139,17 +138,16 @@ function renderMonthly(activities: Activity[]) {
     monthMap.get(key)!.push(a);
   });
 
-  // Most recent 6 months, oldest → newest
   const months = [...monthMap.keys()].sort().reverse().slice(0, 6).reverse();
 
   document.getElementById("monthly-cards")!.innerHTML = months.map(key => {
-    const acts  = monthMap.get(key)!;
-    const runs  = acts.filter(a => a.type.toLowerCase() === "running");
+    const acts      = monthMap.get(key)!;
+    const runs      = acts.filter(a => a.type.toLowerCase() === "running");
     const totalDist = acts.reduce((s, a) => s + a.distance_km, 0);
     const runDist   = runs.reduce((s, a) => s + a.distance_km, 0);
     const totalTime = acts.reduce((s, a) => s + a.duration_sec, 0);
 
-    const validRuns = runs.filter(a => a.avg_speed > 0);
+    const validRuns  = runs.filter(a => a.avg_speed > 0);
     const avgPaceSec = validRuns.length
       ? validRuns.reduce((s, a) => s + 1000 / a.avg_speed, 0) / validRuns.length
       : 0;
@@ -197,8 +195,8 @@ function renderPRCards(activities: Activity[]) {
       </div>`;
   }).join("");
 
-  const longestRun  = runs.length ? runs.reduce((b, a) => a.distance_km > b.distance_km ? a : b) : null;
-  const fastestRun  = runs.length ? runs.reduce((b, a) => a.avg_speed   > b.avg_speed   ? a : b) : null;
+  const longestRun = runs.length ? runs.reduce((b, a) => a.distance_km > b.distance_km ? a : b) : null;
+  const fastestRun = runs.length ? runs.reduce((b, a) => a.avg_speed   > b.avg_speed   ? a : b) : null;
 
   const overallHtml = `
     <div class="stat-card pr-card">
@@ -233,7 +231,7 @@ function renderWeeklyChart(activities: Activity[]) {
   weekKeys.forEach(k => weekDist.set(k, 0));
   activities.forEach(a => {
     const key = getMondayKey(new Date(a.start_time));
-    if (weekDist.has(key)) weekDist.set(key, (weekDist.get(key)! + a.distance_km));
+    if (weekDist.has(key)) weekDist.set(key, weekDist.get(key)! + a.distance_km);
   });
 
   new Chart(document.getElementById("weekly-chart") as HTMLCanvasElement, {
@@ -251,7 +249,12 @@ function renderWeeklyChart(activities: Activity[]) {
       responsive: true,
       plugins: {
         legend: { display: false },
-        tooltip: { callbacks: { label: ctx => `${(ctx.parsed.y as number).toFixed(1)} km` } },
+        tooltip: {
+          callbacks: {
+            label: (ctx: TooltipItem<"bar">) =>
+              `${(ctx.parsed.y ?? 0).toFixed(1)} km`,
+          },
+        },
       },
       scales: {
         x: { ticks: { color: CHART_COLORS.text }, grid: { color: CHART_COLORS.grid } },
@@ -293,8 +296,8 @@ function renderPaceChart(activities: Activity[]) {
         legend: { display: false },
         tooltip: {
           callbacks: {
-            label: ctx => {
-              const totalSec = (ctx.parsed.y as number) * 60;
+            label: (ctx: TooltipItem<"line">) => {
+              const totalSec = (ctx.parsed.y ?? 0) * 60;
               const m = Math.floor(totalSec / 60);
               const s = Math.floor(totalSec % 60);
               return `${m}:${s.toString().padStart(2, "0")} /km`;
@@ -305,10 +308,10 @@ function renderPaceChart(activities: Activity[]) {
       scales: {
         x: { ticks: { color: CHART_COLORS.text, maxTicksLimit: 8 }, grid: { color: CHART_COLORS.grid } },
         y: {
-          reverse: true, // faster pace (lower min/km) floats to top
+          reverse: true,
           ticks: {
             color: CHART_COLORS.text,
-            callback: val => {
+            callback: (val: string | number) => {
               const sec = (val as number) * 60;
               const m = Math.floor(sec / 60);
               const s = Math.floor(sec % 60);
@@ -348,7 +351,12 @@ function renderHRChart(activities: Activity[]) {
       responsive: true,
       plugins: {
         legend: { display: false },
-        tooltip: { callbacks: { label: ctx => `${ctx.parsed.y} bpm` } },
+        tooltip: {
+          callbacks: {
+            label: (ctx: TooltipItem<"line">) =>
+              `${ctx.parsed.y ?? 0} bpm`,
+          },
+        },
       },
       scales: {
         x: { ticks: { color: CHART_COLORS.text, maxTicksLimit: 8 }, grid: { color: CHART_COLORS.grid } },
