@@ -17,6 +17,18 @@ const PACE_TYPES = ["running", "hiking"];
 const SWIM_TYPES = ["lap_swimming"];
 const SPEED_TYPES = ["cycling"];
 
+const TYPE_ALIASES: Record<string, string> = {
+  road_biking:      "cycling",
+  mountain_biking:  "cycling",
+  gravel_cycling:   "cycling",
+  indoor_cycling:   "cycling",
+  virtual_ride:     "cycling",
+};
+
+function normalizeType(type: string): string {
+  return TYPE_ALIASES[type.toLowerCase()] ?? type.toLowerCase();
+}
+
 const BEST_EFFORT_DISTANCES: { label: string; km: number }[] = [
   { label: "5k", km: 5 },
   { label: "10k", km: 10 },
@@ -282,6 +294,7 @@ async function main() {
     if (!response.ok)
       throw new Error(`Error: ${response.status} ${response.statusText}`);
     allActivities = await response.json();
+    allActivities = allActivities.map(a => ({ ...a, type: normalizeType(a.type) }));
     prs = computePRs(allActivities);
 
     renderStatus("");
