@@ -41,20 +41,20 @@ const phaseState: Record<string, PhaseState> = {
     allRows: [],
     currentRowIndex: -1,
   },
-  "Phase 3: Tri Base / Bike Intro": {
+  "Phase 3: Ironman Training": {
     tbody: document.getElementById("plan-tbody-3") as HTMLElement,
     section: document.getElementById("phase-section-3") as HTMLElement,
     button: document.querySelector('[data-phase-id="3"]') as HTMLButtonElement,
     allRows: [],
     currentRowIndex: -1,
   },
-  "Phase 4: Ironman Build": {
+  "Phase 4: Belgian Coast Ultra Training": {
     tbody: document.getElementById("plan-tbody-4") as HTMLElement,
     section: document.getElementById("phase-section-4") as HTMLElement,
     button: document.querySelector('[data-phase-id="4"]') as HTMLButtonElement,
     allRows: [],
     currentRowIndex: -1,
-  },
+  }
 };
 
 function fetchPlanData(): Promise<TrainingWeek[]> {

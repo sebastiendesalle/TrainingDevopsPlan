@@ -1,6 +1,6 @@
 export const planData = {
   MainPlan: [
-    // --- HISTORICAL DATA (PHASE 1) ---
+    // --- ANTWERP 10 MILES: PHASE 1 ---
     {
       "Week Start": "11/03/2025",
       Phase: "Phase 1: Antwerp 10 Miler",
@@ -326,6 +326,7 @@ export const planData = {
       Sun: "RACE: Antwerp 10 Miles!",
       "Total Run km": 9,
     },
+    // --- MARATHON TRAINING PHASE 2 ---
     {
       "Week Start": "04/27/2026",
       Phase: "Phase 2: Antwerp Marathon",
@@ -339,8 +340,6 @@ export const planData = {
       Sun: "REST",
       "Total Run km": 30,
     },
-
-    // --- NEW PLAN DATA (PHASE 2 & BEYOND) ---
     {
       "Week Start": "05/04/2026",
       Phase: "Phase 2: Antwerp Marathon",
@@ -529,7 +528,7 @@ export const planData = {
       "Week Type": "Up",
       Mon: "Run 11 km (1km WU, 8 km @ 4:40/km, CD)",
       Tue: "Strength Day + Optional Bike 45 min",
-      Wed: "Run 15 km Easy (<140 bpm)",
+      Wed: "Run 14 km Easy (<140 bpm)",
       Thu: "Bike 90 min Easy/Steady",
       Fri: "Run 8 km Easy + 4x Strides",
       Sat: "Long Run 32 km (incl. 3x20min @ MP)",
@@ -617,7 +616,7 @@ export const planData = {
     {
       "Week Start": "09/28/2026",
       Phase: "Phase 2: Antwerp Marathon",
-      "Week Type": "Up",
+      "Week Type": "Taper 1",
       Mon: "Run 11 km (1km WU, 6 km @ 4:35/km, CD)",
       Tue: "Strength Day + Optional Bike 45 min",
       Wed: "Run 15 km Easy (<140 bpm)",
@@ -630,7 +629,7 @@ export const planData = {
     {
       "Week Start": "10/05/2026",
       Phase: "Phase 2: Antwerp Marathon",
-      "Week Type": "Taper 1",
+      "Week Type": "Taper 2",
       Mon: "Run 8 km (1km WU, 3 km @ 4:35/km, CD)",
       Tue: "Strength Day + Optional Bike 45 min",
       Wed: "Run 10 km Easy (<140 bpm)",
@@ -653,10 +652,12 @@ export const planData = {
       Sun: "RACE: Antwerp Marathon!",
       "Total Run km": 55,
     },
+
+    // --- IRONMAN TRAINING PHASE 3 ---
     {
       "Week Start": "10/19/2026",
-      Phase: "Phase 3: Tri Base / Bike Intro",
-      "Week Type": "Recovery",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Recovery",
       Mon: "OFF",
       Tue: "Light walk / mobility",
       Wed: "Run 3-5 km Easy (optional)",
@@ -668,8 +669,8 @@ export const planData = {
     },
     {
       "Week Start": "10/26/2026",
-      Phase: "Phase 3: Tri Base / Bike Intro",
-      "Week Type": "Recovery",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Recovery",
       Mon: "OFF",
       Tue: "Light walk / mobility",
       Wed: "Run 3-5 km Easy (optional)",
@@ -681,8 +682,8 @@ export const planData = {
     },
     {
       "Week Start": "11/02/2026",
-      Phase: "Phase 3: Tri Base / Bike Intro",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Base",
       Mon: "Run 8 km (3x10min tempo)",
       Tue: "Strength Day A",
       Wed: "Run 6 km Easy",
@@ -694,8 +695,8 @@ export const planData = {
     },
     {
       "Week Start": "11/09/2026",
-      Phase: "Phase 3: Tri Base / Bike Intro",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Base",
       Mon: "Run 8 km (3x10min tempo)",
       Tue: "Strength Day A",
       Wed: "Run 6 km Easy",
@@ -707,8 +708,8 @@ export const planData = {
     },
     {
       "Week Start": "11/16/2026",
-      Phase: "Phase 3: Tri Base / Bike Intro",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Base",
       Mon: "Run 8 km (3x10min tempo)",
       Tue: "Strength Day A",
       Wed: "Run 6 km Easy",
@@ -720,7 +721,7 @@ export const planData = {
     },
     {
       "Week Start": "11/23/2026",
-      Phase: "Phase 3: Tri Base / Bike Intro",
+      Phase: "Phase 3: Ironman Training",
       "Week Type": "Deload",
       Mon: "Run 7 km (2x10min tempo)",
       Tue: "Strength Day A",
@@ -733,8 +734,8 @@ export const planData = {
     },
     {
       "Week Start": "11/30/2026",
-      Phase: "Phase 3: Tri Base / Bike Intro",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Base",
       Mon: "Run 9 km (3x11min tempo)",
       Tue: "Strength Day A",
       Wed: "Run 7 km Easy",
@@ -746,8 +747,8 @@ export const planData = {
     },
     {
       "Week Start": "12/07/2026",
-      Phase: "Phase 3: Tri Base / Bike Intro",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Base",
       Mon: "Run 9 km (3x11min tempo)",
       Tue: "Strength Day A",
       Wed: "Run 7 km Easy",
@@ -759,8 +760,8 @@ export const planData = {
     },
     {
       "Week Start": "12/14/2026",
-      Phase: "Phase 3: Tri Base / Bike Intro",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Base",
       Mon: "Run 9 km (3x11min tempo)",
       Tue: "Strength Day A",
       Wed: "Run 7 km Easy",
@@ -772,7 +773,7 @@ export const planData = {
     },
     {
       "Week Start": "12/21/2026",
-      Phase: "Phase 3: Tri Base / Bike Intro",
+      Phase: "Phase 3: Ironman Training",
       "Week Type": "Deload",
       Mon: "Run 7 km (2x10min tempo)",
       Tue: "Strength Day A",
@@ -785,8 +786,8 @@ export const planData = {
     },
     {
       "Week Start": "12/28/2026",
-      Phase: "Phase 3: Tri Base / Bike Intro",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Base",
       Mon: "Run 10 km (3x12min tempo)",
       Tue: "Strength Day A",
       Wed: "Run 8 km Easy",
@@ -798,8 +799,8 @@ export const planData = {
     },
     {
       "Week Start": "01/04/2027",
-      Phase: "Phase 3: Tri Base / Bike Intro",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Base",
       Mon: "Run 10 km (3x12min tempo)",
       Tue: "Strength Day A",
       Wed: "Run 8 km Easy",
@@ -811,8 +812,8 @@ export const planData = {
     },
     {
       "Week Start": "01/11/2027",
-      Phase: "Phase 3: Tri Base / Bike Intro",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Base",
       Mon: "Run 10 km (3x12min tempo)",
       Tue: "Strength Day A",
       Wed: "Run 8 km Easy",
@@ -824,7 +825,7 @@ export const planData = {
     },
     {
       "Week Start": "01/18/2027",
-      Phase: "Phase 3: Tri Base / Bike Intro",
+      Phase: "Phase 3: Ironman Training",
       "Week Type": "Deload",
       Mon: "Run 7 km (2x10min tempo)",
       Tue: "Strength Day A",
@@ -837,8 +838,8 @@ export const planData = {
     },
     {
       "Week Start": "01/25/2027",
-      Phase: "Phase 3: Tri Base / Bike Intro",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Base",
       Mon: "Run 11 km (3x13min tempo)",
       Tue: "Strength Day A",
       Wed: "Run 9 km Easy",
@@ -850,8 +851,8 @@ export const planData = {
     },
     {
       "Week Start": "02/01/2027",
-      Phase: "Phase 3: Tri Base / Bike Intro",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Base",
       Mon: "Run 11 km (3x13min tempo)",
       Tue: "Strength Day A",
       Wed: "Run 9 km Easy",
@@ -863,8 +864,8 @@ export const planData = {
     },
     {
       "Week Start": "02/08/2027",
-      Phase: "Phase 3: Tri Base / Bike Intro",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Base",
       Mon: "Run 11 km (3x13min tempo)",
       Tue: "Strength Day A",
       Wed: "Run 9 km Easy",
@@ -876,7 +877,7 @@ export const planData = {
     },
     {
       "Week Start": "02/15/2027",
-      Phase: "Phase 3: Tri Base / Bike Intro",
+      Phase: "Phase 3: Ironman Training",
       "Week Type": "Deload",
       Mon: "Run 7 km (2x10min tempo)",
       Tue: "Strength Day A",
@@ -889,8 +890,8 @@ export const planData = {
     },
     {
       "Week Start": "02/22/2027",
-      Phase: "Phase 3: Tri Base / Bike Intro",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Base",
       Mon: "Run 12 km (3x14min tempo)",
       Tue: "Strength Day A",
       Wed: "Run 10 km Easy",
@@ -902,8 +903,8 @@ export const planData = {
     },
     {
       "Week Start": "03/01/2027",
-      Phase: "Phase 3: Tri Base / Bike Intro",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Base",
       Mon: "Run 12 km (3x14min tempo)",
       Tue: "Strength Day A",
       Wed: "Run 10 km Easy",
@@ -915,8 +916,8 @@ export const planData = {
     },
     {
       "Week Start": "03/08/2027",
-      Phase: "Phase 3: Tri Base / Bike Intro",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Base",
       Mon: "Run 12 km (3x14min tempo)",
       Tue: "Strength Day A",
       Wed: "Run 10 km Easy",
@@ -928,7 +929,7 @@ export const planData = {
     },
     {
       "Week Start": "03/15/2027",
-      Phase: "Phase 3: Tri Base / Bike Intro",
+      Phase: "Phase 3: Ironman Training",
       "Week Type": "Deload",
       Mon: "Run 7 km (2x10min tempo)",
       Tue: "Strength Day A",
@@ -941,8 +942,8 @@ export const planData = {
     },
     {
       "Week Start": "03/22/2027",
-      Phase: "Phase 3: Tri Base / Bike Intro",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Base",
       Mon: "Run 13 km (3x15min tempo)",
       Tue: "Strength Day A",
       Wed: "Run 11 km Easy",
@@ -954,8 +955,8 @@ export const planData = {
     },
     {
       "Week Start": "03/29/2027",
-      Phase: "Phase 3: Tri Base / Bike Intro",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Base",
       Mon: "Run 13 km (3x15min tempo)",
       Tue: "Strength Day A",
       Wed: "Run 11 km Easy",
@@ -967,8 +968,8 @@ export const planData = {
     },
     {
       "Week Start": "04/05/2027",
-      Phase: "Phase 4: Ironman Build",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Build",
       Mon: "Swim: 2.0 km (Technique) + Strength A",
       Tue: "Bike: 90 min (3x15min @ IM Pace)",
       Wed: "Swim: 2.2 km (Endurance)",
@@ -980,8 +981,8 @@ export const planData = {
     },
     {
       "Week Start": "04/12/2027",
-      Phase: "Phase 4: Ironman Build",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Build",
       Mon: "Swim: 2.0 km (Technique) + Strength A",
       Tue: "Bike: 90 min (3x15min @ IM Pace)",
       Wed: "Swim: 2.2 km (Endurance)",
@@ -993,8 +994,8 @@ export const planData = {
     },
     {
       "Week Start": "04/19/2027",
-      Phase: "Phase 4: Ironman Build",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Build",
       Mon: "Swim: 2.0 km (Technique) + Strength A",
       Tue: "Bike: 90 min (3x15min @ IM Pace)",
       Wed: "Swim: 2.2 km (Endurance)",
@@ -1006,7 +1007,7 @@ export const planData = {
     },
     {
       "Week Start": "04/26/2027",
-      Phase: "Phase 4: Ironman Build",
+      Phase: "Phase 3: Ironman Training",
       "Week Type": "Deload",
       Mon: "Swim: 2.0 km Easy + Strength A (light)",
       Tue: "Bike: 60 min (Easy)",
@@ -1019,8 +1020,8 @@ export const planData = {
     },
     {
       "Week Start": "05/03/2027",
-      Phase: "Phase 4: Ironman Build",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Build",
       Mon: "Swim: 2.2 km (Technique) + Strength A",
       Tue: "Bike: 100 min (3x16min @ IM Pace)",
       Wed: "Swim: 2.4 km (Endurance)",
@@ -1032,8 +1033,8 @@ export const planData = {
     },
     {
       "Week Start": "05/10/2027",
-      Phase: "Phase 4: Ironman Build",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Build",
       Mon: "Swim: 2.2 km (Technique) + Strength A",
       Tue: "Bike: 100 min (3x16min @ IM Pace)",
       Wed: "Swim: 2.4 km (Endurance)",
@@ -1045,8 +1046,8 @@ export const planData = {
     },
     {
       "Week Start": "05/17/2027",
-      Phase: "Phase 4: Ironman Build",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Build",
       Mon: "Swim: 2.2 km (Technique) + Strength A",
       Tue: "Bike: 100 min (3x16min @ IM Pace)",
       Wed: "Swim: 2.4 km (Endurance)",
@@ -1058,7 +1059,7 @@ export const planData = {
     },
     {
       "Week Start": "05/24/2027",
-      Phase: "Phase 4: Ironman Build",
+      Phase: "Phase 3: Ironman Training",
       "Week Type": "Deload",
       Mon: "Swim: 2.0 km Easy + Strength A (light)",
       Tue: "Bike: 60 min (Easy)",
@@ -1071,8 +1072,8 @@ export const planData = {
     },
     {
       "Week Start": "05/31/2027",
-      Phase: "Phase 4: Ironman Build",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Build",
       Mon: "Swim: 2.4 km (Technique) + Strength A",
       Tue: "Bike: 110 min (3x17min @ IM Pace)",
       Wed: "Swim: 2.6 km (Endurance)",
@@ -1084,8 +1085,8 @@ export const planData = {
     },
     {
       "Week Start": "06/07/2027",
-      Phase: "Phase 4: Ironman Build",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Build",
       Mon: "Swim: 2.4 km (Technique) + Strength A",
       Tue: "Bike: 110 min (3x17min @ IM Pace)",
       Wed: "Swim: 2.6 km (Endurance)",
@@ -1097,8 +1098,8 @@ export const planData = {
     },
     {
       "Week Start": "06/14/2027",
-      Phase: "Phase 4: Ironman Build",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Build",
       Mon: "Swim: 2.4 km (Technique) + Strength A",
       Tue: "Bike: 110 min (3x17min @ IM Pace)",
       Wed: "Swim: 2.6 km (Endurance)",
@@ -1110,7 +1111,7 @@ export const planData = {
     },
     {
       "Week Start": "06/21/2027",
-      Phase: "Phase 4: Ironman Build",
+      Phase: "Phase 3: Ironman Training",
       "Week Type": "Deload",
       Mon: "Swim: 2.0 km Easy + Strength A (light)",
       Tue: "Bike: 60 min (Easy)",
@@ -1123,8 +1124,8 @@ export const planData = {
     },
     {
       "Week Start": "06/28/2027",
-      Phase: "Phase 4: Ironman Build",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Build",
       Mon: "Swim: 2.6 km (Technique) + Strength A",
       Tue: "Bike: 120 min (3x18min @ IM Pace)",
       Wed: "Swim: 2.8 km (Endurance)",
@@ -1136,8 +1137,8 @@ export const planData = {
     },
     {
       "Week Start": "07/05/2027",
-      Phase: "Phase 4: Ironman Build",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Build",
       Mon: "Swim: 2.6 km (Technique) + Strength A",
       Tue: "Bike: 120 min (3x18min @ IM Pace)",
       Wed: "Swim: 2.8 km (Endurance)",
@@ -1149,8 +1150,8 @@ export const planData = {
     },
     {
       "Week Start": "07/12/2027",
-      Phase: "Phase 4: Ironman Build",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Build",
       Mon: "Swim: 2.6 km (Technique) + Strength A",
       Tue: "Bike: 120 min (3x18min @ IM Pace)",
       Wed: "Swim: 2.8 km (Endurance)",
@@ -1162,7 +1163,7 @@ export const planData = {
     },
     {
       "Week Start": "07/19/2027",
-      Phase: "Phase 4: Ironman Build",
+      Phase: "Phase 3: Ironman Training",
       "Week Type": "Deload",
       Mon: "Swim: 2.0 km Easy + Strength A (light)",
       Tue: "Bike: 60 min (Easy)",
@@ -1175,8 +1176,8 @@ export const planData = {
     },
     {
       "Week Start": "07/26/2027",
-      Phase: "Phase 4: Ironman Build",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Build",
       Mon: "Swim: 2.8 km (Technique) + Strength A",
       Tue: "Bike: 130 min (3x19min @ IM Pace)",
       Wed: "Swim: 3.0 km (Endurance)",
@@ -1188,8 +1189,8 @@ export const planData = {
     },
     {
       "Week Start": "08/02/2027",
-      Phase: "Phase 4: Ironman Build",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Build",
       Mon: "Swim: 2.8 km (Technique) + Strength A",
       Tue: "Bike: 130 min (3x19min @ IM Pace)",
       Wed: "Swim: 3.0 km (Endurance)",
@@ -1201,8 +1202,8 @@ export const planData = {
     },
     {
       "Week Start": "08/09/2027",
-      Phase: "Phase 4: Ironman Build",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Build",
       Mon: "Swim: 2.8 km (Technique) + Strength A",
       Tue: "Bike: 130 min (3x19min @ IM Pace)",
       Wed: "Swim: 3.0 km (Endurance)",
@@ -1214,7 +1215,7 @@ export const planData = {
     },
     {
       "Week Start": "08/16/2027",
-      Phase: "Phase 4: Ironman Build",
+      Phase: "Phase 3: Ironman Training",
       "Week Type": "Deload",
       Mon: "Swim: 2.0 km Easy + Strength A (light)",
       Tue: "Bike: 60 min (Easy)",
@@ -1227,8 +1228,8 @@ export const planData = {
     },
     {
       "Week Start": "08/23/2027",
-      Phase: "Phase 4: Ironman Build",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Build",
       Mon: "Swim: 3.0 km (Technique) + Strength A",
       Tue: "Bike: 140 min (3x20min @ IM Pace)",
       Wed: "Swim: 3.2 km (Endurance)",
@@ -1240,8 +1241,8 @@ export const planData = {
     },
     {
       "Week Start": "08/30/2027",
-      Phase: "Phase 4: Ironman Build",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Build",
       Mon: "Swim: 3.0 km (Technique) + Strength A",
       Tue: "Bike: 140 min (3x20min @ IM Pace)",
       Wed: "Swim: 3.2 km (Endurance)",
@@ -1253,8 +1254,8 @@ export const planData = {
     },
     {
       "Week Start": "09/06/2027",
-      Phase: "Phase 4: Ironman Build",
-      "Week Type": "Up",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "IM Build",
       Mon: "Swim: 3.0 km (Technique) + Strength A",
       Tue: "Bike: 140 min (3x20min @ IM Pace)",
       Wed: "Swim: 3.2 km (Endurance)",
@@ -1266,7 +1267,7 @@ export const planData = {
     },
     {
       "Week Start": "09/13/2027",
-      Phase: "Phase 4: Ironman Build",
+      Phase: "Phase 3: Ironman Training",
       "Week Type": "Deload",
       Mon: "Swim: 2.0 km Easy + Strength A (light)",
       Tue: "Bike: 60 min (Easy)",
@@ -1279,7 +1280,7 @@ export const planData = {
     },
     {
       "Week Start": "09/20/2027",
-      Phase: "Phase 4: Ironman Build",
+      Phase: "Phase 3: Ironman Training",
       "Week Type": "Taper",
       Mon: "Swim: 2.0 km (Easy)",
       Tue: "Bike: 45 min (Easy)",
@@ -1292,8 +1293,8 @@ export const planData = {
     },
     {
       "Week Start": "09/27/2027",
-      Phase: "Phase 4: Ironman Build",
-      "Week Type": "Race",
+      Phase: "Phase 3: Ironman Training",
+      "Week Type": "Race Week",
       Mon: "Swim: 1.5 km (Easy)",
       Tue: "Bike: 30 min (Spin)",
       Wed: "OFF",
@@ -1303,9 +1304,11 @@ export const planData = {
       Sun: "RACE: Ironman Barcelona!",
       "Total Run km": "N/A (Triathlon)",
     },
+
+    // --- ULTRA MARATHON PHASE (PHASE 4) ---
     {
       "Week Start": "10/04/2027",
-      Phase: "Phase 5: Belgian Coast Ultra Base",
+      Phase: "Phase 4: Belgian Coast Ultra Training",
       "Week Type": "IM Recovery",
       Mon: "OFF",
       Tue: "Light Walk / Mobility",
@@ -1318,7 +1321,7 @@ export const planData = {
     },
     {
       "Week Start": "10/11/2027",
-      Phase: "Phase 5: Belgian Coast Ultra Base",
+      Phase: "Phase 4: Belgian Coast Ultra Training",
       "Week Type": "IM Recovery",
       Mon: "OFF",
       Tue: "Strength Day + Run 5 km Easy",
@@ -1331,7 +1334,7 @@ export const planData = {
     },
     {
       "Week Start": "10/18/2027",
-      Phase: "Phase 5: Belgian Coast Ultra Base",
+      Phase: "Phase 4: Belgian Coast Ultra Training",
       "Week Type": "Up",
       Mon: "Run 8 km (incl. 4 km @ Tempo)",
       Tue: "Strength Day + Run 5 km Easy",
@@ -1344,7 +1347,7 @@ export const planData = {
     },
     {
       "Week Start": "10/25/2027",
-      Phase: "Phase 5: Belgian Coast Ultra Base",
+      Phase: "Phase 4: Belgian Coast Ultra Training",
       "Week Type": "Up",
       Mon: "Run 10 km (incl. 5 km @ Tempo)",
       Tue: "Strength Day + Run 5 km Easy",
@@ -1357,7 +1360,7 @@ export const planData = {
     },
     {
       "Week Start": "11/01/2027",
-      Phase: "Phase 5: Belgian Coast Ultra Base",
+      Phase: "Phase 4: Belgian Coast Ultra Training",
       "Week Type": "Up",
       Mon: "Run 10 km (incl. 6 km @ Tempo)",
       Tue: "Strength Day + Run 6 km Easy",
@@ -1370,7 +1373,7 @@ export const planData = {
     },
     {
       "Week Start": "11/08/2027",
-      Phase: "Phase 5: Belgian Coast Ultra Base",
+      Phase: "Phase 4: Belgian Coast Ultra Training",
       "Week Type": "Deload",
       Mon: "Run 8 km Easy",
       Tue: "Strength Day + Run 5 km Easy",
@@ -1383,7 +1386,7 @@ export const planData = {
     },
     {
       "Week Start": "11/15/2027",
-      Phase: "Phase 5: Belgian Coast Ultra Base",
+      Phase: "Phase 4: Belgian Coast Ultra Training",
       "Week Type": "Up",
       Mon: "Run 12 km (incl. 2x4 km @ Tempo)",
       Tue: "Strength Day + Run 6 km Easy",
@@ -1396,7 +1399,7 @@ export const planData = {
     },
     {
       "Week Start": "11/22/2027",
-      Phase: "Phase 5: Belgian Coast Ultra Base",
+      Phase: "Phase 4: Belgian Coast Ultra Training",
       "Week Type": "Up",
       Mon: "Run 12 km (incl. 2x4.5 km @ Tempo)",
       Tue: "Strength Day + Run 6 km Easy",
@@ -1409,7 +1412,7 @@ export const planData = {
     },
     {
       "Week Start": "11/29/2027",
-      Phase: "Phase 5: Belgian Coast Ultra Base",
+      Phase: "Phase 4: Belgian Coast Ultra Training",
       "Week Type": "Up",
       Mon: "Run 12 km (incl. 3x3 km @ Tempo)",
       Tue: "Strength Day + Run 6 km Easy",
@@ -1422,7 +1425,7 @@ export const planData = {
     },
     {
       "Week Start": "12/06/2027",
-      Phase: "Phase 5: Belgian Coast Ultra Base",
+      Phase: "Phase 4: Belgian Coast Ultra Training",
       "Week Type": "Deload",
       Mon: "Run 8 km Easy",
       Tue: "Strength Day + Run 5 km Easy",
@@ -1435,7 +1438,7 @@ export const planData = {
     },
     {
       "Week Start": "12/13/2027",
-      Phase: "Phase 5: Belgian Coast Ultra Build",
+      Phase: "Phase 4: Belgian Coast Ultra Training",
       "Week Type": "Up",
       Mon: "Run 12 km (incl. 9 km @ Tempo)",
       Tue: "Strength Day + Run 8 km Easy",
@@ -1448,7 +1451,7 @@ export const planData = {
     },
     {
       "Week Start": "12/20/2027",
-      Phase: "Phase 5: Belgian Coast Ultra Build",
+      Phase: "Phase 4: Belgian Coast Ultra Training",
       "Week Type": "Up",
       Mon: "Run 12 km (incl. 2x5 km @ Tempo)",
       Tue: "Strength Day + Run 8 km Easy",
@@ -1461,7 +1464,7 @@ export const planData = {
     },
     {
       "Week Start": "12/27/2027",
-      Phase: "Phase 5: Belgian Coast Ultra Build",
+      Phase: "Phase 4: Belgian Coast Ultra Training",
       "Week Type": "Up",
       Mon: "Run 14 km (incl. 10 km @ Tempo)",
       Tue: "Strength Day + Run 8 km Easy",
@@ -1474,7 +1477,7 @@ export const planData = {
     },
     {
       "Week Start": "01/03/2028",
-      Phase: "Phase 5: Belgian Coast Ultra Build",
+      Phase: "Phase 4: Belgian Coast Ultra Training",
       "Week Type": "Deload",
       Mon: "Run 10 km Easy",
       Tue: "Strength Day + Run 6 km Easy",
@@ -1487,7 +1490,7 @@ export const planData = {
     },
     {
       "Week Start": "01/10/2028",
-      Phase: "Phase 5: Belgian Coast Ultra Build",
+      Phase: "Phase 4: Belgian Coast Ultra Training",
       "Week Type": "Up",
       Mon: "Run 14 km (incl. 2x5 km @ Tempo)",
       Tue: "Strength Day + Run 8 km Easy",
@@ -1500,7 +1503,7 @@ export const planData = {
     },
     {
       "Week Start": "01/17/2028",
-      Phase: "Phase 5: Belgian Coast Ultra Build",
+      Phase: "Phase 4: Belgian Coast Ultra Training",
       "Week Type": "Up",
       Mon: "Run 14 km (incl. 10 km @ Tempo)",
       Tue: "Strength Day + Run 8 km Easy",
@@ -1513,7 +1516,7 @@ export const planData = {
     },
     {
       "Week Start": "01/24/2028",
-      Phase: "Phase 5: Belgian Coast Ultra Build",
+      Phase: "Phase 4: Belgian Coast Ultra Training",
       "Week Type": "Up",
       Mon: "Run 14 km (incl. 3x4 km @ Tempo)",
       Tue: "Strength Day + Run 8 km Easy",
@@ -1526,7 +1529,7 @@ export const planData = {
     },
     {
       "Week Start": "01/31/2028",
-      Phase: "Phase 5: Belgian Coast Ultra Build",
+      Phase: "Phase 4: Belgian Coast Ultra Training",
       "Week Type": "Deload",
       Mon: "Run 10 km Easy",
       Tue: "Strength Day + Run 6 km Easy",
@@ -1539,7 +1542,7 @@ export const planData = {
     },
     {
       "Week Start": "02/07/2028",
-      Phase: "Phase 5: Belgian Coast Ultra Build",
+      Phase: "Phase 4: Belgian Coast Ultra Training",
       "Week Type": "Up",
       Mon: "Run 15 km (incl. 2x6 km @ Tempo)",
       Tue: "Strength Day + Run 8 km Easy",
@@ -1552,7 +1555,7 @@ export const planData = {
     },
     {
       "Week Start": "02/14/2028",
-      Phase: "Phase 5: Belgian Coast Ultra Build",
+      Phase: "Phase 4: Belgian Coast Ultra Training",
       "Week Type": "Up",
       Mon: "Run 15 km (incl. 12 km @ Tempo)",
       Tue: "Strength Day + Run 8 km Easy",
@@ -1565,7 +1568,7 @@ export const planData = {
     },
     {
       "Week Start": "02/21/2028",
-      Phase: "Phase 5: Belgian Coast Ultra Build",
+      Phase: "Phase 4: Belgian Coast Ultra Training",
       "Week Type": "Up",
       Mon: "Run 15 km (incl. 3x4 km @ Tempo)",
       Tue: "Strength Day + Run 8 km Easy",
@@ -1578,7 +1581,7 @@ export const planData = {
     },
     {
       "Week Start": "02/28/2028",
-      Phase: "Phase 5: Belgian Coast Ultra Build",
+      Phase: "Phase 4: Belgian Coast Ultra Training",
       "Week Type": "Deload",
       Mon: "Run 10 km Easy",
       Tue: "Strength Day + Run 8 km Easy",
@@ -1591,7 +1594,7 @@ export const planData = {
     },
     {
       "Week Start": "03/06/2028",
-      Phase: "Phase 5: Belgian Coast Ultra Peak",
+      Phase: "Phase 4: Belgian Coast Ultra Training",
       "Week Type": "Peak",
       Mon: "Run 15 km (incl. 2x6 km @ Tempo)",
       Tue: "Strength Day + Run 10 km Easy",
@@ -1604,7 +1607,7 @@ export const planData = {
     },
     {
       "Week Start": "03/13/2028",
-      Phase: "Phase 5: Belgian Coast Ultra Peak",
+      Phase: "Phase 4: Belgian Coast Ultra Training",
       "Week Type": "Peak",
       Mon: "Run 15 km (incl. 12 km @ Tempo)",
       Tue: "Strength Day + Run 10 km Easy",
@@ -1617,7 +1620,7 @@ export const planData = {
     },
     {
       "Week Start": "03/20/2028",
-      Phase: "Phase 5: Belgian Coast Ultra Peak",
+      Phase: "Phase 4: Belgian Coast Ultra Training",
       "Week Type": "Peak",
       Mon: "Run 12 km Easy",
       Tue: "Light Mobility + Run 10 km Easy",
@@ -1630,7 +1633,7 @@ export const planData = {
     },
     {
       "Week Start": "03/27/2028",
-      Phase: "Phase 5: Belgian Coast Ultra Taper",
+      Phase: "Phase 4: Belgian Coast Ultra Training",
       "Week Type": "Taper 1",
       Mon: "Run 10 km Easy",
       Tue: "Light Mobility + Run 8 km Easy",
@@ -1643,7 +1646,7 @@ export const planData = {
     },
     {
       "Week Start": "04/03/2028",
-      Phase: "Phase 5: Belgian Coast Ultra Taper",
+      Phase: "Phase 4: Belgian Coast Ultra Training",
       "Week Type": "Taper 2",
       Mon: "Run 8 km Easy",
       Tue: "Light Mobility",
@@ -1656,7 +1659,7 @@ export const planData = {
     },
     {
       "Week Start": "04/10/2028",
-      Phase: "Phase 5: Belgian Coast Ultra Taper",
+      Phase: "Phase 4: Belgian Coast Ultra Training",
       "Week Type": "Race Week",
       Mon: "Run 6 km Easy",
       Tue: "Light Mobility",
