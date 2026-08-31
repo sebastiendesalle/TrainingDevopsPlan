@@ -1,13 +1,43 @@
 /* 1. A modern CSS reset */
 * { margin: 0; padding: 0; box-sizing: border-box; }
-/* 2. Set up our dark theme */
+
+/* 2. Design tokens */
 :root {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --bg: #1f1f22;
+  --surface: #2a2a2e;
+  --surface-2: #323238;
+  --surface-hover: #34343a;
+  --border: #3d3d44;
+  --border-strong: #4a4a52;
+
+  --text: rgba(255, 255, 255, 0.88);
+  --text-dim: rgba(255, 255, 255, 0.6);
+  --text-faint: rgba(255, 255, 255, 0.4);
+
+  --accent: #6c8cff;
+  --accent-hover: #5a78e6;
+  --good: #80cf80;
+  --warn: #f0c040;
+  --bad: #ff6b6b;
+
+  --sport-running: #6c8cff;
+  --sport-cycling: #f0a04b;
+  --sport-lap_swimming: #4bc0c0;
+  --sport-hiking: #80cf80;
+  --sport-other: #9aa0a6;
+
+  --radius: 10px;
+  --radius-sm: 6px;
+  --gap: 1rem;
+  --maxw: 960px;
+
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color-scheme: dark;
+  color: var(--text);
+  background-color: var(--bg);
+  -webkit-font-smoothing: antialiased;
 }
 
 body {
@@ -15,46 +45,137 @@ body {
   min-height: 100vh;
   display: flex;
   justify-content: center;
+  background-color: var(--bg);
 }
+
 .app-container {
   width: 100%;
-  max-width: 900px;
-  padding: 2rem;
-  text-align: center;
+  max-width: var(--maxw);
+  padding: 2rem 1.5rem 4rem;
+  text-align: left;
 }
 
 .app-header {
   font-size: 1.5rem;
-  margin-bottom: 1rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.25rem;
+}
+
+.app-subhead {
+  color: var(--text-faint);
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
 }
 
 .loading, .error {
-  font-size: 1.2rem;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: 1rem;
+  color: var(--text-dim);
+  padding: 1rem 0;
+}
+.error { color: var(--bad); }
+
+/* Navigation */
+.page-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 1rem 0 1.75rem;
+  flex-wrap: wrap;
 }
 
-.error {
-  color: #ff6b6b;
+.nav-link {
+  padding: 0.4rem 0.85rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-dim);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+}
+.nav-link:hover { background-color: var(--surface-hover); color: var(--text); }
+.nav-link.current {
+  color: #fff;
+  background-color: var(--accent);
+  border-color: var(--accent);
 }
 
-/* index styling */
-
+/* Legacy link buttons (kept for any page still using them) */
 .link-button {
   display: inline-block;
-  margin: 2rem 0.5rem 0 0.5rem;
-  padding: 0.75rem 1.5rem;
-  font-size: 1.1rem;
+  margin: 0.5rem 0.5rem 0 0;
+  padding: 0.6rem 1.25rem;
+  font-size: 1rem;
   font-weight: 500;
   color: #fff;
-  background-color: #646cff;
-  border-radius: 8px;
+  background-color: var(--accent);
+  border-radius: var(--radius-sm);
   text-decoration: none;
-  transition: background-color 0.2s;
+  transition: background-color 0.15s;
 }
-.link-button:hover {
-  background-color: #535bf2;
+.link-button:hover { background-color: var(--accent-hover); }
+.link-back { margin-bottom: 1.5rem; }
+
+/* Sport pill + dot */
+.sport-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text);
+  white-space: nowrap;
+}
+.sport-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--sport-other);
+  flex-shrink: 0;
 }
 
-.link-back {
-  margin-bottom: 2rem;
+/* Stat chips row (compact summary) */
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0 0 1.25rem;
+}
+.stat-chip {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 0.9rem;
+  min-width: 96px;
+}
+.stat-chip .k {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-faint);
+}
+.stat-chip .v {
+  font-size: 1.15rem;
+  font-weight: 650;
+  color: var(--text);
+}
+
+/* Generic section header */
+.section-header {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.9rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.4rem;
+}
+
+.hidden { display: none; }
+
+@media (max-width: 620px) {
+  .app-container { padding: 1.5rem 1rem 3rem; }
 }
