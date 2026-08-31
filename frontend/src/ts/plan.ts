@@ -41,14 +41,14 @@ const phaseState: Record<string, PhaseState> = {
     allRows: [],
     currentRowIndex: -1,
   },
-  "Phase 3: Ironman Training": {
+  "Phase 3: Tri Base / Run Focus": {
     tbody: document.getElementById("plan-tbody-3") as HTMLElement,
     section: document.getElementById("phase-section-3") as HTMLElement,
     button: document.querySelector('[data-phase-id="3"]') as HTMLButtonElement,
     allRows: [],
     currentRowIndex: -1,
   },
-  "Phase 4: Belgian Coast Ultra Training": {
+  "Phase 4: Ironman Build": {
     tbody: document.getElementById("plan-tbody-4") as HTMLElement,
     section: document.getElementById("phase-section-4") as HTMLElement,
     button: document.querySelector('[data-phase-id="4"]') as HTMLButtonElement,
@@ -83,8 +83,8 @@ function isCurrentWeek(weekStartDateString: string): boolean {
     const parts = weekStartDateString.split("/");
     if (parts.length !== 3) return false;
 
-    const month = parseInt(parts[0], 10);
-    const day = parseInt(parts[1], 10);
+    const day = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10);
     const year = parseInt(parts[2], 10);
 
     const startDate = new Date(year, month - 1, day);
