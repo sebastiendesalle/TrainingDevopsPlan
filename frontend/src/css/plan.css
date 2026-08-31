@@ -1,109 +1,329 @@
-/* --- Original Plan Styles --- */
-.app-container {
-    max-width: 1600px;
-    width: 90%;
-    padding: 2rem 1rem;
-    text-align: center;
-}
-.link-back {
-  margin-bottom: 2rem;
+/* The plan page is denser than the rest of the app, so it gets more room. */
+.plan-container {
+  max-width: 1180px;
 }
 
-.plan-table {
-  /* Original font-size from your file */
-  font-size: 0.8rem;
+/* ── Phase ──────────────────────────────────────────────────── */
+.phase {
+  margin-top: 2.5rem;
 }
 
-/* --- New Styles for Phase Layout --- */
-
-.hidden {
-  display: none;
-}
-
-.phase-section {
-  margin-bottom: 3rem;
-  text-align: left; /* Aligns content to the left */
-}
-
-.phase-header {
+.phase-head {
   display: flex;
+  align-items: flex-start;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .phase-title {
-  font-size: 1.75rem;
-  font-weight: 600;
-  color: #818cf8; /* Indigo Accent from previous theme */
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.15rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.phase-now {
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #fff;
+  background-color: var(--accent);
+  border-radius: 4px;
+  padding: 0.1rem 0.4rem;
+}
+
+.phase-range {
+  font-size: 0.8rem;
+  color: var(--text-faint);
+  margin-top: 0.15rem;
 }
 
 .expand-toggle {
-  background-color: #3730a3;
-  color: #e0e7ff;
-  border: none;
+  flex-shrink: 0;
   padding: 0.35rem 0.85rem;
-  font-size: 0.875rem;
+  font-size: 0.82rem;
   font-weight: 500;
-  border-radius: 6px;
+  color: var(--text-dim);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.15s, color 0.15s;
+}
+.expand-toggle:hover { background-color: var(--surface-hover); color: var(--text); }
+
+.phase-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 0.9rem;
 }
 
-.expand-toggle:hover {
-  background-color: #312e81;
+.phase-summary {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  white-space: nowrap;
 }
 
-/* --- New Table Styling --- */
-.table-wrapper {
-  overflow-x: auto;
-  background-color: #1f2937; /* Lighter Gray/Navy */
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+.spark {
+  flex: 1;
+  height: 20px;
+  min-width: 80px;
+  opacity: 0.9;
 }
 
-.activities-table {
-  width: 100%;
-  min-width: 1000px; /* Allow for horizontal scroll on small screens */
-  border-collapse: collapse;
+.phase-races {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.9rem;
 }
 
-.activities-table th,
-.activities-table td {
-  padding: 0.75rem;
-  vertical-align: top;
-  white-space: pre-wrap;
-  text-align: left;
-  border-bottom: 1px solid #374151; /* Gray border */
+.race-tag {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--bad);
+  border: 1px solid var(--bad);
+  border-radius: 20px;
+  padding: 0.12rem 0.6rem;
 }
 
-.activities-table thead {
-  background-color: #374151; /* Medium Gray */
-  font-size: 0.75rem;
-  color: #d1d5db;
-  text-transform: uppercase;
+/* ── Week card ──────────────────────────────────────────────── */
+.week-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
-.activities-table th {
+.week-card {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.85rem 1rem 1rem;
+}
+.week-card.is-past { opacity: 0.72; }
+.week-card.is-current {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+  opacity: 1;
+}
+
+.week-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.week-when {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.week-dates {
+  font-size: 0.88rem;
   font-weight: 600;
 }
 
-.activities-table tbody tr:last-child td {
-  border-bottom: none;
-}
-
-.activities-table tbody .week-row:hover {
-  background-color: #374151;
-}
-
-/* Custom highlight class for the current week */
-.current-week-highlight {
-  background-color: #a3e635; /* Bright Lime Green */
-  color: #1f2937; /* Dark text for contrast */
+.week-badge {
+  font-size: 0.66rem;
   font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 4px;
+  padding: 0.12rem 0.45rem;
+  border: 1px solid transparent;
+}
+.tone-accent { color: #b6c4ff; border-color: #3f4a7a; background-color: #2b3050; }
+.tone-good   { color: #a8e0a8; border-color: #3c5c3c; background-color: #2a3a2a; }
+.tone-teal   { color: #9adcdc; border-color: #2f5c5c; background-color: #23393b; }
+.tone-warn   { color: #f0d08a; border-color: #6b552a; background-color: #3a3223; }
+.tone-purple { color: #d4bcf5; border-color: #5a4080; background-color: #332a45; }
+.tone-bad    { color: #ffb0b0; border-color: #7a3c3c; background-color: #402a2a; }
+.tone-muted  { color: var(--text-dim); border-color: var(--border); background-color: var(--surface-2); }
+.tone-now    { color: #fff; background-color: var(--accent); border-color: var(--accent); }
+
+.week-totals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-size: 0.78rem;
+  color: var(--text-faint);
 }
 
-/* Ensure hover doesn't override highlight */
-.current-week-highlight:hover {
-  background-color: #a3e635;
+.week-actual { font-weight: 600; }
+.week-actual.ok { color: var(--good); }
+.week-actual.under { color: var(--warn); }
+
+/* ── Day grid ───────────────────────────────────────────────── */
+.day-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.45rem;
+}
+
+.day-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-height: 88px;
+  padding: 0.5rem 0.55rem;
+  text-align: left;
+  background-color: var(--surface-2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--sport-other);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+  transition: background-color 0.12s, border-color 0.12s;
+}
+.day-tile:hover { background-color: var(--surface-hover); }
+.day-tile:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+.day-tile.d-run      { border-left-color: #6c8cff; }
+.day-tile.d-bike     { border-left-color: #f0a04b; }
+.day-tile.d-swim     { border-left-color: #4bc0c0; }
+.day-tile.d-strength { border-left-color: #f0c040; }
+.day-tile.d-ski      { border-left-color: #8ac6ff; }
+.day-tile.d-mobility { border-left-color: #80cf80; }
+.day-tile.d-race     { border-left-color: #ff6b6b; background-color: #33262a; }
+.day-tile.is-rest    { border-left-color: #6b6b73; opacity: 0.6; }
+.day-tile.is-today   { box-shadow: inset 0 0 0 1px var(--accent); }
+
+.day-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem;
+}
+
+.day-name {
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-faint);
+}
+
+.day-dots { display: flex; gap: 3px; }
+.d-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+.day-title {
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.25;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.day-sub {
+  font-size: 0.68rem;
+  color: var(--text-faint);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ── Drawer content specific to the plan ────────────────────── */
+.pill-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+.detail-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.detail-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.15rem 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.detail-row:last-child { border-bottom: none; padding-bottom: 0; }
+.dl { font-size: 0.8rem; color: var(--text-dim); }
+.dv { font-size: 0.9rem; font-weight: 600; text-align: right; }
+.dn { grid-column: 1 / -1; font-size: 0.74rem; color: var(--text-faint); }
+
+.power-row { margin-bottom: 1rem; }
+.power-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+}
+.power-watts { font-size: 1.05rem; font-weight: 650; }
+.power-pct { font-size: 0.76rem; color: var(--text-faint); }
+
+.zone-strip { position: relative; margin-bottom: 0.35rem; }
+.zone-strip .zone-segments {
+  display: flex;
+  height: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.zone-strip .zone-segments span { display: block; }
+.zone-range {
+  position: absolute;
+  top: -3px;
+  height: 16px;
+  border: 2px solid #fff;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.interval-row { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.interval-tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text);
+  background-color: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.15rem 0.5rem;
+}
+
+.prescription {
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--text-dim);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.7rem 0.85rem;
+}
+
+.actual-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.actual-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.actual-row:last-child { border-bottom: none; padding-bottom: 0; }
+.actual-bits { font-size: 0.82rem; color: var(--text-dim); }
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .day-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .phase-meta { flex-wrap: wrap; }
+  .phase-summary { white-space: normal; }
+}
+
+@media (max-width: 560px) {
+  .day-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .week-head { align-items: flex-start; flex-direction: column; }
 }

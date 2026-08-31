@@ -33,6 +33,7 @@ import {
   shortDate,
   startOfDay,
 } from "./activityMetrics";
+import { ATHLETE, wattsPerKg, ftpRating } from "./athlete";
 import { loadActivities } from "./dataSource";
 
 Chart.register(
@@ -203,6 +204,108 @@ function renderMonthly(activities: Activity[]) {
 
 // ── Race predictions ─────────────────────────────────────────
 
+// Actual bests: the fastest real run you have logged near each distance.
+function renderPRCards(activities: Activity[]) {
+  const runs = activities.filter((a) => isRun(a) && a.avg_speed > 0);
+  const el = document.getElementById("pr-cards")!;
+
+  if (!runs.length) {
+    el.innerHTML = `<div class="stat-card pr-card"><div class="pr-distance">--</div><div class="pr-time">No runs yet</div></div>`;
+    return;
+  }
+
+  const dateOf = (a: Activity) =>
+    new Date(a.start_time).toLocaleDateString("en-BE", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    });
+
+  const effortCards = BEST_EFFORTS.map(({ label, km }) => {
+    // The card shows the run's real elapsed time, so the run has to actually
+    // be that distance — a 12 km run is not a 10K result.
+    const window = runs.filter(
+      (a) => a.distance_km >= km * 0.98 && a.distance_km <= km * 1.08
+    );
+    if (!window.length) {
+      return `
+        <div class="stat-card pr-card">
+          <div class="pr-distance">${label}</div>
+          <div class="pr-time">--</div>
+          <div class="pr-meta">no run at this distance yet</div>
+        </div>`;
+    }
+    const best = window.reduce((b, a) => (a.avg_speed > b.avg_speed ? a : b));
+    return `
+      <div class="stat-card pr-card">
+        <div class="pr-distance">${label}</div>
+        <div class="pr-time">${formatDuration(best.duration_sec)}</div>
+        <div class="pr-meta">${best.distance_km.toFixed(2)} km · ${formatPace(
+      best.avg_speed
+    )} · ${dateOf(best)}</div>
+      </div>`;
+  }).join("");
+
+  const longestRun = runs.reduce((b, a) => (a.distance_km > b.distance_km ? a : b));
+  const fastestRun = runs.reduce((b, a) => (a.avg_speed > b.avg_speed ? a : b));
+  const longestTime = activities.reduce(
+    (b, a) => (a.duration_sec > b.duration_sec ? a : b),
+    activities[0]
+  );
+
+  el.innerHTML =
+    effortCards +
+    `
+    <div class="stat-card pr-card">
+      <div class="pr-distance">Longest Run</div>
+      <div class="pr-time">${longestRun.distance_km.toFixed(1)} km</div>
+      <div class="pr-meta">${formatPace(longestRun.avg_speed)} · ${dateOf(longestRun)}</div>
+    </div>
+    <div class="stat-card pr-card">
+      <div class="pr-distance">Fastest Pace</div>
+      <div class="pr-time">${formatPace(fastestRun.avg_speed)}</div>
+      <div class="pr-meta">${fastestRun.distance_km.toFixed(1)} km · ${dateOf(
+      fastestRun
+    )}</div>
+    </div>
+    <div class="stat-card pr-card">
+      <div class="pr-distance">Longest Session</div>
+      <div class="pr-time">${formatDuration(longestTime.duration_sec)}</div>
+      <div class="pr-meta">${sportConfig(longestTime.type).label} · ${dateOf(
+      longestTime
+    )}</div>
+    </div>`;
+}
+
+// ── Athlete profile ──────────────────────────────────────────
+
+function renderAthlete() {
+  const wkg = wattsPerKg();
+  const rating = ftpRating(wkg);
+
+  document.getElementById("athlete-cards")!.innerHTML = `
+    <div class="stat-card accent-warn">
+      <div class="stat-label">Cycling FTP</div>
+      <div class="stat-value">${ATHLETE.ftpWatts} W</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Power to weight</div>
+      <div class="stat-value" style="color:${rating.color}">${wkg.toFixed(2)} W/kg</div>
+      <div class="pr-meta">${rating.label}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Weight</div>
+      <div class="stat-value">${ATHLETE.weightKg} kg</div>
+    </div>
+    <div class="stat-card accent-bad">
+      <div class="stat-label">Max / rest HR</div>
+      <div class="stat-value">${ATHLETE.maxHr} / ${ATHLETE.restHr}</div>
+      <div class="pr-meta">drives effort &amp; zones</div>
+    </div>`;
+}
+
+// ── Race projections (secondary) ─────────────────────────────
+
 function renderPredictionCards(activities: Activity[]) {
   const runs = activities.filter((a) => isRun(a) && a.avg_speed > 0);
 
@@ -220,49 +323,15 @@ function renderPredictionCards(activities: Activity[]) {
   }
   const anchorTime = (anchor.distance_km * 1000) / anchor.avg_speed;
 
-  const cards = BEST_EFFORTS.map(({ label, km }) => {
+  el.innerHTML = BEST_EFFORTS.map(({ label, km }) => {
     const predicted = riegelTime(anchor.distance_km, anchorTime, km);
-    const window = runs.filter(
-      (a) => a.distance_km >= km * 0.9 && a.distance_km <= km * 1.15
-    );
-    const actualBest = window.length
-      ? window.reduce((b, a) => (a.avg_speed > b.avg_speed ? a : b))
-      : null;
-    const actualTime = actualBest ? (km * 1000) / actualBest.avg_speed : 0;
-    const predictedPace = formatPace((km * 1000) / predicted);
-
     return `
       <div class="stat-card pr-card">
         <div class="pr-distance">${label}</div>
         <div class="pr-time">${formatDuration(predicted)}</div>
-        <div class="pr-meta">${
-          actualBest
-            ? `best actual ${formatDuration(actualTime)}`
-            : `${predictedPace} projected`
-        }</div>
+        <div class="pr-meta">${formatPace((km * 1000) / predicted)}</div>
       </div>`;
   }).join("");
-
-  const longestRun = runs.reduce((b, a) => (a.distance_km > b.distance_km ? a : b));
-  const fastestRun = runs.reduce((b, a) => (a.avg_speed > b.avg_speed ? a : b));
-
-  el.innerHTML =
-    cards +
-    `
-    <div class="stat-card pr-card">
-      <div class="pr-distance">Longest Run</div>
-      <div class="pr-time">${longestRun.distance_km.toFixed(1)} km</div>
-      <div class="pr-meta">${formatPace(longestRun.avg_speed)} · ${new Date(
-      longestRun.start_time
-    ).toLocaleDateString("en-BE")}</div>
-    </div>
-    <div class="stat-card pr-card">
-      <div class="pr-distance">Fastest Pace</div>
-      <div class="pr-time">${formatPace(fastestRun.avg_speed)}</div>
-      <div class="pr-meta">${fastestRun.distance_km.toFixed(1)} km · ${new Date(
-      fastestRun.start_time
-    ).toLocaleDateString("en-BE")}</div>
-    </div>`;
 }
 
 // ── Fitness & freshness ──────────────────────────────────────
@@ -601,6 +670,8 @@ async function main() {
     const activities = await loadActivities();
 
     renderYTD(activities);
+    renderPRCards(activities);
+    renderAthlete();
     renderConsistency(activities);
     renderFitnessChart(activities);
     renderLoadChart(activities);

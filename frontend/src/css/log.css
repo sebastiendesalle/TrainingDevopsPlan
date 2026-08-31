@@ -99,75 +99,7 @@ th[data-sort].sort-desc::after { content: " ↓"; opacity: 1; }
 }
 .pr-badge.effort { background-color: #60aaff; }
 
-/* ── Detail drawer ──────────────────────────────────────────── */
-.drawer-backdrop {
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 40;
-}
-
-.drawer {
-  position: fixed;
-  top: 0;
-  right: 0;
-  height: 100%;
-  width: min(440px, 92vw);
-  background-color: var(--bg);
-  border-left: 1px solid var(--border);
-  box-shadow: -12px 0 40px rgba(0, 0, 0, 0.35);
-  z-index: 50;
-  padding: 1.5rem;
-  overflow-y: auto;
-  transform: translateX(100%);
-  transition: transform 0.2s ease;
-}
-.drawer.open { transform: translateX(0); }
-
-.drawer-close {
-  position: absolute;
-  top: 0.75rem;
-  right: 0.9rem;
-  background: none;
-  border: none;
-  color: var(--text-dim);
-  font-size: 1.6rem;
-  line-height: 1;
-  cursor: pointer;
-}
-.drawer-close:hover { color: var(--text); }
-
-.drawer-head { margin-bottom: 1.25rem; }
-.drawer-title {
-  font-size: 1.35rem;
-  font-weight: 650;
-  margin: 0.5rem 0 0.15rem;
-}
-.drawer-sub { font-size: 0.82rem; color: var(--text-faint); }
-
-.metric-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.6rem;
-  margin-bottom: 1.5rem;
-}
-.metric-cell {
-  background-color: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 0.6rem 0.75rem;
-}
-.mk {
-  font-size: 0.68rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--text-faint);
-}
-.mv { font-size: 1.15rem; font-weight: 650; }
-
-.drawer .section-header { margin-top: 1.5rem; }
-.drawer .section-header:first-of-type { margin-top: 0; }
-
+/* ── Drawer content specific to the log ─────────────────────── */
 /* HR zone bar */
 .zone-bar { position: relative; margin-bottom: 0.4rem; }
 .zone-segments { display: flex; height: 10px; border-radius: 5px; overflow: hidden; }
@@ -201,14 +133,3 @@ th[data-sort].sort-desc::after { content: " ↓"; opacity: 1; }
 }
 
 .drawer-chart { height: 220px; margin-bottom: 0.5rem; }
-.drawer-note {
-  font-size: 0.76rem;
-  color: var(--text-faint);
-  margin-top: 0.75rem;
-  line-height: 1.5;
-}
-
-@media (max-width: 620px) {
-  .metric-grid { grid-template-columns: 1fr 1fr; }
-  .drawer { padding: 1.25rem 1rem; }
-}

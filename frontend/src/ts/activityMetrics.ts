@@ -1,6 +1,8 @@
 // Shared activity model, sport config, formatters and derived analytics.
 // Used by both the training log and the stats page.
 
+import { ATHLETE } from "./athlete";
+
 export interface Activity {
   id: number;
   type: string;
@@ -20,9 +22,9 @@ export interface SportConfig {
   mode: MetricMode;
 }
 
-// Physiological defaults for effort / zone estimates. Rough, but consistent.
-export const DEFAULT_MAX_HR = 190;
-export const DEFAULT_REST_HR = 50;
+// Physiological defaults for effort / zone estimates, from the athlete profile.
+export const DEFAULT_MAX_HR = ATHLETE.maxHr;
+export const DEFAULT_REST_HR = ATHLETE.restHr;
 
 const TYPE_ALIASES: Record<string, string> = {
   road_biking: "cycling",
@@ -187,11 +189,11 @@ export function trimp(
   return minutes * 0.35;
 }
 
-// Very rough MET-based calorie estimate. Assumes ~70 kg; clearly an estimate.
+// Very rough MET-based calorie estimate — clearly an estimate.
 export function estimateCalories(a: Activity): number {
   const hours = a.duration_sec / 3600;
   if (hours <= 0) return 0;
-  const weightKg = 70;
+  const weightKg = ATHLETE.weightKg;
   const mode = sportConfig(a.type).mode;
   const kmh = a.avg_speed > 0 ? a.avg_speed * 3.6 : 0;
 

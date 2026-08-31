@@ -10,7 +10,6 @@
   <body>
     <main class="app-container">
       <h1 class="app-header">Training Stats</h1>
-      <p class="app-subhead">Fitness, load and trends across all synced activities.</p>
 
       <nav class="page-nav">
         <a href="index.html" class="nav-link">Home</a>
@@ -24,6 +23,17 @@
       <section class="stats-section">
         <h2 class="section-header">Year to Date</h2>
         <div id="ytd-cards" class="cards-row"></div>
+      </section>
+
+      <section class="stats-section">
+        <h2 class="section-header">Personal Records — Running</h2>
+        <div id="pr-cards" class="cards-row"></div>
+        <p class="chart-note">Your fastest actual run at each distance.</p>
+      </section>
+
+      <section class="stats-section">
+        <h2 class="section-header">Athlete Profile</h2>
+        <div id="athlete-cards" class="cards-row"></div>
       </section>
 
       <section class="stats-section">
@@ -67,12 +77,6 @@
       </section>
 
       <section class="stats-section">
-        <h2 class="section-header">Race Predictions — Running</h2>
-        <div id="prediction-cards" class="cards-row"></div>
-        <p class="chart-note">Riegel projection from your fastest recent effort. Actual bests shown where you have them.</p>
-      </section>
-
-      <section class="stats-section">
         <h2 class="section-header">Pace Over Time — Running</h2>
         <div class="chart-container">
           <canvas id="pace-chart"></canvas>
@@ -89,6 +93,12 @@
       <section class="stats-section">
         <h2 class="section-header">Monthly Summary</h2>
         <div id="monthly-cards" class="cards-row"></div>
+      </section>
+
+      <section class="stats-section">
+        <h2 class="section-header">Race Projections</h2>
+        <div id="prediction-cards" class="cards-row compact"></div>
+        <p class="chart-note">Riegel projection from your fastest effort — an estimate, not a result.</p>
       </section>
     </main>
     <script type="module" src="/src/ts/stats.ts"></script>

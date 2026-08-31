@@ -58,6 +58,15 @@
 
 /* Prediction / PR cards */
 .pr-card { min-width: 150px; text-align: center; border-top-color: var(--warn); }
+
+/* Secondary card row — used for the projections, which are estimates. */
+.cards-row.compact .stat-card {
+  min-width: 118px;
+  padding: 0.65rem 0.8rem;
+  opacity: 0.85;
+}
+.cards-row.compact .pr-time { font-size: 1.05rem; color: var(--text-dim); }
+
 .pr-distance {
   font-size: 0.75rem;
   color: var(--text-faint);

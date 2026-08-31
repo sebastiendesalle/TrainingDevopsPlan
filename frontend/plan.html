@@ -3,127 +3,36 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Full Plan</title>
+    <title>Training Plan</title>
     <link rel="stylesheet" href="src/css/style.css" />
     <link rel="stylesheet" href="src/css/plan.css" />
   </head>
   <body>
-    <main class="app-container">
-      <h1 class="app-header">Full 2-Year Training plan</h1>
-      <a href="index.html" class="link-button link-back">Home</a>
+    <main class="app-container plan-container">
+      <h1 class="app-header">Training Plan</h1>
 
-      <div id="plan-status-container">
-        <p class="loading">Loading full plan...</p>
+      <nav class="page-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="log.html" class="nav-link">Log</a>
+        <a href="stats.html" class="nav-link">Stats</a>
+        <a href="plan.html" class="nav-link current">Plan</a>
+      </nav>
+
+      <div id="plan-overview" class="chip-row"></div>
+
+      <div id="plan-status">
+        <p class="loading">Loading training plan...</p>
       </div>
 
-      <!-- Phase 1 -->
-      <section id="phase-section-1" class="phase-section hidden">
-        <div class="phase-header">
-          <h2 class="phase-title">Phase 1: Antwerp 10 Miler</h2>
-          <button class="expand-toggle" data-phase-id="1">Expand</button>
-        </div>
-        <div class="table-wrapper">
-          <table class="activities-table plan-table">
-            <thead>
-              <tr>
-                <th>Week Start</th>
-                <th>Type</th>
-                <th>Mon</th>
-                <th>Tue</th>
-                <th>Wed</th>
-                <th>Thu</th>
-                <th>Fri</th>
-                <th>Sat</th>
-                <th>Sun</th>
-                <th>Total km</th>
-              </tr>
-            </thead>
-            <tbody id="plan-tbody-1"></tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- Phase 2 -->
-      <section id="phase-section-2" class="phase-section hidden">
-        <div class="phase-header">
-          <h2 class="phase-title">Phase 2: Antwerp Marathon</h2>
-          <button class="expand-toggle" data-phase-id="2">Expand</button>
-        </div>
-        <div class="table-wrapper">
-          <table class="activities-table plan-table">
-            <thead>
-              <tr>
-                <th>Week Start</th>
-                <th>Type</th>
-                <th>Mon</th>
-                <th>Tue</th>
-                <th>Wed</th>
-                <th>Thu</th>
-                <th>Fri</th>
-                <th>Sat</th>
-                <th>Sun</th>
-                <th>Total km</th>
-              </tr>
-            </thead>
-            <tbody id="plan-tbody-2"></tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- Phase 3 -->
-      <section id="phase-section-3" class="phase-section hidden">
-        <div class="phase-header">
-          <h2 class="phase-title">Phase 3: Tri Base / Run Focus</h2>
-          <button class="expand-toggle" data-phase-id="3">Expand</button>
-        </div>
-        <div class="table-wrapper">
-          <table class="activities-table plan-table">
-            <thead>
-              <tr>
-                <th>Week Start</th>
-                <th>Type</th>
-                <th>Mon</th>
-                <th>Tue</th>
-                <th>Wed</th>
-                <th>Thu</th>
-                <th>Fri</th>
-                <th>Sat</th>
-                <th>Sun</th>
-                <th>Total Run km</th>
-              </tr>
-            </thead>
-            <tbody id="plan-tbody-3"></tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- Phase 4 -->
-      <section id="phase-section-4" class="phase-section hidden">
-        <div class="phase-header">
-          <h2 class="phase-title">Phase 4: Ironman Build</h2>
-          <button class="expand-toggle" data-phase-id="4">Expand</button>
-        </div>
-        <div class="table-wrapper">
-          <table class="activities-table plan-table">
-            <thead>
-              <tr>
-                <th>Week Start</th>
-                <th>Type</th>
-                <th>Mon</th>
-                <th>Tue</th>
-                <th>Wed</th>
-                <th>Thu</th>
-                <th>Fri</th>
-                <th>Sat</th>
-                <th>Sun</th>
-                <th>Total km</th>
-              </tr>
-            </thead>
-            <tbody id="plan-tbody-4"></tbody>
-          </table>
-        </div>
-      </section>
+      <div id="plan-phases"></div>
     </main>
+
+    <div id="drawer-backdrop" class="drawer-backdrop hidden"></div>
+    <aside id="day-drawer" class="drawer hidden" aria-hidden="true">
+      <button id="drawer-close" class="drawer-close" aria-label="Close">&times;</button>
+      <div id="drawer-body"></div>
+    </aside>
+
     <script type="module" src="/src/ts/plan.ts"></script>
   </body>
 </html>
