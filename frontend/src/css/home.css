@@ -1,0 +1,27 @@
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.home-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1.4rem;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: var(--text);
+  transition: background-color 0.15s, border-color 0.15s, transform 0.15s;
+}
+.home-card:hover {
+  background-color: var(--surface-hover);
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.home-card-title { font-size: 1.1rem; font-weight: 650; }
+.home-card-desc { font-size: 0.85rem; color: var(--text-dim); line-height: 1.45; }

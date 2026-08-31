@@ -9,39 +9,57 @@
   </head>
   <body>
     <main class="app-container">
-      <h1 class="app-header">Garmin Training Log</h1>
-      <a href="index.html" class="link-button">Home</a>
-      <a href="stats.html" class="link-button">Stats</a>
+      <h1 class="app-header">Training Log</h1>
+      <p class="app-subhead">Every activity synced from Garmin. Click a row for detail.</p>
+
+      <nav class="page-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="log.html" class="nav-link current">Log</a>
+        <a href="stats.html" class="nav-link">Stats</a>
+        <a href="plan.html" class="nav-link">Plan</a>
+      </nav>
 
       <div class="filter-bar">
         <button class="filter-btn active" data-filter="all">All</button>
         <button class="filter-btn" data-filter="running">Running</button>
         <button class="filter-btn" data-filter="lap_swimming">Swimming</button>
-        <button class="filter-btn" data-filter="paddelball">Paddelball</button>
         <button class="filter-btn" data-filter="cycling">Cycling</button>
-        <button class="filter-btn" data-filter="multi_sport">Multi Sport</button>
         <button class="filter-btn" data-filter="hiking">Hiking</button>
+        <button class="filter-btn" data-filter="paddelball">Paddelball</button>
+        <button class="filter-btn" data-filter="multi_sport">Multi Sport</button>
         <button class="filter-btn" data-filter="other">Other</button>
       </div>
 
+      <div id="summary-chips" class="chip-row"></div>
 
       <div id="status-container">
         <p class="loading">Loading activities...</p>
       </div>
-      <table class="activities-table">
-        <thead>
+
+      <div class="table-scroll">
+        <table class="activities-table">
+          <thead>
             <tr>
               <th data-sort="date">Date</th>
               <th data-sort="type">Type</th>
               <th data-sort="distance">Distance</th>
               <th data-sort="duration">Duration</th>
               <th data-sort="pace">Pace / Speed</th>
-              <th data-sort="hr">Average HR</th>
+              <th data-sort="hr">Avg HR</th>
+              <th data-sort="effort">Effort</th>
             </tr>
           </thead>
-        <tbody id="activities-tbody"></tbody>
-      </table>
+          <tbody id="activities-tbody"></tbody>
+        </table>
+      </div>
     </main>
+
+    <div id="drawer-backdrop" class="drawer-backdrop hidden"></div>
+    <aside id="activity-drawer" class="drawer hidden" aria-hidden="true">
+      <button id="drawer-close" class="drawer-close" aria-label="Close">&times;</button>
+      <div id="drawer-body"></div>
+    </aside>
+
     <script type="module" src="/src/ts/log.ts"></script>
   </body>
 </html>

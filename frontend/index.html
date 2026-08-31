@@ -5,13 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Training App</title>
     <link rel="stylesheet" href="src/css/style.css" />
+    <link rel="stylesheet" href="src/css/home.css" />
   </head>
   <body>
     <main class="app-container">
-      <p class="loading">Homepage for my training plan</p>
+      <h1 class="app-header">Training</h1>
+      <p class="app-subhead">Two-year plan to IRONMAN, tracked against what Garmin actually records.</p>
 
-      <a href="log.html" class="link-button">Training Log</a>
-      <a href="plan.html" class="link-button">Plan Log</a>
+      <div class="home-grid">
+        <a href="log.html" class="home-card">
+          <span class="home-card-title">Training Log</span>
+          <span class="home-card-desc">Every synced activity, with per-activity detail, effort and PRs.</span>
+        </a>
+        <a href="stats.html" class="home-card">
+          <span class="home-card-title">Stats</span>
+          <span class="home-card-desc">Fitness &amp; freshness, weekly load, race predictions and trends.</span>
+        </a>
+        <a href="plan.html" class="home-card">
+          <span class="home-card-title">Plan</span>
+          <span class="home-card-desc">The full week-by-week plan across all four training phases.</span>
+        </a>
+      </div>
     </main>
 
     <script type="module" src="/src/ts/main.ts"></script>
