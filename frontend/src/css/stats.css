@@ -1,104 +1,119 @@
 .stats-section {
-    margin-top: 2.5rem;
-    text-align: left;
+  margin-top: 2.5rem;
 }
-
-.section-header {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.5);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 1rem;
-    border-bottom: 1px solid #444;
-    padding-bottom: 0.4rem;
-}
+.stats-section:first-of-type { margin-top: 1rem; }
 
 .cards-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
 }
 
 /* Base card */
 .stat-card {
-    background-color: #2f2f2f;
-    border: 1px solid #444;
-    border-radius: 8px;
-    padding: 1rem 1.25rem;
-    min-width: 140px;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.9rem 1.1rem;
+  min-width: 140px;
+  border-top: 2px solid var(--border-strong);
 }
+.stat-card.accent-accent { border-top-color: var(--accent); }
+.stat-card.accent-good   { border-top-color: var(--good); }
+.stat-card.accent-warn   { border-top-color: var(--warn); }
+.stat-card.accent-bad    { border-top-color: var(--bad); }
 
 .stat-label {
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.5);
-    margin-bottom: 0.25rem;
+  font-size: 0.75rem;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.3rem;
 }
-
 .stat-value {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #80cf80;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text);
 }
 
 /* Monthly cards */
-.month-card {
-    min-width: 185px;
-}
-
+.month-card { min-width: 190px; border-top-color: var(--border-strong); }
 .month-label {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.85);
-    margin-bottom: 0.6rem;
-    border-bottom: 1px solid #444;
-    padding-bottom: 0.35rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.55rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.35rem;
 }
-
 .month-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.5);
-    margin-bottom: 0.25rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.8rem;
+  color: var(--text-faint);
+  margin-bottom: 0.25rem;
 }
+.month-row span:last-child { color: var(--text); font-weight: 500; }
 
-.month-row span:last-child {
-    color: rgba(255, 255, 255, 0.9);
-    font-weight: 500;
-}
-
-/* PR cards */
-.pr-card {
-    min-width: 150px;
-    text-align: center;
-}
-
+/* Prediction / PR cards */
+.pr-card { min-width: 150px; text-align: center; border-top-color: var(--warn); }
 .pr-distance {
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.5);
-    margin-bottom: 0.3rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  font-size: 0.75rem;
+  color: var(--text-faint);
+  margin-bottom: 0.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
-
-.pr-time {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: #f0c040;
-    margin-bottom: 0.25rem;
-}
-
-.pr-meta {
-    font-size: 0.72rem;
-    color: rgba(255, 255, 255, 0.4);
-}
+.pr-time { font-size: 1.3rem; font-weight: 700; color: var(--warn); margin-bottom: 0.25rem; }
+.pr-meta { font-size: 0.72rem; color: var(--text-faint); }
 
 /* Charts */
 .chart-container {
-    background-color: #2f2f2f;
-    border: 1px solid #444;
-    border-radius: 8px;
-    padding: 1.25rem;
+  position: relative;
+  height: 300px;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem;
+}
+.chart-container canvas { max-height: 100%; }
+
+.chart-note {
+  font-size: 0.76rem;
+  color: var(--text-faint);
+  margin-top: 0.6rem;
+}
+
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.75rem;
+  font-size: 0.74rem;
+  color: var(--text-dim);
+}
+.lg { display: inline-flex; align-items: center; gap: 0.35rem; }
+.lg::before {
+  content: "";
+  width: 14px;
+  height: 3px;
+  border-radius: 2px;
+  background-color: currentColor;
+}
+.lg-ctl { color: var(--accent); }
+.lg-atl { color: var(--bad); }
+.lg-tsb { color: var(--good); }
+
+/* Two-up layout */
+.split-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+.split-2 .section-header { margin-top: 0; }
+
+@media (max-width: 720px) {
+  .split-2 { grid-template-columns: 1fr; }
+  .chart-container { height: 260px; }
 }
