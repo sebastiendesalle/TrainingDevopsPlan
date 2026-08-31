@@ -10,10 +10,14 @@
   <body>
     <main class="app-container">
       <h1 class="app-header">Training Stats</h1>
-      <div>
-        <a href="index.html" class="link-button">Home</a>
-        <a href="log.html" class="link-button">Log</a>
-      </div>
+      <p class="app-subhead">Fitness, load and trends across all synced activities.</p>
+
+      <nav class="page-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="log.html" class="nav-link">Log</a>
+        <a href="stats.html" class="nav-link current">Stats</a>
+        <a href="plan.html" class="nav-link">Plan</a>
+      </nav>
 
       <div id="status-container"></div>
 
@@ -23,20 +27,49 @@
       </section>
 
       <section class="stats-section">
-        <h2 class="section-header">Monthly Summary</h2>
-        <div id="monthly-cards" class="cards-row"></div>
+        <h2 class="section-header">Fitness &amp; Freshness</h2>
+        <div class="chart-container">
+          <canvas id="fitness-chart"></canvas>
+        </div>
+        <p class="chart-legend">
+          <span class="lg lg-ctl">Fitness (42-day load)</span>
+          <span class="lg lg-atl">Fatigue (7-day load)</span>
+          <span class="lg lg-tsb">Form (fitness &minus; fatigue)</span>
+        </p>
+        <p id="fitness-note" class="chart-note"></p>
       </section>
 
       <section class="stats-section">
-        <h2 class="section-header">Personal Records — Running</h2>
-        <div id="pr-cards" class="cards-row"></div>
+        <h2 class="section-header">Consistency</h2>
+        <div id="consistency-cards" class="cards-row"></div>
+      </section>
+
+      <section class="stats-section split-2">
+        <div>
+          <h2 class="section-header">Weekly Training Load (last 16 weeks)</h2>
+          <div class="chart-container">
+            <canvas id="load-chart"></canvas>
+          </div>
+        </div>
+        <div>
+          <h2 class="section-header">Distance by Sport</h2>
+          <div class="chart-container">
+            <canvas id="sport-chart"></canvas>
+          </div>
+        </div>
       </section>
 
       <section class="stats-section">
-        <h2 class="section-header">Weekly Distance (last 16 weeks)</h2>
+        <h2 class="section-header">Weekly Running Distance (last 16 weeks)</h2>
         <div class="chart-container">
           <canvas id="weekly-chart"></canvas>
         </div>
+      </section>
+
+      <section class="stats-section">
+        <h2 class="section-header">Race Predictions — Running</h2>
+        <div id="prediction-cards" class="cards-row"></div>
+        <p class="chart-note">Riegel projection from your fastest recent effort. Actual bests shown where you have them.</p>
       </section>
 
       <section class="stats-section">
@@ -51,6 +84,11 @@
         <div class="chart-container">
           <canvas id="hr-chart"></canvas>
         </div>
+      </section>
+
+      <section class="stats-section">
+        <h2 class="section-header">Monthly Summary</h2>
+        <div id="monthly-cards" class="cards-row"></div>
       </section>
     </main>
     <script type="module" src="/src/ts/stats.ts"></script>
