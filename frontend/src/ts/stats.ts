@@ -1,5 +1,6 @@
 import "../css/style.css";
 import "../css/stats.css";
+import "./pageTop";
 import {
   Chart,
   BarController,
@@ -26,6 +27,7 @@ import {
   trimp,
   riegelTime,
   fitnessSeries,
+  formVerdict,
   mondayKey,
   mondayOf,
   isoDay,
@@ -347,8 +349,7 @@ function renderFitnessChart(activities: Activity[]) {
   const last = series[series.length - 1];
   if (note) {
     const form = last.tsb;
-    const verdict =
-      form > 5 ? "fresh" : form < -15 ? "fatigued" : "balanced";
+    const verdict = formVerdict(form);
     note.textContent = `Fitness ${last.ctl.toFixed(0)} · Fatigue ${last.atl.toFixed(
       0
     )} · Form ${form >= 0 ? "+" : ""}${form.toFixed(0)} (${verdict}).`;

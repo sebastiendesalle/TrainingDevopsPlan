@@ -112,7 +112,64 @@ th[data-sort].sort-desc::after { content: " ↓"; opacity: 1; }
   background-color: #fff;
   transform: translateX(-1px);
 }
+.zone-ticks { position: relative; height: 0.95rem; margin-bottom: 0.3rem; }
+.zone-ticks span {
+  position: absolute;
+  transform: translateX(-50%);
+  font-size: 0.64rem;
+  color: var(--text-faint);
+}
+.zone-ticks span:first-child { transform: none; }
+.zone-ticks span:last-child { transform: translateX(-100%); }
 .zone-caption { font-size: 0.8rem; color: var(--text-dim); }
+
+/* What the plan said that day */
+.plan-note {
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--text-dim);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 0.8rem;
+  margin-bottom: 0.4rem;
+}
+
+/* Pace by heart-rate zone */
+.drawer-note.zone-intro { margin: -0.4rem 0 0.6rem; }
+.drawer-chart.tall { height: 260px; }
+
+.zone-chips { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0.6rem 0 0.9rem; }
+.zone-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 0.18rem 0.6rem;
+  cursor: pointer;
+  transition: opacity 0.15s, background-color 0.15s;
+}
+.zone-chip:hover { background-color: var(--surface-hover); }
+.zone-chip.is-off { opacity: 0.4; }
+.zt-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 0.35rem;
+  flex-shrink: 0;
+}
+.zone-chip .zt-dot { margin-right: 0; }
+
+.compare-row.is-current .cl { color: var(--text); font-weight: 600; }
+.trend-good { color: var(--good); font-weight: 600; }
+.trend-bad { color: var(--warn); font-weight: 600; }
 
 /* Comparison list */
 .compare-list { display: flex; flex-direction: column; gap: 0.5rem; }

@@ -1,5 +1,6 @@
 import "../css/style.css";
 import "../css/strength.css";
+import "./pageTop";
 import { planData } from "./planData";
 import { DAY_KEYS, parsePlanDate, type TrainingWeek } from "./planParser";
 import { BLOCKS, MOBILITY, RULES, SESSIONS, type Block, type Session, type SessionKey } from "./strengthData";

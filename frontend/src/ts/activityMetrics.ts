@@ -40,6 +40,7 @@ const TYPE_ALIASES: Record<string, string> = {
   open_water_swimming: "lap_swimming",
   walking: "hiking",
   hiking_v2: "hiking",
+  tennis_v2: "tennis",
 };
 
 const SPORTS: Record<string, SportConfig> = {
@@ -150,21 +151,35 @@ export interface HrZone {
 const ZONE_TABLE: HrZone[] = [
   { zone: 1, label: "Recovery", color: "#8ac6ff" },
   { zone: 2, label: "Endurance", color: "#80cf80" },
-  { zone: 3, label: "Aerobic", color: "#f0c040" },
-  { zone: 4, label: "Threshold", color: "#f0a04b" },
-  { zone: 5, label: "Anaerobic", color: "#ff6b6b" },
+  { zone: 3, label: "Tempo", color: "#f0c040" },
+  { zone: 4, label: "Threshold", color: "#ff8c42" },
+  { zone: 5, label: "VO2 max", color: "#ff6b6b" },
 ];
 
-export function hrZoneBoundaries(maxHr: number = DEFAULT_MAX_HR): number[] {
-  // Upper bound (bpm) of zones 1..4 as % of max HR.
-  return [0.6, 0.7, 0.8, 0.9].map((f) => Math.round(f * maxHr));
+// Zones sit on heart-rate reserve (Karvonen): rest + 50/60/70/80/90% of
+// (max − rest), the same basis as the effort score. Percent of max HR put
+// easy runs in zone 3–4; on reserve, the plan's tempo target (165–172 bpm)
+// lands in zone 4 where it belongs. Returns the lower bound of zones 1–5
+// followed by max HR, in bpm.
+export function hrZoneBoundaries(
+  maxHr: number = DEFAULT_MAX_HR,
+  restHr: number = DEFAULT_REST_HR
+): number[] {
+  return [0.5, 0.6, 0.7, 0.8, 0.9, 1].map((f) => Math.round(restHr + f * (maxHr - restHr)));
 }
 
-export function hrZoneFor(avgHr: number, maxHr: number = DEFAULT_MAX_HR): HrZone | null {
+// Anything under zone 2 counts as zone 1.
+export function hrZoneFor(
+  avgHr: number,
+  maxHr: number = DEFAULT_MAX_HR,
+  restHr: number = DEFAULT_REST_HR
+): HrZone | null {
   if (!avgHr || avgHr <= 0) return null;
-  const bounds = hrZoneBoundaries(maxHr);
+  const bounds = hrZoneBoundaries(maxHr, restHr);
   let idx = 0;
-  while (idx < bounds.length && avgHr >= bounds[idx]) idx++;
+  for (let z = 1; z < ZONE_TABLE.length; z++) {
+    if (avgHr >= bounds[z]) idx = z;
+  }
   return ZONE_TABLE[idx];
 }
 
@@ -300,4 +315,9 @@ export function fitnessSeries(
     out.push({ date: key, load, ctl, atl, tsb: ctl - atl });
   }
   return out;
+}
+
+// The word the stats and home pages put next to the form number.
+export function formVerdict(tsb: number): string {
+  return tsb > 5 ? "fresh" : tsb < -15 ? "fatigued" : "balanced";
 }

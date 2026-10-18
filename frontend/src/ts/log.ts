@@ -1,5 +1,6 @@
 import "../css/style.css";
 import "../css/log.css";
+import "./pageTop";
 import {
   Chart,
   LineController,
@@ -9,10 +10,12 @@ import {
   CategoryScale,
   Tooltip,
   Filler,
+  type ChartDataset,
   type TooltipItem,
 } from "chart.js";
 import {
   type Activity,
+  type HrZone,
   sportConfig,
   normalizeType,
   formatDuration,
@@ -20,14 +23,20 @@ import {
   speedMetricLabel,
   formatClock,
   paceMinPerKm,
+  paceSecPerKm,
   trimp,
   estimateCalories,
   hrZoneFor,
-  DEFAULT_MAX_HR,
+  hrZoneBoundaries,
+  ZONES,
   mondayKey,
   shortDate,
+  isoDay,
+  addDays,
 } from "./activityMetrics";
 import { loadActivities } from "./dataSource";
+import { planData } from "./planData";
+import { DAY_KEYS, parsePlanDate, type TrainingWeek } from "./planParser";
 
 Chart.register(
   LineController,
@@ -69,6 +78,14 @@ let sortColumn = "date";
 let sortDirection: "asc" | "desc" = "desc";
 let drawerChart: Chart | null = null;
 let drawerHideTimer: number | undefined;
+
+// What the plan said for each day, so a logged activity can show it.
+const plannedByDay = new Map<string, string>();
+for (const row of (planData as { MainPlan: TrainingWeek[] }).MainPlan) {
+  const start = parsePlanDate(row["Week Start"]);
+  if (!start) continue;
+  DAY_KEYS.forEach((key, i) => plannedByDay.set(isoDay(addDays(start, i)), row[key]));
+}
 
 // ── PRs ──────────────────────────────────────────────────────
 
@@ -364,8 +381,8 @@ function comparisonRows(activity: Activity): string {
 
   const rows: string[] = [];
 
-  // Distance vs median
-  if (activity.distance_km > 0) {
+  // Distance vs median, where distance means something (not padel's GPS wander).
+  if (cfg.mode !== "none" && activity.distance_km > 0) {
     const dists = peers
       .map((a) => a.distance_km)
       .filter((d) => d > 0)
@@ -385,16 +402,32 @@ function comparisonRows(activity: Activity): string {
     }
   }
 
-  // Duration rank
-  if (activity.duration_sec > 0) {
+  // Duration rank where there's no real distance; otherwise it only repeats it.
+  if (activity.duration_sec > 0 && (cfg.mode === "none" || activity.distance_km <= 0)) {
     const longer = peers.filter((a) => a.duration_sec > activity.duration_sec).length;
     rows.push(
       row("Duration", formatDuration(activity.duration_sec), `${ordinal(longer + 1)} longest of ${peers.length + 1}`)
     );
   }
 
-  // Pace/speed rank within distance bucket
-  if (activity.avg_speed > 0 && cfg.mode !== "none" && activity.distance_km > 0) {
+  // Runs: pace rank among runs at the same heart-rate zone, i.e. the same effort.
+  const zone = type === "running" ? hrZoneFor(activity.avg_hr) : null;
+  if (zone && activity.avg_speed > 0) {
+    const sameZone = peers.filter(
+      (a) => a.avg_speed > 0 && a.distance_km >= 2 && hrZoneFor(a.avg_hr)?.zone === zone.zone
+    );
+    const faster = sameZone.filter((a) => a.avg_speed > activity.avg_speed).length;
+    rows.push(
+      row(
+        speedMetricLabel(type),
+        formatSpeedForType(activity.avg_speed, type),
+        sameZone.length
+          ? `${ordinal(faster + 1)} fastest of ${sameZone.length + 1} zone ${zone.zone} runs`
+          : `first run in zone ${zone.zone}`
+      )
+    );
+  } else if (activity.avg_speed > 0 && cfg.mode !== "none" && activity.distance_km > 0) {
+    // Other sports, or a run without HR: rank within a distance bucket.
     const b = distanceBucket(activity.distance_km);
     const sameBucket = peers.filter(
       (a) =>
@@ -420,28 +453,49 @@ function comparisonRows(activity: Activity): string {
     <div class="compare-list">${rows.join("")}</div>`;
 }
 
+function esc(s: string): string {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
 function hrZoneBlock(activity: Activity): string {
-  if (!activity.avg_hr || activity.avg_hr <= 0) return "";
-  const zone = hrZoneFor(activity.avg_hr, DEFAULT_MAX_HR);
+  const zone = hrZoneFor(activity.avg_hr);
   if (!zone) return "";
-  const lo = DEFAULT_MAX_HR * 0.5;
-  const pos = Math.max(0, Math.min(1, (activity.avg_hr - lo) / (DEFAULT_MAX_HR - lo)));
-  const segments = [
-    "#8ac6ff",
-    "#80cf80",
-    "#f0c040",
-    "#f0a04b",
-    "#ff6b6b",
-  ]
-    .map((c) => `<span style="background-color:${c}"></span>`)
+  // Zones are equal steps of heart-rate reserve, so the bar's five equal
+  // segments and its tick labels line up with the real boundaries.
+  const bounds = hrZoneBoundaries();
+  const lo = bounds[0];
+  const hi = bounds[bounds.length - 1];
+  const pos = Math.max(0, Math.min(1, (activity.avg_hr - lo) / (hi - lo)));
+  const segments = ZONES.map((z) => `<span style="background-color:${z.color}"></span>`).join("");
+  const ticks = bounds
+    .map((bpm, i) => `<span style="left:${(i / (bounds.length - 1)) * 100}%">${bpm}</span>`)
     .join("");
+  const where =
+    activity.avg_hr < lo
+      ? "Below zone 1"
+      : `Zone ${zone.zone} · ${zone.label} · ${bounds[zone.zone - 1]}–${bounds[zone.zone]} bpm`;
   return `
     <div class="section-header">Heart rate</div>
     <div class="zone-bar">
       <div class="zone-segments">${segments}</div>
       <div class="zone-marker" style="left:${(pos * 100).toFixed(1)}%"></div>
     </div>
-    <div class="zone-caption">Zone ${zone.zone} · ${zone.label} · ${activity.avg_hr} bpm avg</div>`;
+    <div class="zone-ticks">${ticks}</div>
+    <div class="zone-caption">${where} · ${activity.avg_hr} bpm avg</div>`;
+}
+
+function plannedBlock(activity: Activity): string {
+  const day = isoDay(new Date(activity.start_time));
+  const text = plannedByDay.get(day);
+  if (!text) return "";
+  return `
+    <div class="section-header">Planned that day</div>
+    <p class="plan-note">${esc(text)}</p>
+    <a class="session-link" href="plan.html#${day}">Open the day in the plan →</a>`;
 }
 
 function metricGrid(activity: Activity): string {
@@ -449,10 +503,11 @@ function metricGrid(activity: Activity): string {
   const cals = estimateCalories(activity);
   const cells: [string, string][] = [];
 
-  if (activity.distance_km > 0)
+  const hasDistance = sportConfig(type).mode !== "none";
+  if (hasDistance && activity.distance_km > 0)
     cells.push(["Distance", `${activity.distance_km.toFixed(2)} km`]);
   cells.push(["Moving time", formatDuration(activity.duration_sec)]);
-  if (activity.avg_speed > 0)
+  if (hasDistance && activity.avg_speed > 0)
     cells.push([speedMetricLabel(type), formatSpeedForType(activity.avg_speed, type)]);
   if (activity.avg_hr > 0) cells.push(["Avg HR", `${activity.avg_hr} bpm`]);
   cells.push(["Relative effort", String(Math.round(trimp(activity)))]);
@@ -471,7 +526,7 @@ function openDrawer(activity: Activity) {
   const cfg = sportConfig(type);
   const when = new Date(activity.start_time);
   const title =
-    activity.distance_km > 0
+    cfg.mode !== "none" && activity.distance_km > 0
       ? `${activity.distance_km.toFixed(2)} km ${cfg.label}`
       : cfg.label;
 
@@ -479,6 +534,7 @@ function openDrawer(activity: Activity) {
     (a) => mondayKey(new Date(a.start_time)) === mondayKey(when)
   );
   const weekEffort = weekPeers.reduce((s, a) => s + trimp(a), 0);
+  const byZone = type === "running" && activity.avg_hr > 0 && activity.avg_speed > 0;
 
   drawerBody.innerHTML = `
     <div class="drawer-head">
@@ -496,10 +552,19 @@ function openDrawer(activity: Activity) {
     </div>
     ${metricGrid(activity)}
     ${hrZoneBlock(activity)}
+    ${plannedBlock(activity)}
     ${comparisonRows(activity)}
-    <div class="section-header">${comparisonChartTitle(activity)}</div>
+    ${
+      byZone
+        ? `<div class="section-header">Pace by heart-rate zone</div>
+    <p class="drawer-note zone-intro">Each run sits in the zone of its average heart rate. Same zone means the same effort, so a faster pace there is real progress. Lines are the monthly median.</p>
+    <div class="drawer-chart tall"><canvas id="drawer-chart-canvas"></canvas></div>
+    <div id="zone-chips" class="zone-chips"></div>
+    <div id="zone-trends" class="compare-list"></div>`
+        : `<div class="section-header">${comparisonChartTitle(activity)}</div>
     <div class="drawer-chart"><canvas id="drawer-chart-canvas"></canvas></div>
-    <p id="drawer-chart-empty" class="drawer-note hidden">Not enough similar activities to chart yet.</p>
+    <p id="drawer-chart-empty" class="drawer-note hidden">Not enough similar activities to chart yet.</p>`
+    }
     <p class="drawer-note">This activity added ${Math.round(
       trimp(activity)
     )} to the week's effort (${Math.round(weekEffort)} total across ${
@@ -507,7 +572,8 @@ function openDrawer(activity: Activity) {
   } ${weekPeers.length === 1 ? "activity" : "activities"}).</p>
   `;
 
-  renderComparisonChart(activity);
+  if (byZone) renderZonePaceChart(activity);
+  else renderComparisonChart(activity);
 
   if (drawerHideTimer !== undefined) window.clearTimeout(drawerHideTimer);
   drawer.classList.remove("hidden");
@@ -519,7 +585,7 @@ function openDrawer(activity: Activity) {
 
 function comparisonChartTitle(activity: Activity): string {
   const cfg = sportConfig(activity.type);
-  if (activity.distance_km > 0) {
+  if (cfg.mode !== "none" && activity.distance_km > 0) {
     return `Your ${cfg.label.toLowerCase()} form near ${activity.distance_km.toFixed(
       0
     )} km`;
@@ -536,7 +602,7 @@ function renderComparisonChart(activity: Activity) {
   const empty = document.getElementById("drawer-chart-empty");
   if (!canvas) return;
 
-  const hasDistance = activity.distance_km > 0;
+  const hasDistance = cfg.mode !== "none" && activity.distance_km > 0;
   const peers = allActivities
     .filter((a) => {
       if (normalizeType(a.type) !== type) return false;
@@ -642,6 +708,256 @@ function renderComparisonChart(activity: Activity) {
   empty?.classList.add("hidden");
 }
 
+// ── Pace by heart-rate zone (runs) ───────────────────────────
+//
+// Average HR puts every run in a zone. Within a zone the effort is the same,
+// so a faster pace there is real progress, whatever the run was meant to be.
+
+const DAY_MS = 86_400_000;
+const ZONE_WINDOW_DAYS = 365;
+// Zones with fewer runs get dots but no line, and start switched off so a
+// handful of slow jogs doesn't stretch the pace axis.
+const MIN_TREND_RUNS = 6;
+
+interface ZoneRun {
+  a: Activity;
+  t: number;
+  pace: number; // sec / km
+  zone: number;
+}
+
+// Extra fields ride along on each chart point for the tooltip.
+interface ZonePoint {
+  x: number;
+  y: number;
+  hr: number;
+  km: number;
+}
+
+function median(values: number[]): number {
+  const s = [...values].sort((a, b) => a - b);
+  const mid = Math.floor(s.length / 2);
+  return s.length % 2 ? s[mid] : (s[mid - 1] + s[mid]) / 2;
+}
+
+// One point per month (the median of that month's runs, placed mid-month);
+// months with a single run are skipped as too noisy.
+function monthlyMedians(runs: ZoneRun[]): { x: number; y: number }[] {
+  const months = new Map<string, number[]>();
+  runs.forEach((r) => {
+    const d = new Date(r.t);
+    const key = `${d.getFullYear()}-${d.getMonth()}`;
+    months.set(key, [...(months.get(key) ?? []), r.pace]);
+  });
+  return [...months.entries()]
+    .filter(([, paces]) => paces.length >= 2)
+    .map(([key, paces]) => {
+      const [y, m] = key.split("-").map(Number);
+      return { x: new Date(y, m, 15).getTime(), y: median(paces) };
+    })
+    .sort((a, b) => a.x - b.x);
+}
+
+// First of every other month across the window, for the x-axis.
+function monthTicks(start: number, end: number): number[] {
+  const d = new Date(start);
+  const ticks: number[] = [];
+  for (let m = new Date(d.getFullYear(), d.getMonth() + 1, 1); m.getTime() <= end; m.setMonth(m.getMonth() + 1)) {
+    ticks.push(m.getTime());
+  }
+  return ticks.length > 7 ? ticks.filter((_, i) => i % 2 === 0) : ticks;
+}
+
+function monthLabel(t: number): string {
+  const d = new Date(t);
+  return d.toLocaleDateString("en-BE", d.getMonth() === 0 ? { month: "short", year: "2-digit" } : { month: "short" });
+}
+
+// "6:58 → 6:41 /km": median of the first few runs in the zone against the latest few.
+function zoneTrendRow(z: HrZone, runs: ZoneRun[], bounds: number[], current: boolean): string {
+  const label = `<span class="zt-dot" style="background-color:${z.color}"></span>Zone ${z.zone} · ${z.label}`;
+  const range = `${bounds[z.zone - 1]}–${bounds[z.zone]} bpm`;
+  // At least 3 runs on each side, or one odd run swings the verdict.
+  const k = Math.min(5, Math.floor(runs.length / 2));
+  let value: string;
+  let note: string;
+
+  if (k < 3) {
+    value = `${formatClock(median(runs.map((r) => r.pace)))} /km`;
+    note = `${range} · ${runs.length} ${runs.length === 1 ? "run" : "runs"}, too few for a trend`;
+  } else {
+    const then = median(runs.slice(0, k).map((r) => r.pace));
+    const now = median(runs.slice(-k).map((r) => r.pace));
+    const diff = Math.round(then - now); // positive = faster now
+    const verdict =
+      Math.abs(diff) < 5
+        ? "about the same"
+        : `<span class="${diff > 0 ? "trend-good" : "trend-bad"}">${Math.abs(diff)} s/km ${
+            diff > 0 ? "faster" : "slower"
+          }</span>`;
+    value = `${formatClock(then)} → ${formatClock(now)} /km`;
+    note = `${range} · ${verdict} · ${runs.length} runs`;
+  }
+
+  return `<div class="compare-row${current ? " is-current" : ""}"><span class="cl">${label}</span><span class="cv">${value}</span><span class="cn">${note}</span></div>`;
+}
+
+function renderZonePaceChart(activity: Activity) {
+  const canvas = document.getElementById("drawer-chart-canvas") as HTMLCanvasElement | null;
+  const chipsEl = document.getElementById("zone-chips");
+  const trendsEl = document.getElementById("zone-trends");
+  const own = hrZoneFor(activity.avg_hr);
+  if (!canvas || !chipsEl || !trendsEl || !own) return;
+
+  const openedAt = new Date(activity.start_time).getTime();
+  const end = Date.now();
+  const start = Math.min(end - ZONE_WINDOW_DAYS * DAY_MS, openedAt - 30 * DAY_MS);
+  const bounds = hrZoneBoundaries();
+
+  const runs: ZoneRun[] = allActivities
+    .filter(
+      (a) =>
+        normalizeType(a.type) === "running" && a.avg_hr > 0 && a.avg_speed > 0 && a.distance_km >= 2
+    )
+    .map((a) => ({
+      a,
+      t: new Date(a.start_time).getTime(),
+      pace: paceSecPerKm(a.avg_speed),
+      zone: hrZoneFor(a.avg_hr)?.zone ?? 1,
+    }))
+    // 3:30–9:30 /km keeps out walk breaks and GPS glitches.
+    .filter((r) => r.t >= start && r.pace >= 210 && r.pace <= 570)
+    .sort((x, y) => x.t - y.t);
+
+  const datasets: ChartDataset<"line", { x: number; y: number }[]>[] = [];
+  const datasetZone: number[] = [];
+  const zonesShown: HrZone[] = [];
+  const hiddenZones = new Set<number>();
+  const trendRows: string[] = [];
+
+  ZONES.forEach((z) => {
+    const inZone = runs.filter((r) => r.zone === z.zone);
+    if (!inZone.length) return;
+    zonesShown.push(z);
+
+    const points: ZonePoint[] = inZone.map((r) => ({
+      x: r.t,
+      y: r.pace,
+      hr: r.a.avg_hr,
+      km: r.a.distance_km,
+    }));
+    const sparse = inZone.length < MIN_TREND_RUNS;
+    if (sparse && z.zone !== own.zone) hiddenZones.add(z.zone);
+
+    datasets.push({
+      label: `Z${z.zone}`,
+      data: points,
+      showLine: false,
+      pointRadius: 2.5,
+      pointHoverRadius: 4,
+      pointBackgroundColor: hexToRgba(z.color, 0.45),
+      pointBorderWidth: 0,
+      hidden: hiddenZones.has(z.zone),
+    });
+    datasetZone.push(z.zone);
+    if (!sparse) {
+      datasets.push({
+        label: `Z${z.zone} trend`,
+        data: monthlyMedians(inZone),
+        borderColor: z.color,
+        borderWidth: z.zone === own.zone ? 3 : 1.5,
+        pointRadius: 0,
+        tension: 0.3,
+      });
+      datasetZone.push(z.zone);
+    }
+    trendRows.push(zoneTrendRow(z, inZone, bounds, z.zone === own.zone));
+  });
+
+  const thisRun: ZonePoint = {
+    x: openedAt,
+    y: paceSecPerKm(activity.avg_speed),
+    hr: activity.avg_hr,
+    km: activity.distance_km,
+  };
+  datasets.push({
+    label: "This run",
+    data: [thisRun],
+    showLine: false,
+    pointRadius: 7,
+    pointHoverRadius: 8,
+    pointBackgroundColor: own.color,
+    pointBorderColor: "#fff",
+    pointBorderWidth: 2,
+  });
+  datasetZone.push(0); // never toggled off
+
+  const axisColor = "rgba(255,255,255,0.55)";
+  drawerChart?.destroy();
+  drawerChart = new Chart(canvas, {
+    type: "line",
+    data: { datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: "nearest", intersect: true },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          filter: (item) => !String(item.dataset.label).endsWith("trend"),
+          callbacks: {
+            title: (items) =>
+              items.length ? shortDate(new Date((items[0].raw as ZonePoint).x)) : "",
+            label: (ctx) => {
+              const p = ctx.raw as ZonePoint;
+              return `${formatClock(p.y)} /km · ${p.hr} bpm · ${p.km.toFixed(1)} km`;
+            },
+          },
+        },
+      },
+      scales: {
+        x: {
+          type: "linear",
+          min: start,
+          max: end,
+          afterBuildTicks: (axis) => {
+            axis.ticks = monthTicks(start, end).map((value) => ({ value }));
+          },
+          ticks: { color: axisColor, callback: (v) => monthLabel(Number(v)) },
+          grid: { color: "#3d3d44" },
+        },
+        y: {
+          reverse: true,
+          ticks: { color: axisColor, callback: (v) => formatClock(Number(v)) },
+          grid: { color: "#3d3d44" },
+          title: { display: true, text: "min / km", color: axisColor },
+        },
+      },
+    },
+  });
+
+  chipsEl.innerHTML = zonesShown
+    .map(
+      (z) =>
+        `<button type="button" class="zone-chip${hiddenZones.has(z.zone) ? " is-off" : ""}" data-zone="${
+          z.zone
+        }"><span class="zt-dot" style="background-color:${z.color}"></span>Z${z.zone} ${z.label}</button>`
+    )
+    .join("");
+  chipsEl.querySelectorAll<HTMLButtonElement>(".zone-chip").forEach((btn) =>
+    btn.addEventListener("click", () => {
+      const zone = Number(btn.dataset.zone);
+      const hidden = btn.classList.toggle("is-off");
+      datasetZone.forEach((z, i) => {
+        if (z === zone) drawerChart?.setDatasetVisibility(i, !hidden);
+      });
+      drawerChart?.update();
+    })
+  );
+
+  trendsEl.innerHTML = trendRows.join("");
+}
+
 function closeDrawer() {
   drawer.classList.remove("open");
   drawer.setAttribute("aria-hidden", "true");
@@ -680,6 +996,11 @@ async function main() {
     const list = getFilteredActivities();
     renderSummaryChips(list);
     renderActivities(list);
+
+    // log.html#<activity id> opens that activity straight away.
+    const wanted = decodeURIComponent(location.hash.slice(1));
+    const target = wanted ? allActivities.find((a) => String(a.id) === wanted) : undefined;
+    if (target) openDrawer(target);
   } catch (err) {
     console.error("Error fetching activities:", err);
     renderStatus(

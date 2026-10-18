@@ -1,27 +1,251 @@
-.home-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1rem;
-  margin-top: 2rem;
+.home-date {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  margin-bottom: 1.1rem;
 }
 
-.home-card {
+.home-note {
+  font-size: 0.76rem;
+  color: var(--text-faint);
+  margin-top: 0.6rem;
+}
+
+.home-section { margin-top: 2.25rem; }
+
+/* ── Today + next race ─────────────────────────────────────── */
+.home-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  gap: 0.9rem;
+}
+
+.home-panel {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-  padding: 1.4rem;
+  gap: 0.35rem;
+  padding: 1.1rem 1.25rem;
   background-color: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  text-decoration: none;
-  color: var(--text);
-  transition: background-color 0.15s, border-color 0.15s, transform 0.15s;
 }
-.home-card:hover {
-  background-color: var(--surface-hover);
-  border-color: var(--accent);
-  transform: translateY(-2px);
+.home-panel.today { border-left: 3px solid var(--border-strong); }
+
+.panel-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-faint);
 }
 
-.home-card-title { font-size: 1.1rem; font-weight: 650; }
-.home-card-desc { font-size: 0.85rem; color: var(--text-dim); line-height: 1.45; }
+.today-pills { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.today-title { font-size: 1.4rem; font-weight: 650; line-height: 1.25; letter-spacing: -0.01em; }
+.today-sub { font-size: 0.86rem; color: var(--text-dim); }
+.today-strength { font-size: 0.84rem; color: var(--warn); font-weight: 600; }
+
+.today-done { display: flex; flex-direction: column; gap: 0.25rem; margin-top: 0.2rem; }
+.done-row { font-size: 0.82rem; font-weight: 600; color: var(--good); text-decoration: none; }
+.done-row:hover { text-decoration: underline; }
+
+.today-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.4rem 1rem;
+  margin-top: auto;
+  padding-top: 0.75rem;
+}
+.home-link { font-size: 0.82rem; font-weight: 600; color: var(--accent); text-decoration: none; }
+.home-link:hover { text-decoration: underline; }
+.today-next { font-size: 0.78rem; color: var(--text-faint); }
+
+.race-days {
+  font-size: 2.6rem;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+.race-days small {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  margin-left: 0.35rem;
+  letter-spacing: 0;
+}
+.race-name { font-size: 0.95rem; font-weight: 650; color: var(--bad); }
+.race-date { font-size: 0.78rem; color: var(--text-faint); }
+
+.phase-progress { margin-top: auto; padding-top: 0.9rem; }
+.phase-progress-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: var(--text-faint);
+  margin-bottom: 0.35rem;
+}
+
+/* ── Week strip ────────────────────────────────────────────── */
+.week-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.week-nav { display: flex; gap: 0.3rem; flex-shrink: 0; }
+.week-btn {
+  min-width: 2rem;
+  padding: 0.15rem 0.55rem;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--text-dim);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+.week-btn:hover:not(:disabled) { background-color: var(--surface-hover); color: var(--text); }
+.week-btn:disabled { opacity: 0.4; cursor: default; }
+
+.home-week {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.45rem;
+}
+
+.wk-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-height: 96px;
+  padding: 0.5rem 0.55rem;
+  color: var(--text);
+  text-decoration: none;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--sport-other);
+  border-radius: var(--radius-sm);
+  transition: background-color 0.12s, transform 0.12s;
+}
+.wk-tile:hover { background-color: var(--surface-hover); transform: translateY(-2px); }
+.wk-tile.is-past { opacity: 0.75; }
+.wk-tile.is-rest { opacity: 0.55; }
+.wk-tile.is-today { opacity: 1; box-shadow: inset 0 0 0 1px var(--accent); }
+
+.wk-top { display: flex; align-items: center; justify-content: space-between; gap: 0.25rem; }
+.wk-day {
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-faint);
+}
+.wk-dots { display: flex; gap: 3px; }
+.d-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+.wk-title,
+.wk-sub {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.wk-title { font-size: 0.76rem; font-weight: 600; line-height: 1.25; -webkit-line-clamp: 3; line-clamp: 3; }
+.wk-sub { font-size: 0.66rem; line-height: 1.3; color: var(--text-faint); -webkit-line-clamp: 2; line-clamp: 2; }
+
+.wk-status { margin-top: auto; font-size: 0.68rem; font-weight: 600; }
+.wk-status.done { color: var(--good); }
+.wk-status.now { color: var(--accent); }
+
+/* ── Planned vs done ───────────────────────────────────────── */
+.home-progress { margin-top: 0.9rem; }
+
+.prog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr));
+  gap: 0.6rem;
+}
+
+.prog {
+  padding: 0.6rem 0.75rem;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+.prog-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  margin-bottom: 0.4rem;
+}
+.prog-head b { font-size: 0.92rem; color: var(--text); }
+
+.prog-track {
+  height: 6px;
+  border-radius: 3px;
+  background-color: var(--border);
+  overflow: hidden;
+}
+.prog-fill {
+  width: 0;
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.8s ease;
+}
+
+/* ── Form + recent ─────────────────────────────────────────── */
+.home-split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.home-spark svg { display: block; width: 100%; height: 36px; margin-top: -0.4rem; }
+
+.home-recent {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.home-recent:has(.home-note) { background: none; border: none; }
+
+.recent-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.15rem 0.75rem;
+  padding: 0.6rem 0.85rem;
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  transition: background-color 0.12s;
+}
+.recent-row:last-child { border-bottom: none; }
+.recent-row:hover { background-color: var(--surface-hover); }
+.recent-main { font-size: 0.84rem; font-weight: 600; text-align: right; }
+.recent-when { font-size: 0.72rem; color: var(--text-faint); }
+.recent-side { font-size: 0.72rem; color: var(--text-faint); text-align: right; }
+
+/* ── Narrow screens ────────────────────────────────────────── */
+@media (max-width: 760px) {
+  .home-hero,
+  .home-split { grid-template-columns: 1fr; }
+
+  /* Seven days side by side get too narrow, so the strip scrolls instead. */
+  .home-week {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 0.4rem;
+  }
+  .wk-tile { flex: 0 0 132px; scroll-snap-align: start; }
+}

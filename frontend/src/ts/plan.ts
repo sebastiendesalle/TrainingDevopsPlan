@@ -1,5 +1,6 @@
 import "../css/style.css";
 import "../css/plan.css";
+import "./pageTop";
 import { planData } from "./planData";
 import {
   parseWorkout,
@@ -71,6 +72,7 @@ const weekCards = new Map<number, HTMLElement>();
 let activitiesByDay = new Map<string, Activity[]>();
 let hasActuals = false;
 let drawerHideTimer: number | undefined;
+let drawerDay: { week: WeekModel; day: DayModel } | null = null;
 
 // ── Model building ───────────────────────────────────────────
 
@@ -621,6 +623,7 @@ function openDrawer(week: WeekModel, day: DayModel) {
     ${actualBlock(day)}
   `;
 
+  drawerDay = { week, day };
   if (drawerHideTimer !== undefined) window.clearTimeout(drawerHideTimer);
   drawer.classList.remove("hidden");
   drawerBackdrop.classList.remove("hidden");
@@ -630,6 +633,7 @@ function openDrawer(week: WeekModel, day: DayModel) {
 }
 
 function closeDrawer() {
+  drawerDay = null;
   drawer.classList.remove("open");
   drawer.setAttribute("aria-hidden", "true");
   drawerBackdrop.classList.add("hidden");
@@ -657,10 +661,18 @@ async function main() {
   renderOverview(phases);
   phases.forEach((p) => phasesEl.appendChild(renderPhase(p)));
 
-  document.querySelector(".week-card.is-current")?.scrollIntoView({
-    behavior: "smooth",
-    block: "center",
-  });
+  // plan.html#2026-10-27 (linked from home and the log) opens that day.
+  const wanted = location.hash.slice(1);
+  const target = allWeeks
+    .flatMap((week) => week.days.map((day) => ({ week, day })))
+    .find(({ day }) => isoDay(day.date) === wanted);
+  const targetCard = target ? weekCards.get(target.week.id) : undefined;
+  const focus =
+    targetCard && !targetCard.classList.contains("hidden")
+      ? targetCard
+      : document.querySelector(".week-card.is-current");
+  focus?.scrollIntoView({ behavior: "smooth", block: "center" });
+  if (target) openDrawer(target.week, target.day);
 
   // Actuals are a bonus: the plan must still render if the API is down.
   try {
@@ -673,6 +685,8 @@ async function main() {
     });
     hasActuals = true;
     applyActuals();
+    // A drawer opened before the data arrived still lacks "What you did".
+    if (drawerDay) openDrawer(drawerDay.week, drawerDay.day);
   } catch (err) {
     console.warn("Plan: activities unavailable, showing plan only.", err);
   }

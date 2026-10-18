@@ -9,26 +9,50 @@
   </head>
   <body>
     <main class="app-container">
-      <h1 class="app-header">Training</h1>
+      <header class="page-top">
+        <h1 class="app-header">Training</h1>
 
-      <div class="home-grid">
-        <a href="log.html" class="home-card">
-          <span class="home-card-title">Training Log</span>
-          <span class="home-card-desc">Every synced activity, with per-activity detail, effort and PRs.</span>
-        </a>
-        <a href="stats.html" class="home-card">
-          <span class="home-card-title">Stats</span>
-          <span class="home-card-desc">Fitness &amp; freshness, weekly load, race predictions and trends.</span>
-        </a>
-        <a href="plan.html" class="home-card">
-          <span class="home-card-title">Plan</span>
-          <span class="home-card-desc">The full week-by-week plan across all four training phases.</span>
-        </a>
-        <a href="strength.html" class="home-card">
-          <span class="home-card-title">Strength</span>
-          <span class="home-card-desc">Tuesday and Thursday gym sessions, Sunday bands and how the block builds.</span>
-        </a>
-      </div>
+        <nav class="page-nav">
+          <a href="index.html" class="nav-link current">Home</a>
+          <a href="log.html" class="nav-link">Log</a>
+          <a href="stats.html" class="nav-link">Stats</a>
+          <a href="plan.html" class="nav-link">Plan</a>
+          <a href="strength.html" class="nav-link">Strength</a>
+        </nav>
+      </header>
+
+      <p id="home-date" class="home-date"></p>
+
+      <section class="home-hero">
+        <article id="home-today" class="home-panel today"></article>
+        <article id="home-race" class="home-panel race"></article>
+      </section>
+
+      <section class="home-section">
+        <h2 class="section-header week-head">
+          <span id="week-label">This week</span>
+          <span class="week-nav">
+            <button id="week-prev" class="week-btn" type="button" aria-label="Previous week">‹</button>
+            <button id="week-now" class="week-btn" type="button">Today</button>
+            <button id="week-next" class="week-btn" type="button" aria-label="Next week">›</button>
+          </span>
+        </h2>
+        <div id="home-week" class="home-week"></div>
+        <div id="home-progress" class="home-progress"></div>
+      </section>
+
+      <section class="home-section home-split">
+        <div>
+          <h2 class="section-header">Form</h2>
+          <div id="home-form" class="chip-row"></div>
+          <div id="home-spark" class="home-spark"></div>
+          <p id="home-form-note" class="home-note"></p>
+        </div>
+        <div>
+          <h2 class="section-header">Recent activities</h2>
+          <div id="home-recent" class="home-recent"></div>
+        </div>
+      </section>
     </main>
 
     <script type="module" src="/src/ts/main.ts"></script>
