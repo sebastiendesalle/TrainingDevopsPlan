@@ -1,6 +1,7 @@
 // Turns the free-text workout strings in planData into structured detail:
 // disciplines, volume, pace/power targets and intervals. Everything the plan
-// page shows beyond the raw sentence comes from here.
+// page shows beyond the raw sentence comes from here. The row shape and date
+// parsing live here too, so the strength page can walk the plan as well.
 
 export type Discipline =
   | "run"
@@ -73,6 +74,35 @@ export interface ParsedWorkout {
   hrTarget?: string;
   headline: string;
   sub?: string;
+}
+
+// ── Plan rows ────────────────────────────────────────────────
+
+export const DAY_KEYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] as const;
+export type DayKey = (typeof DAY_KEYS)[number];
+
+export interface TrainingWeek {
+  "Week Start": string;
+  Phase: string;
+  "Week Type": string;
+  Mon: string;
+  Tue: string;
+  Wed: string;
+  Thu: string;
+  Fri: string;
+  Sat: string;
+  Sun: string;
+  "Total Run km": string | number;
+}
+
+// Plan dates are dd/mm/yyyy, read as local midnight.
+export function parsePlanDate(value: string): Date | null {
+  const parts = (value ?? "").split("/");
+  if (parts.length !== 3) return null;
+  const [day, month, year] = parts.map((p) => parseInt(p, 10));
+  if ([day, month, year].some(Number.isNaN)) return null;
+  const d = new Date(year, month - 1, day);
+  return Number.isNaN(d.getTime()) ? null : d;
 }
 
 // ── Small helpers ────────────────────────────────────────────
@@ -222,7 +252,9 @@ function classify(segment: string): Discipline {
   if (any) return any[1].toLowerCase() as Discipline;
 
   if (/^\s*off\b|\brest\b/i.test(segment)) return "rest";
-  if (/mobility|walk/i.test(segment)) return "mobility";
+  // Strides and sprints belong to the run they follow, not to another sport.
+  if (/\bstrides\b|\bsprints\b/i.test(segment)) return "run";
+  if (/mobility|walk|\bbands\b/i.test(segment)) return "mobility";
   return "other";
 }
 
@@ -309,8 +341,18 @@ export function parseWorkout(raw: string): ParsedWorkout {
     const w = powerTargets[0];
     subBits.push(`@ ${w.lo}${w.hi ? "-" + w.hi : ""} W`);
   }
-  if (!subBits.length && segments.length > 1) {
-    subBits.push(segments.slice(1).map((s) => s.label).join(" + "));
+  // Strength and band work are extra sessions, so the tile always names them,
+  // even when an interval or pace line already fills it.
+  const tileLabel = (s: Segment) => s.label.replace(/^Strength Day\s+/i, "Strength ");
+  const isAddOn = (s: Segment) => s.discipline === "strength" || s.discipline === "mobility";
+  const rest = segments.slice(1);
+  const others = rest.filter((s) => !isAddOn(s));
+  const addOns = rest.filter(isAddOn);
+  if (!subBits.length && others.length) {
+    subBits.push(others.map((s) => s.label).join(" + "));
+  }
+  if (addOns.length) {
+    subBits.push(addOns.map((s) => `+ ${tileLabel(s)}`).join(" "));
   }
 
   return {

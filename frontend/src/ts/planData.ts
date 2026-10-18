@@ -678,7 +678,7 @@ export const planData = {
       Thu: "Bike 60 min Easy @ 130-150 W (24-26 km/h) + Strength Day B (light)",
       Fri: "OFF",
       Sat: "Bike 75 min Easy @ 130-150 W",
-      Sun: "Run 8 km Easy @ 7:00-7:20 /km",
+      Sun: "Run 8 km Easy @ 7:00-7:20 /km + Bands 15 min (optional)",
       "Total Run km": 13,
     },
     {
@@ -691,7 +691,7 @@ export const planData = {
       Thu: "Run 6 km Easy + 6x20s strides + Strength Day B",
       Fri: "Swim 2 km (drills + 6x100m @ 2:15 /100m)",
       Sat: "Long Run 14 km Easy",
-      Sun: "Bike 75 min Easy @ 135-155 W (24-27 km/h)",
+      Sun: "Bike 75 min Easy @ 135-155 W (24-27 km/h) + Bands 15 min (optional)",
       "Total Run km": 35,
     },
     {
@@ -704,7 +704,7 @@ export const planData = {
       Thu: "Run 6 km Easy + strides + Strength Day B",
       Fri: "Swim 2 km (drills + 8x100m @ 2:15 /100m)",
       Sat: "Long Run 16 km Easy",
-      Sun: "Bike 90 min Easy @ 135-155 W",
+      Sun: "Bike 90 min Easy @ 135-155 W + Bands 15 min (optional)",
       "Total Run km": 39,
     },
     {
@@ -717,7 +717,7 @@ export const planData = {
       Thu: "Run 7 km Easy + strides + Strength Day B",
       Fri: "Swim 2 km (4x400m @ 2:15-2:20 /100m)",
       Sat: "Long Run 18 km Easy",
-      Sun: "Bike 90 min Easy @ 140-160 W",
+      Sun: "Bike 90 min Easy @ 140-160 W + Bands 15 min (optional)",
       "Total Run km": 43,
     },
     {
@@ -730,7 +730,7 @@ export const planData = {
       Thu: "Run 5 km Easy + strides + Strength Day B",
       Fri: "OFF",
       Sat: "Long Run 13 km Easy",
-      Sun: "Bike 60 min Easy",
+      Sun: "Bike 60 min Easy + Bands 15 min (optional)",
       "Total Run km": 31,
     },
     {
@@ -743,7 +743,7 @@ export const planData = {
       Thu: "Run 7 km Easy + strides + Strength Day B",
       Fri: "Swim 2.2 km (6x200m @ 2:12-2:18 /100m)",
       Sat: "Long Run 19 km Easy",
-      Sun: "Bike 100 min Easy @ 140-160 W",
+      Sun: "Bike 100 min Easy @ 140-160 W + Bands 15 min (optional)",
       "Total Run km": 45,
     },
     {
@@ -756,7 +756,7 @@ export const planData = {
       Thu: "Run 7 km Easy + strides + Strength Day B",
       Fri: "Swim 2.2 km (8x150m @ 2:12-2:18 /100m)",
       Sat: "Long Run 20 km Easy",
-      Sun: "Bike 100 min Easy @ 140-160 W",
+      Sun: "Bike 100 min Easy @ 140-160 W + Bands 15 min (optional)",
       "Total Run km": 47,
     },
     {
@@ -769,7 +769,7 @@ export const planData = {
       Thu: "BIKE FTP TEST: 20 min all-out after 20 min warm-up. FTP = 0.95 x avg watts + Strength Day B (light)",
       Fri: "Swim 2 km Easy",
       Sat: "Long Run 21 km Easy",
-      Sun: "Bike 90 min Easy",
+      Sun: "Bike 90 min Easy + Bands 15 min (optional)",
       "Total Run km": 41,
     },
     {
@@ -782,7 +782,7 @@ export const planData = {
       Thu: "Run 6 km Easy + strides + Strength Day B",
       Fri: "OFF",
       Sat: "Long Run 14 km Easy",
-      Sun: "Bike 60 min Easy",
+      Sun: "Bike 60 min Easy + Bands 15 min (optional)",
       "Total Run km": 35,
     },
     {
@@ -795,7 +795,7 @@ export const planData = {
       Thu: "Run 7 km Easy + strides + Strength Day B",
       Fri: "Swim 2.2 km",
       Sat: "Long Run 20 km Easy",
-      Sun: "Bike 100 min Easy",
+      Sun: "Bike 100 min Easy + Bands 15 min (optional)",
       "Total Run km": 46,
     },
     {
@@ -834,7 +834,7 @@ export const planData = {
       Thu: "Swim 2 km + Strength Day B",
       Fri: "OFF",
       Sat: "Long Run 13 km Easy",
-      Sun: "Bike 45 min Easy",
+      Sun: "Bike 45 min Easy + Bands 15 min (optional)",
       "Total Run km": 27,
     },
     {
@@ -847,7 +847,7 @@ export const planData = {
       Thu: "Swim 2 km + Strength Day B",
       Fri: "OFF",
       Sat: "Long Run 14 km Easy",
-      Sun: "Bike 60 min Easy",
+      Sun: "Bike 60 min Easy + Bands 15 min (optional)",
       "Total Run km": 28,
     },
     {
@@ -860,7 +860,7 @@ export const planData = {
       Thu: "Bike 70 min (incl. 2x15min @ 180-200 W / 29-31 km/h) + Strength Day B",
       Fri: "Swim 2.4 km (5x300m @ 2:12-2:18 /100m)",
       Sat: "Long Bike 2.0 h @ 145-165 W (26-28 km/h)",
-      Sun: "Long Run 18 km Easy",
+      Sun: "Long Run 18 km Easy + Bands 15 min (optional)",
       "Total Run km": 36,
     },
     {
@@ -873,7 +873,7 @@ export const planData = {
       Thu: "Bike 75 min (incl. 2x17min @ 180-200 W) + Strength Day B",
       Fri: "Swim 2.4 km",
       Sat: "Long Bike 2.3 h @ 145-165 W",
-      Sun: "Long Run 20 km Easy",
+      Sun: "Long Run 20 km Easy + Bands 15 min (optional)",
       "Total Run km": 40,
     },
     {
@@ -886,7 +886,7 @@ export const planData = {
       Thu: "Bike 80 min (incl. 3x13min @ 185-205 W) + Strength Day B",
       Fri: "Swim 2.6 km (3x600m @ 2:12-2:18 /100m)",
       Sat: "Long Bike 2.6 h @ 145-165 W",
-      Sun: "Long Run 22 km Easy",
+      Sun: "Long Run 22 km Easy + Bands 15 min (optional)",
       "Total Run km": 42,
     },
     {
@@ -899,7 +899,7 @@ export const planData = {
       Thu: "Bike 60 min Easy + Strength Day B",
       Fri: "OFF",
       Sat: "Long Bike 1.6 h Easy",
-      Sun: "Long Run 15 km Easy",
+      Sun: "Long Run 15 km Easy + Bands 15 min (optional)",
       "Total Run km": 30,
     },
     {
@@ -912,7 +912,7 @@ export const planData = {
       Thu: "Bike 85 min (incl. 2x20min @ 190-210 W) + Strength Day B",
       Fri: "Swim 2.6 km",
       Sat: "Long Bike 3.0 h @ 150-170 W",
-      Sun: "Long Run 22 km Easy",
+      Sun: "Long Run 22 km Easy + Bands 15 min (optional)",
       "Total Run km": 43,
     },
     {
@@ -925,7 +925,7 @@ export const planData = {
       Thu: "Bike 90 min (incl. 3x15min @ 190-210 W) + Strength Day B",
       Fri: "Swim 2.8 km (2x1000m @ 2:15 /100m)",
       Sat: "Long Bike 3.3 h @ 150-170 W + Brick Run 15 min @ 6:20-6:40 /km",
-      Sun: "Long Run 24 km Easy",
+      Sun: "Long Run 24 km Easy + Bands 15 min (optional)",
       "Total Run km": 48,
     },
     {
@@ -938,7 +938,7 @@ export const planData = {
       Thu: "Bike 90 min (incl. 3x15min @ 190-210 W) + Strength Day B",
       Fri: "Swim 2.8 km",
       Sat: "Long Bike 3.5 h @ 150-170 W + Brick Run 20 min @ 6:20-6:40 /km",
-      Sun: "Long Run 25 km Easy",
+      Sun: "Long Run 25 km Easy + Bands 15 min (optional)",
       "Total Run km": 50,
     },
     {
@@ -979,7 +979,7 @@ export const planData = {
       Thu: "Bike 75 min (incl. 2x15min @ 190-210 W) + Strength Day B",
       Fri: "Swim 2.6 km",
       Sat: "Long Bike 2.5 h @ 150-170 W",
-      Sun: "Long Run 20 km Easy @ 6:40-7:00 /km",
+      Sun: "Long Run 20 km Easy @ 6:40-7:00 /km + Bands 15 min (optional)",
       "Total Run km": 36,
     },
     {
@@ -992,7 +992,7 @@ export const planData = {
       Thu: "Bike 75 min Easy @ 150-170 W + Strength Day B",
       Fri: "Swim 2.8 km",
       Sat: "Long Bike 3.0 h @ 150-170 W + Brick Run 20 min @ 6:20-6:40 /km",
-      Sun: "Long Run 26 km Easy",
+      Sun: "Long Run 26 km Easy + Bands 15 min (optional)",
       "Total Run km": 49,
     },
     {
@@ -1005,7 +1005,7 @@ export const planData = {
       Thu: "Bike 75 min Easy + Strength Day B",
       Fri: "Swim 2.8 km",
       Sat: "Long Bike 3.0 h + Brick Run 20 min @ 6:20-6:40 /km",
-      Sun: "Long Run 30 km Easy, last 8 km @ 6:00-6:15 /km",
+      Sun: "Long Run 30 km Easy, last 8 km @ 6:00-6:15 /km + Bands 15 min (optional)",
       "Total Run km": 54,
     },
     {
@@ -1018,7 +1018,7 @@ export const planData = {
       Thu: "Bike 60 min Easy + Strength Day B (light)",
       Fri: "OFF",
       Sat: "Long Bike 2.0 h Easy",
-      Sun: "Long Run 16 km Easy",
+      Sun: "Long Run 16 km Easy + Bands 15 min (optional)",
       "Total Run km": 32,
     },
     {
@@ -1031,7 +1031,7 @@ export const planData = {
       Thu: "Bike 75 min Easy @ 150-170 W + Strength Day B",
       Fri: "Swim 3.0 km (3x800m @ 2:12-2:18 /100m)",
       Sat: "Long Bike 3.5 h @ 155-170 W + Brick Run 20 min @ 6:20-6:40 /km",
-      Sun: "Long Run 22 km Easy",
+      Sun: "Long Run 22 km Easy + Bands 15 min (optional)",
       "Total Run km": 44,
     },
     {
@@ -1044,7 +1044,7 @@ export const planData = {
       Thu: "Bike 75 min Easy + Strength Day B",
       Fri: "Swim 3.0 km",
       Sat: "Long Bike 4.0 h @ 155-170 W + Brick Run 25 min @ 6:20-6:40 /km",
-      Sun: "Long Run 22 km Easy",
+      Sun: "Long Run 22 km Easy + Bands 15 min (optional)",
       "Total Run km": 45,
     },
     {
@@ -1057,7 +1057,7 @@ export const planData = {
       Thu: "Bike 75 min Easy + Strength Day B",
       Fri: "Swim 3.2 km",
       Sat: "Long Bike 4.3 h @ 155-170 W + Brick Run 25 min",
-      Sun: "Long Run 24 km Easy",
+      Sun: "Long Run 24 km Easy + Bands 15 min (optional)",
       "Total Run km": 48,
     },
     {
@@ -1070,7 +1070,7 @@ export const planData = {
       Thu: "Bike 60 min Easy + Strength Day B",
       Fri: "OFF",
       Sat: "Long Bike 2.4 h Easy + Brick Run 15 min",
-      Sun: "Long Run 16 km Easy",
+      Sun: "Long Run 16 km Easy + Bands 15 min (optional)",
       "Total Run km": 34,
     },
     {
@@ -1083,7 +1083,7 @@ export const planData = {
       Thu: "Bike 75 min Easy + Strength Day B",
       Fri: "Swim 3.2 km",
       Sat: "Long Bike 4.5 h @ 155-170 W + Brick Run 30 min",
-      Sun: "Long Run 26 km Easy",
+      Sun: "Long Run 26 km Easy + Bands 15 min (optional)",
       "Total Run km": 52,
     },
     {
@@ -1096,7 +1096,7 @@ export const planData = {
       Thu: "Strength Day B only",
       Fri: "Swim 2.6 km",
       Sat: "Long Bike 2.0 h Easy",
-      Sun: "Long Run 16 km Easy",
+      Sun: "Long Run 16 km Easy + Bands 15 min (optional)",
       "Total Run km": 32,
     },
     {
@@ -1109,7 +1109,7 @@ export const planData = {
       Thu: "Strength Day B only",
       Fri: "Swim 2.6 km",
       Sat: "Long Bike 2.0 h Easy",
-      Sun: "Long Run 16 km Easy",
+      Sun: "Long Run 16 km Easy + Bands 15 min (optional)",
       "Total Run km": 31,
     },
     {
@@ -1122,7 +1122,7 @@ export const planData = {
       Thu: "Strength Day B only",
       Fri: "Swim 2.6 km",
       Sat: "Long Bike 2.5 h Easy",
-      Sun: "Long Run 18 km Easy",
+      Sun: "Long Run 18 km Easy + Bands 15 min (optional)",
       "Total Run km": 34,
     },
     {
@@ -1135,7 +1135,7 @@ export const planData = {
       Thu: "Bike 75 min Easy + Strength Day B",
       Fri: "Swim 3.2 km",
       Sat: "Long Bike 4.0 h @ 155-170 W + Brick Run 25 min",
-      Sun: "Long Run 24 km Easy",
+      Sun: "Long Run 24 km Easy + Bands 15 min (optional)",
       "Total Run km": 47,
     },
     {
@@ -1148,7 +1148,7 @@ export const planData = {
       Thu: "Bike 75 min Easy + Strength Day B",
       Fri: "Swim 3.4 km",
       Sat: "Long Bike 4.5 h @ 155-170 W + Brick Run 30 min",
-      Sun: "Long Run 26 km Easy",
+      Sun: "Long Run 26 km Easy + Bands 15 min (optional)",
       "Total Run km": 52,
     },
     {
@@ -1161,7 +1161,7 @@ export const planData = {
       Thu: "Bike 75 min Easy + Strength Day B",
       Fri: "Swim 3.4 km",
       Sat: "Long Bike 5.0 h @ 155-170 W + Brick Run 30 min @ 6:20-6:40 /km",
-      Sun: "Long Run 28 km Easy",
+      Sun: "Long Run 28 km Easy + Bands 15 min (optional)",
       "Total Run km": 54,
     },
     {
@@ -1174,7 +1174,7 @@ export const planData = {
       Thu: "Bike 60 min Easy + Strength Day B",
       Fri: "OFF",
       Sat: "Long Bike 2.5 h Easy + Brick Run 15 min",
-      Sun: "Long Run 18 km Easy",
+      Sun: "Long Run 18 km Easy + Bands 15 min (optional)",
       "Total Run km": 36,
     },
     {
@@ -1187,7 +1187,7 @@ export const planData = {
       Thu: "Bike 75 min Easy + Strength Day B",
       Fri: "Swim 3.6 km",
       Sat: "Long Bike 5.0 h @ 155-170 W + Brick Run 30 min",
-      Sun: "Long Run 28 km Easy",
+      Sun: "Long Run 28 km Easy + Bands 15 min (optional)",
       "Total Run km": 54,
     },
     {
@@ -1200,7 +1200,7 @@ export const planData = {
       Thu: "Bike 75 min Easy + Strength Day B",
       Fri: "Swim 3.4 km",
       Sat: "Long Bike 5.5 h @ 155-170 W + Brick Run 35 min @ 6:20-6:40 /km",
-      Sun: "Long Run 28 km Easy, last 10 km @ 6:20-6:35 /km",
+      Sun: "Long Run 28 km Easy, last 10 km @ 6:20-6:35 /km + Bands 15 min (optional)",
       "Total Run km": 55,
     },
     {
@@ -1213,7 +1213,7 @@ export const planData = {
       Thu: "Bike 60 min Easy + Strength Day B",
       Fri: "OFF",
       Sat: "Long Bike 3.0 h Easy + Brick Run 20 min",
-      Sun: "Long Run 18 km Easy",
+      Sun: "Long Run 18 km Easy + Bands 15 min (optional)",
       "Total Run km": 37,
     },
     {
@@ -1226,7 +1226,7 @@ export const planData = {
       Thu: "Bike 75 min Easy + Strength Day B",
       Fri: "Swim 3.6 km",
       Sat: "Long Bike 5.5 h @ 155-170 W + Brick Run 40 min @ 6:20-6:40 /km",
-      Sun: "Long Run 28 km Easy",
+      Sun: "Long Run 28 km Easy + Bands 15 min (optional)",
       "Total Run km": 54,
     },
     {
@@ -1239,7 +1239,7 @@ export const planData = {
       Thu: "Bike 75 min (incl. 45 min @ 160-175 W) + Strength Day B",
       Fri: "OFF",
       Sat: "RACE SIM: Swim 2 km + Bike 5.0 h @ 160-175 W + Run 60 min @ 6:20-6:40 /km, full race nutrition and kit",
-      Sun: "Run 12 km Easy",
+      Sun: "Run 12 km Easy + Bands 15 min (optional)",
       "Total Run km": 39,
     },
     {
@@ -1252,7 +1252,7 @@ export const planData = {
       Thu: "Bike 60 min Easy + Strength Day B",
       Fri: "OFF",
       Sat: "Long Bike 3.0 h Easy + Brick Run 20 min",
-      Sun: "Long Run 20 km Easy",
+      Sun: "Long Run 20 km Easy + Bands 15 min (optional)",
       "Total Run km": 39,
     },
     {
@@ -1265,7 +1265,7 @@ export const planData = {
       Thu: "Bike 75 min Easy + Strength Day B",
       Fri: "Swim 3.6 km",
       Sat: "Long Bike 5.5 h @ 155-170 W + Brick Run 30 min",
-      Sun: "Long Run 26 km Easy",
+      Sun: "Long Run 26 km Easy + Bands 15 min (optional)",
       "Total Run km": 52,
     },
     {
@@ -1278,7 +1278,7 @@ export const planData = {
       Thu: "Bike 75 min Easy + Strength Day B (light)",
       Fri: "Swim 2.6 km",
       Sat: "Long Bike 3.5 h @ 155-170 W + Brick Run 20 min",
-      Sun: "Long Run 18 km Easy",
+      Sun: "Long Run 18 km Easy + Bands 15 min (optional)",
       "Total Run km": 38,
     },
     {
@@ -1291,7 +1291,7 @@ export const planData = {
       Thu: "Bike 60 min Easy",
       Fri: "Swim 2 km Easy",
       Sat: "Long Bike 2.5 h Easy + Brick Run 15 min",
-      Sun: "Run 12 km Easy",
+      Sun: "Run 12 km Easy + Bands 15 min (optional)",
       "Total Run km": 28,
     },
     {

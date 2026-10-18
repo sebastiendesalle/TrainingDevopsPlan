@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Strength</title>
+    <link rel="stylesheet" href="src/css/style.css" />
+    <link rel="stylesheet" href="src/css/strength.css" />
+  </head>
+  <body>
+    <main class="app-container">
+      <h1 class="app-header">Strength</h1>
+
+      <nav class="page-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="log.html" class="nav-link">Log</a>
+        <a href="stats.html" class="nav-link">Stats</a>
+        <a href="plan.html" class="nav-link">Plan</a>
+        <a href="strength.html" class="nav-link current">Strength</a>
+      </nav>
+
+      <div id="strength-overview" class="chip-row"></div>
+      <p id="strength-note" class="page-note"></p>
+      <nav id="strength-jump" class="jump-row"></nav>
+
+      <div id="strength-sessions"></div>
+    </main>
+
+    <script type="module" src="/src/ts/strength.ts"></script>
+  </body>
+</html>

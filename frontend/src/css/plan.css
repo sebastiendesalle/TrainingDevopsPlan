@@ -135,24 +135,6 @@
   font-weight: 600;
 }
 
-.week-badge {
-  font-size: 0.66rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-radius: 4px;
-  padding: 0.12rem 0.45rem;
-  border: 1px solid transparent;
-}
-.tone-accent { color: #b6c4ff; border-color: #3f4a7a; background-color: #2b3050; }
-.tone-good   { color: #a8e0a8; border-color: #3c5c3c; background-color: #2a3a2a; }
-.tone-teal   { color: #9adcdc; border-color: #2f5c5c; background-color: #23393b; }
-.tone-warn   { color: #f0d08a; border-color: #6b552a; background-color: #3a3223; }
-.tone-purple { color: #d4bcf5; border-color: #5a4080; background-color: #332a45; }
-.tone-bad    { color: #ffb0b0; border-color: #7a3c3c; background-color: #402a2a; }
-.tone-muted  { color: var(--text-dim); border-color: var(--border); background-color: var(--surface-2); }
-.tone-now    { color: #fff; background-color: var(--accent); border-color: var(--accent); }
-
 .week-totals {
   display: flex;
   flex-wrap: wrap;

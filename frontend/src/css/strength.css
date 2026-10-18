@@ -1,0 +1,109 @@
+.page-note {
+  font-size: 0.78rem;
+  color: var(--text-faint);
+  margin: -0.5rem 0 1rem;
+}
+
+/* ── Jump links ─────────────────────────────────────────────── */
+.jump-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.jump-link {
+  padding: 0.3rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-dim);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  text-decoration: none;
+  transition: background-color 0.15s, color 0.15s;
+}
+.jump-link:hover { background-color: var(--surface-hover); color: var(--text); }
+.jump-link.is-next {
+  color: var(--bg);
+  background-color: var(--warn);
+  border-color: var(--warn);
+}
+
+/* ── Sessions ───────────────────────────────────────────────── */
+.session {
+  margin-top: 2.25rem;
+  scroll-margin-top: 1rem;
+}
+
+.session-head {
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 0.9rem;
+}
+
+.session-title {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  font-size: 1.15rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.session-sub {
+  font-size: 0.8rem;
+  color: var(--text-faint);
+  margin-top: 0.15rem;
+}
+
+/* ── Progression table ─────────────────────────────────────── */
+.progress-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: var(--surface);
+  margin-bottom: 1.25rem;
+}
+
+.progress-table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.82rem;
+}
+
+.progress-table th {
+  background-color: var(--surface-2);
+  color: var(--text-dim);
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.progress-table td {
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-dim);
+  vertical-align: top;
+}
+.progress-table tr:last-child td { border-bottom: none; }
+.progress-table td:first-child { color: var(--text); font-weight: 600; white-space: nowrap; }
+.progress-table tr.is-current td:first-child { box-shadow: inset 3px 0 0 var(--warn); }
+.progress-table tr.is-current td { color: var(--text); }
+
+.rules-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-left: 1.1rem;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+.rules-list li::marker { color: var(--warn); }

@@ -3,13 +3,18 @@ import "../css/plan.css";
 import { planData } from "./planData";
 import {
   parseWorkout,
+  parsePlanDate,
   raceName,
   formatInterval,
+  DAY_KEYS,
   DISCIPLINES,
+  type DayKey,
+  type TrainingWeek,
   type ParsedWorkout,
   type Discipline,
   type PowerTarget,
 } from "./planParser";
+import { planDayExtra } from "./strengthView";
 import { ATHLETE, pctOfFtp, powerZoneFor, POWER_ZONES } from "./athlete";
 import {
   type Activity,
@@ -22,23 +27,6 @@ import {
   addDays,
 } from "./activityMetrics";
 import { loadActivities } from "./dataSource";
-
-interface TrainingWeek {
-  "Week Start": string;
-  Phase: string;
-  "Week Type": string;
-  Mon: string;
-  Tue: string;
-  Wed: string;
-  Thu: string;
-  Fri: string;
-  Sat: string;
-  Sun: string;
-  "Total Run km": string | number;
-}
-
-const DAY_KEYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] as const;
-type DayKey = (typeof DAY_KEYS)[number];
 
 interface DayModel {
   key: DayKey;
@@ -85,15 +73,6 @@ let hasActuals = false;
 let drawerHideTimer: number | undefined;
 
 // ── Model building ───────────────────────────────────────────
-
-function parsePlanDate(value: string): Date | null {
-  const parts = (value ?? "").split("/");
-  if (parts.length !== 3) return null;
-  const [day, month, year] = parts.map((p) => parseInt(p, 10));
-  if ([day, month, year].some(Number.isNaN)) return null;
-  const d = new Date(year, month - 1, day);
-  return Number.isNaN(d.getTime()) ? null : startOfDay(d);
-}
 
 function buildModel(): PhaseModel[] {
   const rows = (planData as { MainPlan: TrainingWeek[] }).MainPlan.filter(
@@ -592,10 +571,13 @@ function openDrawer(week: WeekModel, day: DayModel) {
     )
     .join("");
 
+  const extra = planDayExtra(w, week.type, day.date);
+
   const metrics: [string, string][] = [];
   if (w.runKm > 0) metrics.push(["Run", `${w.runKm.toFixed(1)} km`]);
   if (w.swimKm > 0) metrics.push(["Swim", `${w.swimKm.toFixed(1)} km`]);
   if (w.bikeMin > 0) metrics.push(["Bike", fmtHours(w.bikeMin)]);
+  if (extra?.session) metrics.push(["Strength", extra.session.name]);
   metrics.push(["Week type", week.type]);
 
   drawerBody.innerHTML = `
@@ -630,6 +612,8 @@ function openDrawer(week: WeekModel, day: DayModel) {
             .join("")}</p>`
         : ""
     }
+
+    ${extra?.html ?? ""}
 
     <div class="section-header">Prescription</div>
     <p class="prescription">${esc(w.raw)}</p>
