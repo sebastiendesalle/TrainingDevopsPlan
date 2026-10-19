@@ -264,7 +264,7 @@ function shortLabel(segment: string, discipline: Discipline): string {
   const dashParts = stripped.split(/\s+-\s+/);
   let s = dashParts[0];
 
-  // "Travel to Calella - Swim 1.5 km Easy" should read as the swim, not the
+  // "Travel to Knokke - Swim 1.5 km Easy" should read as the swim, not the
   // travel. Races keep their own name, which never mentions a sport.
   if (discipline !== "race" && !ANY_RE.test(s)) {
     const better = dashParts.find((p) => ANY_RE.test(p));
@@ -376,7 +376,7 @@ export function parseWorkout(raw: string): ParsedWorkout {
   };
 }
 
-// Race name, for the plan overview ("RACE: IRONMAN Barcelona - bike @ ...").
+// Race name, for the plan overview ("RACE: IRONMAN Knokke - bike @ ...").
 export function raceName(raw: string): string {
   const m = raw.match(/RACE(?:\s+SIM)?:\s*(.+)/i);
   if (!m) return raw;

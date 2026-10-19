@@ -85,7 +85,7 @@ To retrieve the public URL:
 # TrainingDevops App
 Project Overview
 
-This repository contains a full-stack, containerized application designed to track training progress for the Antwerp 10 Miles, Antwerp Marathon, and Ironman Barcelona. The project demonstrates a complete DevOps lifecycle, including a microservices architecture, automated CI/CD pipelines, and self-hosted infrastructure implementation.
+This repository contains a full-stack, containerized application designed to track training progress for the Antwerp 10 Miles, Antwerp Marathon, and Ironman Knokke. The project demonstrates a complete DevOps lifecycle, including a microservices architecture, automated CI/CD pipelines, and self-hosted infrastructure implementation.
 Architecture
 
 The application consists of four distinct services orchestrated via Docker Compose:
